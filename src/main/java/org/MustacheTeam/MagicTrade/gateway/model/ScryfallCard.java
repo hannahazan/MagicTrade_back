@@ -1,23 +1,35 @@
 package org.MustacheTeam.MagicTrade.gateway.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
+
+import java.util.ArrayList;
 
 public record ScryfallCard(
         String id,
-        String set_id,
+        @JsonProperty("set_id")
+        String setId,
         String name,
-        String mana_cost,
+        @JsonProperty("mana_cost")
+        String manaCost,
         int cmc,
-        String type_line,
-        String oracle_text,
+        @JsonProperty("type_line")
+        String types,
+        @JsonProperty("oracle_text")
+        String text,
+        String toughness,
+        String  power,
         String rarity,
         Boolean foil,
-        Boolean full_art,
-        Boolean textless,
+        @JsonProperty("full_art")
+        Boolean fullArt,
+        @JsonProperty("textless")
+        Boolean textLess,
         Prices purchase_uris,
-        String cardMarket
+        Legalities legalities,
+        ArrayList games,
+        Illustrations image_uris,
+        ArrayList<doubleCard> card_faces
+
 ) {
 
 
