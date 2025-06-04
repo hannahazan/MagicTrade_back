@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.repository;
+package org.MustacheTeam.MagicTrade.repository.card;
 
 import org.MustacheTeam.MagicTrade.model.Card;
 import org.springframework.data.jpa.repository.JpaRepository;

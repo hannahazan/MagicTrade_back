@@ -1,8 +1,8 @@
 package org.MustacheTeam.MagicTrade.controller;
 
 import org.MustacheTeam.MagicTrade.model.DoubleCard;
-import org.MustacheTeam.MagicTrade.service.GetAllDoubleCards;
-import org.MustacheTeam.MagicTrade.service.RefreshDoubleCards;
+import org.MustacheTeam.MagicTrade.service.doublecard.GetAllDoubleCards;
+import org.MustacheTeam.MagicTrade.service.doublecard.RefreshDoubleCards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

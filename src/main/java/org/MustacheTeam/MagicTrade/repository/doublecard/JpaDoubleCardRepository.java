@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.repository;
+package org.MustacheTeam.MagicTrade.repository.doublecard;
 
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.model.DoubleCard;

@@ -327,7 +327,7 @@ public class Card {
     }
 
     public Card(String id, String setId, String name, String manaCost, int cmc, String types, String text, String toughness, String power, String rarity, Boolean foil, Boolean fullArt, Boolean textLess, String cardMarketPrice, String standard, String pioneer, String explorer, String modern, String legacy, String pauper, String vintage, String commander, String brawl, String pauperCommander, String duel, String oldschool, String imageSizeNormal, String imageSizeArtCrop) {
-        this.setId(id);
+        this.id = id;
         this.setId = setId;
         this.name = name;
         this.manaCost = manaCost;

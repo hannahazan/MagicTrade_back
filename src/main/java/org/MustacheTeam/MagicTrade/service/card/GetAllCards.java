@@ -1,7 +1,7 @@
-package org.MustacheTeam.MagicTrade.service;
+package org.MustacheTeam.MagicTrade.service.card;
 
 import org.MustacheTeam.MagicTrade.model.Card;
-import org.MustacheTeam.MagicTrade.repository.JpaCardRepository;
+import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

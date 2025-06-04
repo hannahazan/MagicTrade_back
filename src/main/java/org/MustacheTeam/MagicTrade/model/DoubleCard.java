@@ -4,9 +4,6 @@ package org.MustacheTeam.MagicTrade.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.MustacheTeam.MagicTrade.gateway.model.Illustrations;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "doubleCards")
@@ -90,7 +87,7 @@ public class DoubleCard {
     public DoubleCard(){}
 
     public DoubleCard(String id,String cardId, String name, String manaCost, String typeLine, String text,String power, String toughness, String imageSizeNormal, String imageSizeArtCrop){
-        this.setId(id);
+        this.id = id;
         this.cardId = cardId;
         this.name = name;
         this.manaCost = manaCost;

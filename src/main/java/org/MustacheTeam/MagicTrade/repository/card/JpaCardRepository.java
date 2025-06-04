@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.repository;
+package org.MustacheTeam.MagicTrade.repository.card;
 
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.model.Card;
@@ -6,7 +6,7 @@ import org.MustacheTeam.MagicTrade.model.Card;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JpaCardRepository implements CardRepository{
+public class JpaCardRepository implements CardRepository {
 
     private final SpringDataCardRepository repository;
 

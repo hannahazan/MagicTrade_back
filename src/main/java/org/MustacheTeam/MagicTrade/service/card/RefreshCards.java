@@ -1,8 +1,8 @@
-package org.MustacheTeam.MagicTrade.service;
+package org.MustacheTeam.MagicTrade.service.card;
 
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
-import org.MustacheTeam.MagicTrade.repository.JpaCardRepository;
+import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class RefreshCards {
     }
 
     public void handle(){
-        List<ScryfallCard> cards = realScryfallGateway.getScryfallCardsTest();
+        List<ScryfallCard> cards = realScryfallGateway.getScryfallCards();
         jpaCardRepository.save(cards);
     }
 

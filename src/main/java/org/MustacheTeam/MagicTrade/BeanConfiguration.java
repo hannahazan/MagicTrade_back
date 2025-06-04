@@ -1,9 +1,9 @@
 package org.MustacheTeam.MagicTrade;
 
-import org.MustacheTeam.MagicTrade.repository.JpaCardRepository;
-import org.MustacheTeam.MagicTrade.repository.JpaDoubleCardRepository;
-import org.MustacheTeam.MagicTrade.repository.SpringDataCardRepository;
-import org.MustacheTeam.MagicTrade.repository.SpringDataDoubleCardRepository;
+import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
+import org.MustacheTeam.MagicTrade.repository.doublecard.JpaDoubleCardRepository;
+import org.MustacheTeam.MagicTrade.repository.card.SpringDataCardRepository;
+import org.MustacheTeam.MagicTrade.repository.doublecard.SpringDataDoubleCardRepository;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
