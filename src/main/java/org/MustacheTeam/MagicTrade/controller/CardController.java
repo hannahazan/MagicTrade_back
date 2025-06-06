@@ -27,7 +27,7 @@ public class CardController {
         refreshCards.handle();
     }
 
-    @GetMapping(value = "/cards")
+    @GetMapping
     List<Card> getcards(){
         return getAllCards.handle();
     }

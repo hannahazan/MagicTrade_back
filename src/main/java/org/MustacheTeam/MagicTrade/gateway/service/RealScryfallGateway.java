@@ -3,6 +3,8 @@ package org.MustacheTeam.MagicTrade.gateway.service;
 import org.MustacheTeam.MagicTrade.gateway.interfacerest.ScryfallGateway;
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallMetaData;
+import org.MustacheTeam.MagicTrade.gateway.model.ScryfallMetadataSet;
+import org.MustacheTeam.MagicTrade.gateway.model.ScryfallSet;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,7 +24,6 @@ public class RealScryfallGateway implements ScryfallGateway {
 
 
     public List<ScryfallCard> getScryfallCards() {
-        System.out.println("je suis dedans");
         List<ScryfallCard> scryfallCardList = new ArrayList<>();
         String url = "https://api.scryfall.com/cards/search?format=json&include_extras=false&include_multilingual=false&include_variations=false&order=name&page=1&q=!&unique=prints";
 
@@ -38,4 +39,14 @@ public class RealScryfallGateway implements ScryfallGateway {
         return scryfallCardList;
     }
 
+    @Override
+    public List<ScryfallSet> getScryfallSets() {
+        List<ScryfallSet> scryfallSetList = new ArrayList<>();
+        String url = "https://api.scryfall.com/sets";
+
+        ResponseEntity<ScryfallMetadataSet> responseEntity = restTemplateApi.getForEntity(url, ScryfallMetadataSet.class);
+        scryfallSetList.addAll(Objects.requireNonNull((Objects.requireNonNull(responseEntity.getBody()).data().stream().toList())));
+
+        return scryfallSetList;
+    }
 }

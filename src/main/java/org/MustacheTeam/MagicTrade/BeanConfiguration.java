@@ -4,6 +4,8 @@ import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.JpaDoubleCardRepository;
 import org.MustacheTeam.MagicTrade.repository.card.SpringDataCardRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.SpringDataDoubleCardRepository;
+import org.MustacheTeam.MagicTrade.repository.set.JpaSetRepository;
+import org.MustacheTeam.MagicTrade.repository.set.SpringDataSetRepository;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,5 +25,11 @@ public class BeanConfiguration {
     public JpaDoubleCardRepository jpaDoubleCardRepository(SpringDataDoubleCardRepository springDataDoubleCardRepository){
         return new JpaDoubleCardRepository(springDataDoubleCardRepository);
     }
+
+    @Bean
+    public JpaSetRepository jpaSetRepository(SpringDataSetRepository springDataSetRepository){
+        return new JpaSetRepository(springDataSetRepository);
+    }
+
 
 }
