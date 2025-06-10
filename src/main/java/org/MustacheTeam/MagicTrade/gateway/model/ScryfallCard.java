@@ -29,7 +29,6 @@ public record ScryfallCard(
         ArrayList games,
         Illustrations image_uris,
         ArrayList<doubleCard> card_faces
-
 ) {
 
 

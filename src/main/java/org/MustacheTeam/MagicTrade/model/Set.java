@@ -4,30 +4,25 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "sets")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Set {
   @Id
-  String id;
+  private String id;
 
   @Column
-  String name;
+  private String name;
 
   @Column
-  String setSymbol;
-
-  public Set(){}
-
-  public Set(String id,String name, String setSymbol){
-      this.id= id;
-      this.name = name;
-      this.setSymbol = setSymbol;
-
-  }
+  private String setSymbol;
 
 }

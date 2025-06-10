@@ -2,13 +2,17 @@ package org.MustacheTeam.MagicTrade.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "doubleCards")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DoubleCard {
     @Id
     String id;
@@ -39,64 +43,5 @@ public class DoubleCard {
 
     @Column
     private String imageSizeArtCrop;
-
-    public String getId(){
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getCardId(){
-        return cardId;
-    }
-
-    public String getManaCost(){
-        return manaCost;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public String getPower() {
-        return power;
-    }
-
-    public String getImageSizeNormal() {
-        return imageSizeNormal;
-    }
-
-    public String getImageSizeArtCrop() {
-        return imageSizeArtCrop;
-    }
-
-    public String getToughness() {
-        return toughness;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getTypeLine() {
-        return typeLine;
-    }
-
-    public DoubleCard(){}
-
-    public DoubleCard(String id,String cardId, String name, String manaCost, String typeLine, String text,String power, String toughness, String imageSizeNormal, String imageSizeArtCrop){
-        this.id = id;
-        this.cardId = cardId;
-        this.name = name;
-        this.manaCost = manaCost;
-        this.typeLine = typeLine;
-        this.text = text;
-        this.power = power;
-        this.toughness = toughness;
-        this.imageSizeNormal =imageSizeNormal;
-        this.imageSizeArtCrop = imageSizeArtCrop;
-    }
 
 }
