@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade;
 
+import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.JpaDoubleCardRepository;
 import org.MustacheTeam.MagicTrade.repository.card.SpringDataCardRepository;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EntityScan(basePackages = {"org.MustacheTeam.MagicTrade"})
@@ -29,6 +31,16 @@ public class BeanConfiguration {
     @Bean
     public JpaSetRepository jpaSetRepository(SpringDataSetRepository springDataSetRepository){
         return new JpaSetRepository(springDataSetRepository);
+    }
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+
+    @Bean
+    public RealScryfallGateway getRealScryfallGateway(){
+        return new RealScryfallGateway(restTemplate());
     }
 
 
