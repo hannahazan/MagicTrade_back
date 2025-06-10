@@ -12,13 +12,5 @@ public class MagicTradeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MagicTradeApplication.class, args);
 	}
-	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
-	@Bean
-	public RealScryfallGateway getRealScryfallGateway(){
-		return new RealScryfallGateway(getRestTemplate());
-	}
 
 }
