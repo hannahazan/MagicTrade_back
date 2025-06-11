@@ -13,8 +13,8 @@ public class JpaToughnessRepository implements ToughnessRepository {
         this.repository = springDataToughnessRepository;
     }
 
-    public List<Toughness> getAllToughnesses() {
-        return repository.findAll();
+    public List<String> getAllToughnesses() {
+        return repository.findAllToughnesses();
     }
 
     public void save(List<String> toughnesses) {

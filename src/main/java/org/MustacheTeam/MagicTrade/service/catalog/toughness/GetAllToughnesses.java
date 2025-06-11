@@ -15,7 +15,7 @@ public class GetAllToughnesses {
         this.repository = jpaToughnessRepository;
     }
 
-    public List<Toughness> handle() {
+    public List<String> handle() {
         return repository.getAllToughnesses();
     }
 }

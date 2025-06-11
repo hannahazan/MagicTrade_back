@@ -76,8 +76,8 @@ public class CatalogController {
     }
 
     @GetMapping("toughnesses")
-    public ResponseEntity<List<Toughness>> getAllToughnesses() {
-        List<Toughness> toughnesses = getAllToughnesses.handle();
+    public ResponseEntity<List<String>> getAllToughnesses() {
+        List<String> toughnesses = getAllToughnesses.handle();
         if (toughnesses.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
