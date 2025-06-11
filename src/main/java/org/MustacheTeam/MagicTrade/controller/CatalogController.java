@@ -62,8 +62,8 @@ public class CatalogController {
     }
 
     @GetMapping("powers")
-    public ResponseEntity<List<Power>> getAllPowers() {
-        List<Power> powers = getAllPowers.handle();
+    public ResponseEntity<List<String>> getAllPowers() {
+        List<String> powers = getAllPowers.handle();
         if (powers.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
