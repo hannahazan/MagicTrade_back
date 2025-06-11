@@ -1,10 +1,7 @@
 package org.MustacheTeam.MagicTrade.gateway.service;
 
 import org.MustacheTeam.MagicTrade.gateway.interfacerest.ScryfallGateway;
-import org.MustacheTeam.MagicTrade.gateway.model.ScryfallCard;
-import org.MustacheTeam.MagicTrade.gateway.model.ScryfallMetaData;
-import org.MustacheTeam.MagicTrade.gateway.model.ScryfallMetadataSet;
-import org.MustacheTeam.MagicTrade.gateway.model.ScryfallSet;
+import org.MustacheTeam.MagicTrade.gateway.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -48,5 +45,16 @@ public class RealScryfallGateway implements ScryfallGateway {
         scryfallSetList.addAll(Objects.requireNonNull((Objects.requireNonNull(responseEntity.getBody()).data().stream().toList())));
 
         return scryfallSetList;
+    }
+
+    @Override
+    public ArrayList<String> getScryfallCatalog(String catalogElement) {
+        ArrayList<String> scryfallElementList = new ArrayList<>();
+        String url = String.format("https://api.scryfall.com/catalog/%s", catalogElement);
+
+        ResponseEntity<Catalog> responseEntity = restTemplateApi.getForEntity(url, Catalog.class);
+        scryfallElementList.addAll(Objects.requireNonNull(Objects.requireNonNull(responseEntity.getBody()).data().stream().toList()));
+
+        return scryfallElementList;
     }
 }
