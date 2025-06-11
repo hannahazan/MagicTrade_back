@@ -4,6 +4,7 @@ import org.MustacheTeam.MagicTrade.model.catalog.CardType;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.GetAllCardTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.RefreshCardTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.RefreshCreatureTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.landtype.RefreshLandTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,9 @@ public class CatalogController {
     @Autowired
     GetAllCardTypes getAllCardTypes;
 
+    @Autowired
+    RefreshLandTypes refreshLandTypes;
+
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
         refreshCreatureTypes.handle(catalogElementName);
@@ -41,4 +45,10 @@ public class CatalogController {
     public void refreshCardTypes(@RequestParam String catalogElementName) {
         refreshCardTypes.handle(catalogElementName);
     }
+
+    @PostMapping("land-types")
+    public void refreshLandTypes(@RequestParam String catalogElementName){
+        refreshLandTypes.handle(catalogElementName);
+    }
+
 }
