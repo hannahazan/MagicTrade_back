@@ -2,6 +2,8 @@ package org.MustacheTeam.MagicTrade;
 
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
+import org.MustacheTeam.MagicTrade.repository.catalog.cardType.JpaCardTypeRepository;
+import org.MustacheTeam.MagicTrade.repository.catalog.cardType.SpringDataCardTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.creaturetype.JpaCreatureTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.creaturetype.SpringDataCreatureTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.JpaDoubleCardRepository;
@@ -33,6 +35,11 @@ public class BeanConfiguration {
     @Bean
     public JpaSetRepository jpaSetRepository(SpringDataSetRepository springDataSetRepository){
         return new JpaSetRepository(springDataSetRepository);
+    }
+
+    @Bean
+    public JpaCardTypeRepository jpaCardTypeRepository(SpringDataCardTypeRepository springDataCardTypeRepository){
+        return new JpaCardTypeRepository(springDataCardTypeRepository);
     }
 
     @Bean
