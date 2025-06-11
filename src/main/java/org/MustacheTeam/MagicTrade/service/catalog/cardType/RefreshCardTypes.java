@@ -1,7 +1,7 @@
-package org.MustacheTeam.MagicTrade.service.cardType;
+package org.MustacheTeam.MagicTrade.service.catalog.cardType;
 
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
-import org.MustacheTeam.MagicTrade.repository.cardType.JpaCardTypeRepository;
+import org.MustacheTeam.MagicTrade.repository.catalog.cardType.JpaCardTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +16,8 @@ public class RefreshCardTypes {
         this.repository = jpaCardTypeRepository;
     }
 
-    public void handle(){
-        List<String> cardTypes = realScryfallGateway.getScryfallCatalog("card-types");
+    public void handle(String catalogElementName){
+        List<String> cardTypes = realScryfallGateway.getScryfallCatalog(catalogElementName);
         if (cardTypes == null || cardTypes.isEmpty()) {
             throw new RuntimeException("Scryfall card types not found");
         }

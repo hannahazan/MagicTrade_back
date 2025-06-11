@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.model;
+package org.MustacheTeam.MagicTrade.model.catalog;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

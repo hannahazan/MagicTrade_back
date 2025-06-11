@@ -1,6 +1,6 @@
-package org.MustacheTeam.MagicTrade.repository.cardType;
+package org.MustacheTeam.MagicTrade.repository.catalog.cardType;
 
-import org.MustacheTeam.MagicTrade.model.CardType;
+import org.MustacheTeam.MagicTrade.model.catalog.CardType;
 
 import java.util.ArrayList;
 import java.util.List;

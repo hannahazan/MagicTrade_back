@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.repository.cardType;
+package org.MustacheTeam.MagicTrade.repository.catalog.cardType;
 
 import org.springframework.stereotype.Repository;
 
