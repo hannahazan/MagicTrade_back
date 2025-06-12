@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SpringDataCreatureTypeRepository extends JpaRepository<CreatureType, Long> {
-    @Query(value="SELECT creature_type FROM creature_types",nativeQuery = true)
+    @Query(value="SELECT type FROM creature_types",nativeQuery = true)
     List<String> findAllCreatureTypes();
 }

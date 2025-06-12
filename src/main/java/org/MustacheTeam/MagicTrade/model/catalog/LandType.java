@@ -17,10 +17,10 @@ public class LandType {
     private long id;
 
     @Column(unique = true, nullable = false)
-    private String landType;
+    private String type;
 
     public LandType( String landType){
-        this.landType = landType;
+        this.type = landType;
     }
 
 }

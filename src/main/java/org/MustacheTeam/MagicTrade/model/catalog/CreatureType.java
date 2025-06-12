@@ -16,10 +16,10 @@ public class CreatureType {
     private long id;
 
     @Column(unique = true, nullable = false)
-    private String creatureType;
+    private String type;
 
     public CreatureType( String creatureType){
-        this.creatureType = creatureType;
+        this.type = creatureType;
     }
 
 }

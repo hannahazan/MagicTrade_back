@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SpringDataLandTypeRepository extends JpaRepository<LandType,Long> {
-    @Query(value="SELECT land_type FROM land_types",nativeQuery = true)
+    @Query(value="SELECT type FROM land_types",nativeQuery = true)
     List<String> findLandTypes();
 }
