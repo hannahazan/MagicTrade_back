@@ -1,7 +1,6 @@
 package org.MustacheTeam.MagicTrade.controller;
 
 import org.MustacheTeam.MagicTrade.model.catalog.CardType;
-import org.MustacheTeam.MagicTrade.model.catalog.Power;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.GetAllCardTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.RefreshCardTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.GetAllCreatureTypes;
@@ -10,6 +9,8 @@ import org.MustacheTeam.MagicTrade.service.catalog.landtype.GetAllLandTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.landtype.RefreshLandTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.power.GetAllPowers;
 import org.MustacheTeam.MagicTrade.service.catalog.power.RefreshPowers;
+import org.MustacheTeam.MagicTrade.service.catalog.toughness.GetAllToughnesses;
+import org.MustacheTeam.MagicTrade.service.catalog.toughness.RefreshToughnesses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,13 @@ public class CatalogController {
 
     @Autowired
     GetAllPowers getAllPowers;
+
+    @Autowired
+    RefreshToughnesses refreshToughnesses;
+
+    @Autowired
+    GetAllToughnesses getAllToughnesses;
+
 
     @Autowired
     RefreshLandTypes refreshLandTypes;
@@ -70,8 +78,8 @@ public class CatalogController {
     }
 
     @GetMapping("powers")
-    public ResponseEntity<List<Power>> getAllPowers() {
-        List<Power> powers = getAllPowers.handle();
+    public ResponseEntity<List<String>> getAllPowers() {
+        List<String> powers = getAllPowers.handle();
         if (powers.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -81,6 +89,20 @@ public class CatalogController {
     @PostMapping("powers")
     public void refreshPowers(@RequestParam String catalogElementName) {
         refreshPowers.handle(catalogElementName);
+    }
+
+    @GetMapping("toughnesses")
+    public ResponseEntity<List<String>> getAllToughnesses() {
+        List<String> toughnesses = getAllToughnesses.handle();
+        if (toughnesses.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(toughnesses);
+    }
+
+    @PostMapping("toughnesses")
+    public void refreshToughnesses(@RequestParam String catalogElementName) {
+        refreshToughnesses.handle(catalogElementName);
     }
 
     @PostMapping("land-types")

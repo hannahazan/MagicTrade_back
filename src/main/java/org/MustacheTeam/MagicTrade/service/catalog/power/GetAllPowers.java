@@ -1,6 +1,5 @@
 package org.MustacheTeam.MagicTrade.service.catalog.power;
 
-import org.MustacheTeam.MagicTrade.model.catalog.Power;
 import org.MustacheTeam.MagicTrade.repository.catalog.power.JpaPowerRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,7 @@ public class GetAllPowers {
         this.repository = jpaPowerRepository;
     }
 
-    public List<Power> handle() {
+    public List<String> handle() {
         return repository.getAllPowers();
     }
 }

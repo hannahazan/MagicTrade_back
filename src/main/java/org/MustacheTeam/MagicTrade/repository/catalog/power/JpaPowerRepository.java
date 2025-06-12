@@ -13,8 +13,8 @@ public class JpaPowerRepository implements PowerRepository {
         this.repository = springDataPowerRepository;
     }
 
-    public List<Power> getAllPowers() {
-        return repository.findAll();
+    public List<String> getAllPowers() {
+        return repository.findAllPowers();
     }
 
     public void save(List<String> powers) {
