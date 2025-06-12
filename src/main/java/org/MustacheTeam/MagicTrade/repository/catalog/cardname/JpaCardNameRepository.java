@@ -22,4 +22,9 @@ public class JpaCardNameRepository implements CardNameRepository {
         repository.saveAll(cardNameList);
 
     }
+
+    @Override
+    public List<String> getAllCardNames(){
+        return repository.findAllCardNames();
+    }
 }
