@@ -23,4 +23,8 @@ public class JpaCreatureTypeRepository implements CreatureTypeRepository {
 
     }
 
+    @Override
+    public List<String> getAllCreatureTypes(){
+        return repository.findAllCreatureTypes();
+    }
 }

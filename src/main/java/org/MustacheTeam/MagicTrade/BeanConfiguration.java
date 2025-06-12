@@ -8,6 +8,8 @@ import org.MustacheTeam.MagicTrade.repository.catalog.creaturetype.JpaCreatureTy
 import org.MustacheTeam.MagicTrade.repository.catalog.creaturetype.SpringDataCreatureTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.power.JpaPowerRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.power.SpringDataPowerRepository;
+import org.MustacheTeam.MagicTrade.repository.catalog.landtype.JpaLandTypeRepository;
+import org.MustacheTeam.MagicTrade.repository.catalog.landtype.SpringDataLandTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.toughness.JpaToughnessRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.toughness.SpringDataToughnessRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.JpaDoubleCardRepository;
@@ -49,6 +51,11 @@ public class BeanConfiguration {
     @Bean
     public JpaCreatureTypeRepository jpaCreatureTypeRepository(SpringDataCreatureTypeRepository springDataCreatureTypeRepository){
         return new JpaCreatureTypeRepository(springDataCreatureTypeRepository);
+    }
+
+    @Bean
+    public JpaLandTypeRepository jpaLandTypeRepository(SpringDataLandTypeRepository springDataLandTypeRepository){
+        return  new JpaLandTypeRepository(springDataLandTypeRepository);
     }
 
     @Bean

@@ -8,5 +8,4 @@ import java.util.List;
 
 @RequestMapping
 public interface SpringDataCardRepository extends JpaRepository<Card, String> {
-    List<Card> findAll();
 }
