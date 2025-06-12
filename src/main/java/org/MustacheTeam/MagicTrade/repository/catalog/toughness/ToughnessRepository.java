@@ -7,4 +7,5 @@ import java.util.List;
 @Repository
 public interface ToughnessRepository {
     void save(List<String> toughnesses);
+    List<String> getAllToughnesses();
 }

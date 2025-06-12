@@ -72,8 +72,8 @@ public class CatalogController {
 
 
     @GetMapping("card-types")
-    public ResponseEntity<List<CardType>> getAllCardTypes() {
-        List<CardType> cardTypes = getAllCardTypes.handle();
+    public ResponseEntity<List<String>> getAllCardTypes() {
+        List<String> cardTypes = getAllCardTypes.handle();
         if (cardTypes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

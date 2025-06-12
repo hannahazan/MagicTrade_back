@@ -7,4 +7,5 @@ import java.util.List;
 @Repository
 public interface CardTypeRepository {
     void save(List<String> cardTypes);
+    List<String> getAllCardTypes();
 }

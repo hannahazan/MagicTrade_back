@@ -15,7 +15,7 @@ public class GetAllCardTypes {
         this.repository = jpaCardTypeRepository;
     }
 
-    public List<CardType> handle() {
+    public List<String> handle() {
         return repository.getAllCardTypes();
     }
 }

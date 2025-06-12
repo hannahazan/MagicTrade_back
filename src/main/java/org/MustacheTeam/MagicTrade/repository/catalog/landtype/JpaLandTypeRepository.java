@@ -13,6 +13,7 @@ public class JpaLandTypeRepository implements LandTypeRepository {
         this.repository = springDataLandTypeRepository;
     }
 
+    @Override
     public void save(List<String> landTypeToSave){
 
         List<LandType> landTypeList = new ArrayList<>();
@@ -21,6 +22,7 @@ public class JpaLandTypeRepository implements LandTypeRepository {
         repository.saveAll(landTypeList);
     }
 
+    @Override
     public List<String> getAllLandTypes(){
         return repository.findLandTypes();
     }
