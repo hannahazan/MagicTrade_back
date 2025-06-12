@@ -7,4 +7,5 @@ import java.util.List;
 @Repository
 public interface PowerRepository {
     void save(List<String> powers);
+    List<String> getAllPowers();
 }

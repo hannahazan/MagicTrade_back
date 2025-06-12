@@ -13,10 +13,12 @@ public class JpaToughnessRepository implements ToughnessRepository {
         this.repository = springDataToughnessRepository;
     }
 
+    @Override
     public List<String> getAllToughnesses() {
         return repository.findAllToughnesses();
     }
 
+    @Override
     public void save(List<String> toughnesses) {
         ArrayList<Toughness> toughnessesList = new ArrayList<>();
         toughnesses.forEach(toughness -> toughnessesList.add(new Toughness(toughness)));
