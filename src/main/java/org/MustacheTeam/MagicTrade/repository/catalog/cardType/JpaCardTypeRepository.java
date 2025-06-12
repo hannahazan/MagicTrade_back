@@ -13,10 +13,12 @@ public class JpaCardTypeRepository implements CardTypeRepository {
         this.repository = springDataCardTypeRepository;
     }
 
-    public List<CardType> getAllCardTypes() {
-        return repository.findAll();
+    @Override
+    public List<String> getAllCardTypes() {
+        return repository.findAllCardTypes();
     }
 
+    @Override
     public void save(List<String> cardTypes) {
         ArrayList<CardType> cardTypesList = new ArrayList<>();
         cardTypes.forEach(cardType -> cardTypesList.add(new CardType(cardType)));

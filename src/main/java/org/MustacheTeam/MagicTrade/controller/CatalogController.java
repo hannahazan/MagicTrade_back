@@ -3,6 +3,8 @@ package org.MustacheTeam.MagicTrade.controller;
 import org.MustacheTeam.MagicTrade.model.catalog.CardType;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.GetAllCardTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.RefreshCardTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.cardname.GetAllCardNames;
+import org.MustacheTeam.MagicTrade.service.catalog.cardname.RefreshCardNames;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.GetAllCreatureTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.RefreshCreatureTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.landtype.GetAllLandTypes;
@@ -52,6 +54,12 @@ public class CatalogController {
     @Autowired
     GetAllLandTypes getAllLandTypes;
 
+    @Autowired
+    RefreshCardNames refreshCardNames;
+
+    @Autowired
+    GetAllCardNames getAllCardNames;
+
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
         refreshCreatureTypes.handle(catalogElementName);
@@ -64,8 +72,8 @@ public class CatalogController {
 
 
     @GetMapping("card-types")
-    public ResponseEntity<List<CardType>> getAllCardTypes() {
-        List<CardType> cardTypes = getAllCardTypes.handle();
+    public ResponseEntity<List<String>> getAllCardTypes() {
+        List<String> cardTypes = getAllCardTypes.handle();
         if (cardTypes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -113,6 +121,16 @@ public class CatalogController {
     @GetMapping("land-types")
     public List<String> getAllLandTypes(){
         return getAllLandTypes.handle();
+    }
+
+    @PostMapping("card-names")
+    public void setRefreshCardNames(@RequestParam String catalogElementName ){
+        refreshCardNames.handle(catalogElementName);
+    }
+
+    @GetMapping("card-names")
+    public List<String> getAllCardNames(){
+        return getAllCardNames.handle();
     }
 
 }
