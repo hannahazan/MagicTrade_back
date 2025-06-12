@@ -3,6 +3,7 @@ package org.MustacheTeam.MagicTrade.controller;
 import org.MustacheTeam.MagicTrade.model.catalog.CardType;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.GetAllCardTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.RefreshCardTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.cardname.RefreshCardNames;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.GetAllCreatureTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.RefreshCreatureTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.landtype.GetAllLandTypes;
@@ -51,6 +52,9 @@ public class CatalogController {
 
     @Autowired
     GetAllLandTypes getAllLandTypes;
+
+    @Autowired
+    RefreshCardNames refreshCardNames;
 
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
@@ -113,6 +117,11 @@ public class CatalogController {
     @GetMapping("land-types")
     public List<String> getAllLandTypes(){
         return getAllLandTypes.handle();
+    }
+
+    @PostMapping("card-names")
+    public void setRefreshCardNames(@RequestParam String catalogElementName ){
+        refreshCardNames.handle(catalogElementName);
     }
 
 }
