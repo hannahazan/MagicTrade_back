@@ -1,6 +1,5 @@
 package org.MustacheTeam.MagicTrade.repository.catalog.landtype;
 
-import org.MustacheTeam.MagicTrade.model.catalog.CreatureType;
 import org.MustacheTeam.MagicTrade.model.catalog.LandType;
 
 import java.util.ArrayList;
@@ -20,6 +19,10 @@ public class JpaLandTypeRepository implements LandTypeRepository {
         landTypeToSave.forEach(lT -> landTypeList.add(new LandType(lT)));
 
         repository.saveAll(landTypeList);
+    }
+
+    public List<String> getAllLandTypes(){
+        return repository.findLandTypes();
     }
 
 }

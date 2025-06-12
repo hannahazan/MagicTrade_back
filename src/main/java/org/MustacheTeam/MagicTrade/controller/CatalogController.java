@@ -1,10 +1,15 @@
 package org.MustacheTeam.MagicTrade.controller;
 
 import org.MustacheTeam.MagicTrade.model.catalog.CardType;
+import org.MustacheTeam.MagicTrade.model.catalog.Power;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.GetAllCardTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.RefreshCardTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.GetAllCreatureTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.RefreshCreatureTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.landtype.GetAllLandTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.landtype.RefreshLandTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.power.GetAllPowers;
+import org.MustacheTeam.MagicTrade.service.catalog.power.RefreshPowers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,18 +24,36 @@ public class CatalogController {
     RefreshCreatureTypes refreshCreatureTypes;
 
     @Autowired
+    GetAllCreatureTypes getAllCreatureTypes;
+
+    @Autowired
     RefreshCardTypes refreshCardTypes;
 
     @Autowired
     GetAllCardTypes getAllCardTypes;
 
     @Autowired
+    RefreshPowers refreshPowers;
+
+    @Autowired
+    GetAllPowers getAllPowers;
+
+    @Autowired
     RefreshLandTypes refreshLandTypes;
+
+    @Autowired
+    GetAllLandTypes getAllLandTypes;
 
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
         refreshCreatureTypes.handle(catalogElementName);
     }
+
+    @GetMapping("creature-types")
+    public List<String> getAllCreatureTypes(){
+        return getAllCreatureTypes.handle();
+    }
+
 
     @GetMapping("card-types")
     public ResponseEntity<List<CardType>> getAllCardTypes() {
@@ -41,14 +64,33 @@ public class CatalogController {
         return ResponseEntity.ok(cardTypes);
     }
 
-    @PostMapping("/card-types")
+    @PostMapping("card-types")
     public void refreshCardTypes(@RequestParam String catalogElementName) {
         refreshCardTypes.handle(catalogElementName);
+    }
+
+    @GetMapping("powers")
+    public ResponseEntity<List<Power>> getAllPowers() {
+        List<Power> powers = getAllPowers.handle();
+        if (powers.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(powers);
+    }
+
+    @PostMapping("powers")
+    public void refreshPowers(@RequestParam String catalogElementName) {
+        refreshPowers.handle(catalogElementName);
     }
 
     @PostMapping("land-types")
     public void refreshLandTypes(@RequestParam String catalogElementName){
         refreshLandTypes.handle(catalogElementName);
+    }
+
+    @GetMapping("land-types")
+    public List<String> getAllLandTypes(){
+        return getAllLandTypes.handle();
     }
 
 }
