@@ -21,4 +21,9 @@ public class JpaAbilityRepository implements AbilityRepository {
 
            repository.saveAll(abilityList);
         }
+
+        @Override
+        public List<String> getAllAbilities(){
+            return repository.findAllAbilities();
+        }
 }

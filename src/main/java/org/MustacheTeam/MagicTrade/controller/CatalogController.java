@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.controller;
 
 import org.MustacheTeam.MagicTrade.model.catalog.CardType;
+import org.MustacheTeam.MagicTrade.service.catalog.ability.GetAllAbilities;
 import org.MustacheTeam.MagicTrade.service.catalog.ability.RefreshAbilities;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.GetAllCardTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.cardType.RefreshCardTypes;
@@ -63,6 +64,9 @@ public class CatalogController {
 
     @Autowired
     RefreshAbilities refreshAbilities;
+
+    @Autowired
+    GetAllAbilities getAllAbilities;
 
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
@@ -140,6 +144,11 @@ public class CatalogController {
     @PostMapping("abilities")
     public void refreshAbilities(@RequestParam String catalogElementName){
         refreshAbilities.handle(catalogElementName);
+    }
+
+    @GetMapping("abilities")
+    public List<String> getAllAbilities(){
+        return getAllAbilities.handle();
     }
 
 }
