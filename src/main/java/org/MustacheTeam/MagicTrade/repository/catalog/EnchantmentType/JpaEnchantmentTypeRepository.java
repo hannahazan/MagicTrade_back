@@ -13,8 +13,10 @@ public class JpaEnchantmentTypeRepository implements EnchantmentRepository {
         this.repository = springDataEnchantmentTypeRepository;
     }
 
-    public List<EnchantmentType> getAllEnchantmentType(){
-        return repository.findAll();
+    @Override
+    public List<String> getAllEnchantmentTypes(){
+
+        return repository.findAllEnchantmentType();
     }
 
     public void save(List<String> enchantmentTypes) {

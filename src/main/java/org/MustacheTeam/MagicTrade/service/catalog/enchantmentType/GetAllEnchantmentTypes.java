@@ -14,7 +14,8 @@ public class GetAllEnchantmentTypes {
         this.repository = jpaEnchantmentTypeRepository;
     }
 
-    public List<EnchantmentType> handle() {
-        return repository.getAllEnchantmentType();
+    public List<String> handle() {
+
+        return repository.getAllEnchantmentTypes();
     }
 }

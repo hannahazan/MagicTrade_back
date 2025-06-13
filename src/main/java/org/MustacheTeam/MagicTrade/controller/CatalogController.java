@@ -72,6 +72,12 @@ public class CatalogController {
     @Autowired
     GetAllAbilities getAllAbilities;
 
+    @Autowired
+    RefreshEnchantmentType refreshEnchantmentType;
+
+    @Autowired
+    GetAllEnchantmentTypes getAllEnchantmentTypes;
+
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
         refreshCreatureTypes.handle(catalogElementName);
@@ -155,4 +161,13 @@ public class CatalogController {
         return getAllAbilities.handle();
     }
 
+    @PostMapping("enchantment-types")
+    public void refreshEnchantmentTypes(@RequestParam String catalogElementName){
+        refreshEnchantmentType.handle(catalogElementName);
+    }
+
+    @GetMapping("enchantment-types")
+    public List<String> getAllEnchantmentTypes(){
+        return getAllEnchantmentTypes.handle();
+    }
 }
