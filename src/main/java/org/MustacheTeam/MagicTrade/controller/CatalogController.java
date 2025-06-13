@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.controller;
 
+import org.MustacheTeam.MagicTrade.model.catalog.CardType;
 import org.MustacheTeam.MagicTrade.service.catalog.ability.GetAllAbilities;
 import org.MustacheTeam.MagicTrade.service.catalog.ability.RefreshAbilities;
 import org.MustacheTeam.MagicTrade.service.catalog.artifacttype.GetAllArtifactType;
@@ -10,6 +11,8 @@ import org.MustacheTeam.MagicTrade.service.catalog.cardname.GetAllCardNames;
 import org.MustacheTeam.MagicTrade.service.catalog.cardname.RefreshCardNames;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.GetAllCreatureTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.RefreshCreatureTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.enchantmentType.GetAllEnchantmentTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.enchantmentType.RefreshEnchantmentType;
 import org.MustacheTeam.MagicTrade.service.catalog.landtype.GetAllLandTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.landtype.RefreshLandTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.power.GetAllPowers;
@@ -68,12 +71,6 @@ public class CatalogController {
 
     @Autowired
     GetAllAbilities getAllAbilities;
-
-    @Autowired
-    RefreshArtifactType refreshArtifactType;
-
-    @Autowired
-    GetAllArtifactType getAllArtifactType;
 
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
@@ -156,16 +153,6 @@ public class CatalogController {
     @GetMapping("abilities")
     public List<String> getAllAbilities(){
         return getAllAbilities.handle();
-    }
-
-    @PostMapping("artifact-types")
-    public void refreshArtifactType(@RequestParam String catalogElementName){
-        refreshArtifactType.handle(catalogElementName);
-    }
-
-    @GetMapping("artifact-types")
-    public List<String> getAllArtifactType(){
-        return getAllArtifactType.handle();
     }
 
 }
