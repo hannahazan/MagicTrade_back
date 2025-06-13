@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.controller;
 
+import org.MustacheTeam.MagicTrade.model.catalog.CardType;
 import org.MustacheTeam.MagicTrade.service.catalog.ability.GetAllAbilities;
 import org.MustacheTeam.MagicTrade.service.catalog.ability.RefreshAbilities;
 import org.MustacheTeam.MagicTrade.service.catalog.artifacttype.GetAllArtifactType;
@@ -10,6 +11,8 @@ import org.MustacheTeam.MagicTrade.service.catalog.cardname.GetAllCardNames;
 import org.MustacheTeam.MagicTrade.service.catalog.cardname.RefreshCardNames;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.GetAllCreatureTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.creaturetype.RefreshCreatureTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.enchantmentType.GetAllEnchantmentTypes;
+import org.MustacheTeam.MagicTrade.service.catalog.enchantmentType.RefreshEnchantmentType;
 import org.MustacheTeam.MagicTrade.service.catalog.landtype.GetAllLandTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.landtype.RefreshLandTypes;
 import org.MustacheTeam.MagicTrade.service.catalog.power.GetAllPowers;
@@ -70,10 +73,10 @@ public class CatalogController {
     GetAllAbilities getAllAbilities;
 
     @Autowired
-    RefreshArtifactType refreshArtifactType;
+    RefreshEnchantmentType refreshEnchantmentType;
 
     @Autowired
-    GetAllArtifactType getAllArtifactType;
+    GetAllEnchantmentTypes getAllEnchantmentTypes;
 
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
@@ -158,14 +161,13 @@ public class CatalogController {
         return getAllAbilities.handle();
     }
 
-    @PostMapping("artifact-types")
-    public void refreshArtifactType(@RequestParam String catalogElementName){
-        refreshArtifactType.handle(catalogElementName);
+    @PostMapping("enchantment-types")
+    public void refreshEnchantmentTypes(@RequestParam String catalogElementName){
+        refreshEnchantmentType.handle(catalogElementName);
     }
 
-    @GetMapping("artifact-types")
-    public List<String> getAllArtifactType(){
-        return getAllArtifactType.handle();
+    @GetMapping("enchantment-types")
+    public List<String> getAllEnchantmentTypes(){
+        return getAllEnchantmentTypes.handle();
     }
-
 }
