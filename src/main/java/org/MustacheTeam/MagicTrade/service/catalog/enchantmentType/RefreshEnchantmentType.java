@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.catalog.enchantmentType;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.catalog.EnchantmentType.JpaEnchantmentTypeRepository;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,10 @@ public class RefreshEnchantmentType {
 
     public void handle(String catalogElementName) {
         List<String> enchantmentType = realScryfallGateway.getScryfallCatalog(catalogElementName);
-        if (enchantmentType == null || enchantmentType.isEmpty()) {
-            throw new RuntimeException("Scryfall enchantment type not found");
+        try {
+            repository.save(enchantmentType);
+        } catch (Exception ex) {
+            throw new ScryfallPersistenceException("Failed to persist Scryfall enchantment types");
         }
-        repository.save(enchantmentType);
     }
 }

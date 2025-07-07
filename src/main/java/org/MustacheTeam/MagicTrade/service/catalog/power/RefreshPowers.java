@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.catalog.power;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.catalog.power.JpaPowerRepository;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,10 @@ public class RefreshPowers {
 
     public void handle(String catalogElementName){
         List<String> powers = realScryfallGateway.getScryfallCatalog(catalogElementName);
-        if (powers == null || powers.isEmpty()) {
-            throw new RuntimeException("Scryfall powers not found");
+        try {
+            repository.save(powers);
+        } catch( Exception ex) {
+            throw new ScryfallPersistenceException("Failed to persist Scryfall powers", ex);
         }
-        repository.save(powers);
     }
 }

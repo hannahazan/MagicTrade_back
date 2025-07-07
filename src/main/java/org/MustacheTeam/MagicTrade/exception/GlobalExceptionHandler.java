@@ -75,4 +75,27 @@ public class GlobalExceptionHandler {
         return buildError("RESOURCE_NOT_FOUND", ex.getMessage(), HttpStatus.NOT_FOUND, request);
     }
 
+    // 502 - failed contacting scryfall API
+    @ExceptionHandler(ScryfallApiException.class)
+    public ResponseEntity<ErrorResponse> handleScryfallApi(ScryfallApiException ex, HttpServletRequest request) {
+        String message = "Error during Scryfall API call - " + ex.getMessage();
+        return buildError(
+                "SCRYFALL_API_ERROR",
+                message,
+                HttpStatus.BAD_GATEWAY,
+                request
+        );
+    }
+
+    // 500 - failed saving scryfall data in database
+    @ExceptionHandler(ScryfallPersistenceException.class)
+    public ResponseEntity<ErrorResponse> handleScryfallPersistence(ScryfallPersistenceException ex, HttpServletRequest request) {
+        return buildError(
+                "SCRYFALL_PERSISTENCE_ERROR",
+                ex.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request
+        );
+    }
+
 }

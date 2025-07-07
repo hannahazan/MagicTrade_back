@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.set;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallSet;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.set.JpaSetRepository;
@@ -20,6 +21,10 @@ public class RefreshSets {
 
     public void handle(){
         List<ScryfallSet> sets = realScryfallGateway.getScryfallSets();
-        jpaSetRepository.save(sets);
+        try {
+            jpaSetRepository.save(sets);
+        } catch(Exception ex) {
+            throw new ScryfallPersistenceException("Failed to persist Scryfall sets", ex);
+        }
     }
 }
