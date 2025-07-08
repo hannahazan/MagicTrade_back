@@ -5,6 +5,7 @@ public record UserDto(
         String pseudo,
         String name,
         String subName,
-        int postalCode
-) {
+        int postalCode,
+        String password
+        ) {
 }

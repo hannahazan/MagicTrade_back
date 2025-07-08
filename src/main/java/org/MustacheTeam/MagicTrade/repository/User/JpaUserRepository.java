@@ -3,7 +3,7 @@ package org.MustacheTeam.MagicTrade.repository.User;
 import org.MustacheTeam.MagicTrade.dto.UserDto;
 import org.MustacheTeam.MagicTrade.model.User;
 
-public class JpaUserRepository implements UserRepository {
+public class JpaUserRepository {
 
     private final SpringDataUserRepository repository;
 
@@ -11,9 +11,8 @@ public class JpaUserRepository implements UserRepository {
         this.repository = springDataUserRepository;
     }
 
-    @Override
-    public void save(UserDto user){
-        repository.save(new User(user.email(), user.pseudo(), user.name(), user.subName(), user.postalCode()));
+    public User save(User user){
+        return repository.save(user);
     }
 
     @Override
