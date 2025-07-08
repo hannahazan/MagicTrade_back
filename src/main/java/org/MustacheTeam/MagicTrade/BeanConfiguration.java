@@ -22,12 +22,16 @@ import org.MustacheTeam.MagicTrade.repository.catalog.landtype.JpaLandTypeReposi
 import org.MustacheTeam.MagicTrade.repository.catalog.landtype.SpringDataLandTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.toughness.JpaToughnessRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.toughness.SpringDataToughnessRepository;
+import org.MustacheTeam.MagicTrade.repository.collection.JpaCollectionRepository;
+import org.MustacheTeam.MagicTrade.repository.collection.SpringDataCollectionRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.JpaDoubleCardRepository;
 import org.MustacheTeam.MagicTrade.repository.card.SpringDataCardRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.SpringDataDoubleCardRepository;
 import org.MustacheTeam.MagicTrade.repository.set.JpaSetRepository;
 import org.MustacheTeam.MagicTrade.repository.set.SpringDataSetRepository;
+import org.MustacheTeam.MagicTrade.service.card.GetCardById;
 import org.MustacheTeam.MagicTrade.service.user.CreateUser;
+import org.MustacheTeam.MagicTrade.service.user.GetUserById;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,8 +54,24 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public GetUserById getUserById(JpaUserRepository jpaUserRepository){
+        return new GetUserById(jpaUserRepository);
+    }
+
+    @Bean
     public JpaCardRepository jpaCardRepository(SpringDataCardRepository springDataCardRepository){
         return new JpaCardRepository(springDataCardRepository);
+    }
+
+    @Bean
+    public GetCardById getCardById(JpaCardRepository jpaCardRepository){
+        return new GetCardById(jpaCardRepository);
+    }
+
+    @Bean
+    public JpaCollectionRepository jpaCollectionRepository(SpringDataCollectionRepository springDataCollectionRepository,
+            SpringDataCardRepository springDataCardRepository, SpringDataUserRepository springDataUserRepository){
+        return new JpaCollectionRepository(springDataCollectionRepository,springDataCardRepository,springDataUserRepository);
     }
 
     @Bean

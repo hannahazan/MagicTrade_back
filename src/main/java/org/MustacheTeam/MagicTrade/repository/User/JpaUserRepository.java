@@ -16,8 +16,9 @@ public class JpaUserRepository implements UserRepository {
         repository.save(new User(user.email(), user.pseudo(), user.name(), user.subName(), user.postalCode()));
     }
 
-    public User getuserById(Long id){
-
+    @Override
+    public User getUserById(Long id){
+        return repository.findUserById(id);
     }
 
 }

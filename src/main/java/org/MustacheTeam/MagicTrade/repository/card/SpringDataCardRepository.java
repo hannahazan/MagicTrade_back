@@ -9,6 +9,6 @@ import java.util.List;
 
 @RequestMapping
 public interface SpringDataCardRepository extends JpaRepository<Card, String> {
-    @Query(value="SELECT id from cards", nativeQuery = true)
+    @Query(value = "SELECT c FROM Card c Where c.id = ?1")
     Card findCardById(String id);
 }

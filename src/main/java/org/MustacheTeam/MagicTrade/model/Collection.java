@@ -36,6 +36,7 @@ public class Collection {
     public Collection(User user, Card card, String lang, String state){
         this.userId = user;
         this.cardId = card;
+        this.lang = lang;
         this.state = state;
     }
 }

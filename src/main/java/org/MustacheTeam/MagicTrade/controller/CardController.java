@@ -2,12 +2,10 @@ package org.MustacheTeam.MagicTrade.controller;
 
 import org.MustacheTeam.MagicTrade.model.Card;
 import org.MustacheTeam.MagicTrade.service.card.GetAllCards;
+import org.MustacheTeam.MagicTrade.service.card.GetCardById;
 import org.MustacheTeam.MagicTrade.service.card.RefreshCards;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,9 @@ public class CardController {
     @Autowired
     private GetAllCards getAllCards;
 
+    @Autowired
+    private GetCardById getCardById;
+
 
     @PostMapping
     public void refreshcard(){
@@ -28,9 +29,13 @@ public class CardController {
     }
 
     @GetMapping
-    List<Card> getcards(){
+    public List<Card> getcards(){
         return getAllCards.handle();
     }
 
+    @GetMapping("/{id}")
+    public Card getOneCardById(@PathVariable String id){
+            return getCardById.handle(id);
+    }
 
 }

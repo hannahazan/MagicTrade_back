@@ -1,12 +1,15 @@
 package org.MustacheTeam.MagicTrade.repository.collection;
 
 import org.MustacheTeam.MagicTrade.dto.CollectionDto;
+import org.MustacheTeam.MagicTrade.model.Card;
 import org.MustacheTeam.MagicTrade.model.Collection;
+import org.MustacheTeam.MagicTrade.model.User;
 import org.MustacheTeam.MagicTrade.repository.User.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.repository.card.SpringDataCardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class JpaCollectionRepository implements CollectionRepository{
 
@@ -23,9 +26,13 @@ public class JpaCollectionRepository implements CollectionRepository{
     }
 
     public void save(List<CollectionDto> collectionDto){
-        List<Collection> collectionList = new ArrayList<>();
-        collectionDto.forEach(collection->collectionList.add(new Collection(collection.userId(),collection.cardId(),collection.lang(),
-        collection.state())));
-    }
 
+        List<Collection> collectionList = new ArrayList<>();
+
+        collectionDto.forEach(c ->{
+            collectionList.add(new Collection(springDataUserRepository.findUserById(c.userId()),springDataCardRepository.findCardById(c.cardId()),
+                    c.lang(), c.state()));
+        } );
+        repository.saveAll(collectionList);
+    }
 }

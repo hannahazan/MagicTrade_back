@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping
 public interface SpringDataUserRepository extends JpaRepository<User, Long> {
-    @Query("SELECT c FROM User WHERE c.id = ?1")
+    @Query(value = "SELECT u FROM User u Where u.id = ?1")
     User findUserById(Long id);
 }
