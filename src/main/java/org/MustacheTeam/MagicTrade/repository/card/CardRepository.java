@@ -12,4 +12,6 @@ public interface CardRepository {
     void save(List<ScryfallCard> cardToSave);
 
     List<Card> getAllCards();
+
+    Card getCardById(String id);
 }

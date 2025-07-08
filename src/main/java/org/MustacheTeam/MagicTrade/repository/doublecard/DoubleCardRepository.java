@@ -10,5 +10,4 @@ import java.util.List;
 public interface DoubleCardRepository {
     void save(List<ScryfallCard> cardToSave);
     List<DoubleCard> getAllDoubleCards();
-
 }

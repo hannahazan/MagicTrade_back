@@ -41,4 +41,9 @@ public class JpaCardRepository implements CardRepository {
     public List<Card> getAllCards(){
         return repository.findAll();
     }
+
+    @Override
+    public Card getCardById(String id){
+        return repository.findCardById(id);
+    }
 }

@@ -11,7 +11,14 @@ public class JpaUserRepository implements UserRepository {
         this.repository = springDataUserRepository;
     }
 
+    @Override
     public void save(UserDto user){
         repository.save(new User(user.email(), user.pseudo(), user.name(), user.subName(), user.postalCode()));
     }
+
+    @Override
+    public User getUserById(Long id){
+        return repository.findUserById(id);
+    }
+
 }
