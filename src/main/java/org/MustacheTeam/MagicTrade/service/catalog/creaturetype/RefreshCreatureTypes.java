@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.catalog.creaturetype;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.catalog.creaturetype.JpaCreatureTypeRepository;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ public class RefreshCreatureTypes {
 
    public void handle(String catalogElement){
        List<String> catalogCreatureType = realScryfallGateway.getScryfallCatalog(catalogElement);
-       jpaCreatureTypeRepository.save(catalogCreatureType);
+       try {
+           jpaCreatureTypeRepository.save(catalogCreatureType);
+       } catch(Exception ex) {
+           throw new ScryfallPersistenceException("Failed to persist Scryfall creature types", ex);
+       }
    }
 }

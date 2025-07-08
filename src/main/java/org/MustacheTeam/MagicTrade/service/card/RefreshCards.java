@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.card;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
@@ -20,7 +21,11 @@ public class RefreshCards {
 
     public void handle(){
         List<ScryfallCard> cards = realScryfallGateway.getScryfallCards();
-        jpaCardRepository.save(cards);
+        try {
+            jpaCardRepository.save(cards);
+        } catch (Exception ex) {
+            throw new ScryfallPersistenceException("Failed to persist Scryfall cards", ex);
+        }
     }
 
 }
