@@ -1,6 +1,8 @@
 package org.MustacheTeam.MagicTrade;
 
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
+import org.MustacheTeam.MagicTrade.repository.User.JpaUserRepository;
+import org.MustacheTeam.MagicTrade.repository.User.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.EnchantmentType.JpaEnchantmentTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.EnchantmentType.SpringDataEnchantmentTypeRepository;
@@ -25,6 +27,7 @@ import org.MustacheTeam.MagicTrade.repository.card.SpringDataCardRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.SpringDataDoubleCardRepository;
 import org.MustacheTeam.MagicTrade.repository.set.JpaSetRepository;
 import org.MustacheTeam.MagicTrade.repository.set.SpringDataSetRepository;
+import org.MustacheTeam.MagicTrade.service.user.CreateUser;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +38,16 @@ import org.springframework.web.client.RestTemplate;
 @EntityScan(basePackages = {"org.MustacheTeam.MagicTrade"})
 @EnableJpaRepositories(basePackages = {"org.MustacheTeam.MagicTrade"})
 public class BeanConfiguration {
+
+    @Bean
+    public JpaUserRepository jpaUserRepository(SpringDataUserRepository springDataUserRepository){
+        return new JpaUserRepository(springDataUserRepository);
+    }
+
+    @Bean
+    public CreateUser createUser(JpaUserRepository jpaUserRepository){
+        return new CreateUser(jpaUserRepository);
+    }
 
     @Bean
     public JpaCardRepository jpaCardRepository(SpringDataCardRepository springDataCardRepository){
