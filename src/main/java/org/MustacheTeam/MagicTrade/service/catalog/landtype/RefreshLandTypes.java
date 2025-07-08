@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.catalog.landtype;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.catalog.landtype.JpaLandTypeRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,11 @@ public class RefreshLandTypes {
 
     public void handle(String catalogElement){
         List<String> catalogLandType = realScryfallGateway.getScryfallCatalog(catalogElement);
-        jpaLandTypeRepository.save(catalogLandType);
+        try {
+            jpaLandTypeRepository.save(catalogLandType);
+        } catch(Exception ex) {
+            throw new ScryfallPersistenceException("Failed to persist Scryfall land types", ex);
+        }
     }
 
 }

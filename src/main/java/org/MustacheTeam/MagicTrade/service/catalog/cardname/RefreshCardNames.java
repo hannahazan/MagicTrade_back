@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.catalog.cardname;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.catalog.cardname.JpaCardNameRepository;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,11 @@ public class RefreshCardNames {
 
     public void handle(String catalogElementName){
         List<String> cardNames = realScryfallGateway.getScryfallCatalog(catalogElementName);
-
-        jpaCardNameRepository.save(cardNames);
+        try {
+            jpaCardNameRepository.save(cardNames);
+        } catch(Exception ex) {
+            throw new ScryfallPersistenceException("Failed to persist Scryfall card names", ex);
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.doublecard;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.doublecard.JpaDoubleCardRepository;
@@ -20,7 +21,11 @@ public class RefreshDoubleCards {
 
     public void handle(){
         List<ScryfallCard> cards = realScryfallGateway.getScryfallCards();
-        jpaDoubleCardRepository.save(cards);
+        try {
+            jpaDoubleCardRepository.save(cards);
+        } catch(Exception ex) {
+            throw new ScryfallPersistenceException("Failed to persist Scryfall double cards", ex);
+        }
     }
 
 }

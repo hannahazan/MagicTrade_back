@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.service.catalog.ability;
 
+import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.catalog.ability.JpaAbilityRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,10 @@ public class RefreshAbilities {
 
     public void handle(String catalogElementName){
         List<String> abilitiesList = realScryfallGateway.getScryfallCatalog(catalogElementName);
-
-        jpaAbilityRepository.save(abilitiesList);
+        try {
+            jpaAbilityRepository.save(abilitiesList);
+        } catch (Exception ex) {
+            throw new ScryfallPersistenceException("Failed to persist Scryfall abilities", ex);
+        }
     }
 }
