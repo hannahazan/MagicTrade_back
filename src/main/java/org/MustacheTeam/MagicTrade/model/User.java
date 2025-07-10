@@ -6,20 +6,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,18 +36,26 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 15)
     private String subName;
 
-    @Column(nullable = false)
-    private int postalCode;
+    @Column(nullable = false, length = 30)
+    private String country;
+
+    @Column(nullable = false, length = 30)
+    private String department;
+
+    @Column(nullable = false, length = 30)
+    private String city;
 
     @Column(nullable = false, length = 20)
     private String role;
 
-    public User (String email, String pseudo, String name, String subName, int postalCode, String password){
+    public User(String email, String pseudo, String name, String subName, String country, String department, String city, String password) {
         this.email = email;
         this.pseudo = pseudo;
         this.name = name;
         this.subName = subName;
-        this.postalCode = postalCode;
+        this.country = country;
+        this.department = department;
+        this.city = city;
         this.password = password;
     }
 
@@ -78,5 +83,9 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-}
 
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}

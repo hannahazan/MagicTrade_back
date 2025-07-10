@@ -24,18 +24,24 @@ public class CreateUser implements UserService {
 
     @Override
     public User createUser(UserDto userDto, Set<String> roles) {
-        if (userRepository.existsByEmail(userDto.email())) {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
 
-        String hashedPassword = passwordEncoder.encode(userDto.password());
+        if (userRepository.existsByPseudo(userDto.getPseudo())) {
+            throw new RuntimeException("Pseudo already exists");
+        }
+
+        String hashedPassword = passwordEncoder.encode(userDto.getPassword());
 
         User user = new User(
-                userDto.email(),
-                userDto.pseudo(),
-                userDto.name(),
-                userDto.subName(),
-                userDto.postalCode(),
+                userDto.getEmail(),
+                userDto.getPseudo(),
+                userDto.getName(),
+                userDto.getSubName(),
+                userDto.getCountry(),
+                userDto.getDepartment(),
+                userDto.getCity(),
                 hashedPassword
         );
 
@@ -43,10 +49,6 @@ public class CreateUser implements UserService {
             user.setRole(roles.iterator().next());
         } else {
             user.setRole("USER");
-        }
-
-        if (userRepository.existsByPseudo(userDto.pseudo())) {
-            throw new RuntimeException("Pseudo already exists");
         }
 
         return jpaUserRepository.save(user);

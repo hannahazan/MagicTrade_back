@@ -25,14 +25,20 @@ public class JpaCollectionRepository implements CollectionRepository{
 
     }
 
-    public void save(List<CollectionDto> collectionDto){
+    public void save(List<CollectionDto> collectionDtoList) {
 
         List<Collection> collectionList = new ArrayList<>();
 
-        collectionDto.forEach(c ->{
-            collectionList.add(new Collection(springDataUserRepository.findUserById(c.userId()),springDataCardRepository.findCardById(c.cardId()),
-                    c.lang(), c.state()));
-        } );
+        for (CollectionDto c : collectionDtoList) {
+            User user = springDataUserRepository.findById(c.userId())
+                    .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + c.userId()));
+
+            Card card = springDataCardRepository.findById(c.cardId())
+                    .orElseThrow(() -> new IllegalArgumentException("Card not found with id: " + c.cardId()));
+
+            collectionList.add(new Collection(user, card, c.lang(), c.state()));
+        }
+
         repository.saveAll(collectionList);
     }
 }

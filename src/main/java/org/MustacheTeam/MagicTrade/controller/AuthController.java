@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.controller;
 
+import jakarta.validation.Valid;
 import org.MustacheTeam.MagicTrade.dto.UserDto;
 import org.MustacheTeam.MagicTrade.dto.UserLoginDto;
 import org.MustacheTeam.MagicTrade.model.User;
@@ -27,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto) {
         Set<String> roles = Set.of("USER");
 
         try {
