@@ -1,14 +1,24 @@
 package org.MustacheTeam.MagicTrade.repository.card;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.MustacheTeam.MagicTrade.gateway.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class JpaCardRepository implements CardRepository {
 
     private final SpringDataCardRepository repository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public JpaCardRepository(final SpringDataCardRepository springDataCardRepository){
         this.repository = springDataCardRepository;
@@ -45,5 +55,52 @@ public class JpaCardRepository implements CardRepository {
     @Override
     public Card getCardById(String id){
         return repository.findCardById(id);
+    }
+
+    @Override
+    public List<Card> getAllCardsWithFilters(String name, String setId, List<String> colors, List<Integer> cmc, String text){
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Card> query = cb.createQuery(Card.class);
+        Root<Card> root = query.from(Card.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if(!name.isEmpty()){
+            predicates.add(cb.equal(root.get("name"),name));
+        }
+
+        if(!setId.isEmpty()){
+            predicates.add(cb.equal(root.get("setId"),setId));
+        }
+
+        if(!colors.isEmpty()){
+            List<Predicate> likePredicates = new ArrayList<>();
+            colors.forEach(c->{
+                Predicate like = cb.like(root.get("manaCost"),"%" + c + "%");
+                likePredicates.add(like);
+            });
+            Predicate orLike = cb.or(likePredicates.toArray(new Predicate[0]));
+            predicates.add(orLike);
+        }
+
+        if(!cmc.isEmpty()){
+            List<Predicate> equalPredicates = new ArrayList<>();
+            cmc.forEach(c->{
+                Predicate equal = cb.equal(root.get("cmc"),c);
+                equalPredicates.add(equal);
+            });
+            Predicate orEqual = cb.or(equalPredicates.toArray(new Predicate[0]));
+            predicates.add(orEqual);
+        }
+
+        if(!text.isEmpty()){
+            predicates.add(cb.like(cb.lower(root.get("text")),"%"+text.toLowerCase()+"%"));
+        }
+
+        if(!predicates.isEmpty()){
+            query.where((cb.and(predicates.toArray(new Predicate[0]))));
+        }
+        return entityManager.createQuery(query).getResultList();
     }
 }

@@ -16,6 +16,9 @@ public class GetAllCards {
     }
 
     public List<Card> handle(){
-     return jpaCardRepository.getAllCards();
- }
+        return jpaCardRepository.getAllCards();
+    }
+    public List<Card> handleAll(String name, String setId, List<String> colors, List<Integer> cmc, String text){
+        return jpaCardRepository.getAllCardsWithFilters(name, setId, colors, cmc, text);
+    }
 }
