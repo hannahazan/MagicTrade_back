@@ -28,8 +28,8 @@ public class UserController {
         return new UserDto(
                 createdUser.getEmail(),
                 createdUser.getPseudo(),
-                createdUser.getName(),
-                createdUser.getSubName(),
+                createdUser.getFirstName(),
+                createdUser.getLastName(),
                 createdUser.getCountry(),
                 createdUser.getDepartment(),
                 createdUser.getCity(),

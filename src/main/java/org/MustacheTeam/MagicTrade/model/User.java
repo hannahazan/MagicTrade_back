@@ -31,10 +31,10 @@ public class User implements UserDetails {
     private String pseudo;
 
     @Column(nullable = false, length = 15)
-    private String name;
+    private String firstName;
 
     @Column(nullable = false, length = 15)
-    private String subName;
+    private String lastName;
 
     @Column(nullable = false, length = 30)
     private String country;
@@ -51,8 +51,8 @@ public class User implements UserDetails {
     public User(String email, String pseudo, String name, String subName, String country, String department, String city, String password) {
         this.email = email;
         this.pseudo = pseudo;
-        this.name = name;
-        this.subName = subName;
+        this.firstName = name;
+        this.lastName = subName;
         this.country = country;
         this.department = department;
         this.city = city;
