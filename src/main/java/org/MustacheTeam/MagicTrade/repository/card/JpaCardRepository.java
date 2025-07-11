@@ -11,14 +11,13 @@ import org.MustacheTeam.MagicTrade.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class JpaCardRepository implements CardRepository {
 
     private final SpringDataCardRepository repository;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     public JpaCardRepository(final SpringDataCardRepository springDataCardRepository){
         this.repository = springDataCardRepository;
@@ -47,10 +46,6 @@ public class JpaCardRepository implements CardRepository {
         repository.saveAll(cards);
     }
 
-    @Override
-    public List<Card> getAllCards(){
-        return repository.findAll();
-    }
 
     @Override
     public Card getCardById(String id){
@@ -58,7 +53,10 @@ public class JpaCardRepository implements CardRepository {
     }
 
     @Override
-    public List<Card> getAllCardsWithFilters(String name, String setId, List<String> colors, List<Integer> cmc, String text){
+    public List<Card> getAllCards(String name, String setId, List<String> colors, List<Integer> cmc, String text, List<String> toughnesses, List<String> powers,
+                                  List<String> rarities, List<String> types, String foil, String fullArt, String textLess, String standard, String pioneer, String explorer, String modern,
+                                  String legacy, String pauper, String vintage, String commander, String brawl, String pauperCommander, String duel, String oldSchool
+                                 ){
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Card> query = cb.createQuery(Card.class);
@@ -67,7 +65,7 @@ public class JpaCardRepository implements CardRepository {
         List<Predicate> predicates = new ArrayList<>();
 
         if(!name.isEmpty()){
-            predicates.add(cb.equal(root.get("name"),name));
+            predicates.add(cb.equal(cb.lower(root.get("name")),name.toLowerCase()));
         }
 
         if(!setId.isEmpty()){
@@ -77,7 +75,7 @@ public class JpaCardRepository implements CardRepository {
         if(!colors.isEmpty()){
             List<Predicate> likePredicates = new ArrayList<>();
             colors.forEach(c->{
-                Predicate like = cb.like(root.get("manaCost"),"%" + c + "%");
+                Predicate like = cb.like(cb.lower(root.get("manaCost")),"%" + c.toLowerCase() + "%");
                 likePredicates.add(like);
             });
             Predicate orLike = cb.or(likePredicates.toArray(new Predicate[0]));
@@ -98,9 +96,110 @@ public class JpaCardRepository implements CardRepository {
             predicates.add(cb.like(cb.lower(root.get("text")),"%"+text.toLowerCase()+"%"));
         }
 
+        if(!toughnesses.isEmpty()){
+            List<Predicate> equalPredicates = new ArrayList<>();
+            toughnesses.forEach(t->{
+                Predicate equal = cb.equal(root.get("toughness"),t);
+                equalPredicates.add(equal);
+            });
+            Predicate orEqual = cb.or(equalPredicates.toArray(new Predicate[0]));
+            predicates.add(orEqual);
+        }
+
+        if(!powers.isEmpty()){
+            List<Predicate> equalPredicates = new ArrayList<>();
+            powers.forEach(p->{
+                Predicate equal = cb.equal(root.get("power"),p);
+                equalPredicates.add(equal);
+            });
+            Predicate orEqual = cb.or(equalPredicates.toArray(new Predicate[0]));
+            predicates.add(orEqual);
+        }
+
+        if(!rarities.isEmpty()){
+            List<Predicate> equalPredicates = new ArrayList<>();
+            rarities.forEach(r->{
+                Predicate equal = cb.equal(cb.lower(root.get("rarity")),r.toLowerCase());
+                equalPredicates.add(equal);
+            });
+            Predicate orEqual = cb.or(equalPredicates.toArray(new Predicate[0]));
+            predicates.add(orEqual);
+        }
+
+        if(!types.isEmpty()){
+            List<Predicate> likePredicates = new ArrayList<>();
+            types.forEach(t->{
+                Predicate like = cb.like(cb.lower(root.get("types")),"%" + t.toLowerCase() + "%");
+                likePredicates.add(like);
+            });
+            Predicate orLike = cb.or(likePredicates.toArray(new Predicate[0]));
+            predicates.add(orLike);
+        }
+
+        if(!foil.isEmpty()){
+            predicates.add(cb.equal(cb.lower(cb.toString(root.get("foil"))), foil.toLowerCase()));
+        }
+
+        if(!fullArt.isEmpty()){
+            predicates.add(cb.equal(cb.lower(cb.toString(root.get("fullArt"))), fullArt.toLowerCase()));
+        }
+
+        if(!textLess.isEmpty()){
+            predicates.add(cb.equal(cb.lower(cb.toString(root.get("textLess"))), textLess.toLowerCase()));
+        }
+
+        if(!standard.isEmpty()){
+            predicates.add(cb.equal(cb.lower(cb.toString(root.get("standard"))), standard.toLowerCase()));
+        }
+
+        if(!pioneer.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("pioneer")), pioneer));
+        }
+
+        if(!explorer.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("explorer")), explorer));
+        }
+
+        if(!modern.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("modern")), modern));
+        }
+
+        if(!legacy.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("legacy")), legacy));
+        }
+
+        if(!pauper.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("pauper")), pauper));
+        }
+
+        if(!vintage.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("vintage")), vintage));
+        }
+
+        if(!commander.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("commander")), commander));
+        }
+
+        if(!brawl.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("brawl")), brawl));
+        }
+
+        if(!pauperCommander.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("pauperCommander")), pauperCommander));
+        }
+
+        if(!duel.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("duel")), duel));
+        }
+
+        if(!oldSchool.isEmpty()){
+            predicates.add(cb.equal(cb.toString(root.get("oldSchool")), oldSchool));
+        }
+
         if(!predicates.isEmpty()){
             query.where((cb.and(predicates.toArray(new Predicate[0]))));
         }
+
         return entityManager.createQuery(query).getResultList();
     }
 }
