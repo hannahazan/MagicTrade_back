@@ -3,6 +3,7 @@ package org.MustacheTeam.MagicTrade;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.User.JpaUserRepository;
 import org.MustacheTeam.MagicTrade.repository.User.SpringDataUserRepository;
+import org.MustacheTeam.MagicTrade.repository.User.UserRepository;
 import org.MustacheTeam.MagicTrade.repository.card.JpaCardRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.EnchantmentType.JpaEnchantmentTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.EnchantmentType.SpringDataEnchantmentTypeRepository;
@@ -36,6 +37,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -49,8 +52,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public CreateUser createUser(JpaUserRepository jpaUserRepository){
-        return new CreateUser(jpaUserRepository);
+    public CreateUser createUser(JpaUserRepository jpaUserRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        return new CreateUser(jpaUserRepository, passwordEncoder, userRepository);
     }
 
     @Bean
@@ -138,6 +141,4 @@ public class BeanConfiguration {
     public RealScryfallGateway getRealScryfallGateway(){
         return new RealScryfallGateway(restTemplate());
     }
-
-
 }

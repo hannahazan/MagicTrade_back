@@ -2,20 +2,30 @@ package org.MustacheTeam.MagicTrade.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-public class User {
+@AllArgsConstructor
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column(unique = true, nullable = false, length = 20)
     private String pseudo;
@@ -26,15 +36,56 @@ public class User {
     @Column(nullable = false, length = 15)
     private String subName;
 
-    @Column(nullable = false)
-    private int postalCode;
+    @Column(nullable = false, length = 30)
+    private String country;
 
-    public User(String email, String pseudo, String name, String subName, int postalCode){
+    @Column(nullable = false, length = 30)
+    private String department;
+
+    @Column(nullable = false, length = 30)
+    private String city;
+
+    @Column(nullable = false, length = 20)
+    private String role;
+
+    public User(String email, String pseudo, String name, String subName, String country, String department, String city, String password) {
         this.email = email;
         this.pseudo = pseudo;
         this.name = name;
         this.subName = subName;
-        this.postalCode = postalCode;
+        this.country = country;
+        this.department = department;
+        this.city = city;
+        this.password = password;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
