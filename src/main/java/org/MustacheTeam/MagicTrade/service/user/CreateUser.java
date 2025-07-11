@@ -37,8 +37,8 @@ public class CreateUser implements UserService {
         User user = new User(
                 userDto.getEmail(),
                 userDto.getPseudo(),
-                userDto.getName(),
-                userDto.getSubName(),
+                userDto.getFirstName(),
+                userDto.getLastName(),
                 userDto.getCountry(),
                 userDto.getDepartment(),
                 userDto.getCity(),

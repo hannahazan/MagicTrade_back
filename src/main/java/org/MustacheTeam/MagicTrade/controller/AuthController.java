@@ -3,7 +3,6 @@ package org.MustacheTeam.MagicTrade.controller;
 import jakarta.validation.Valid;
 import org.MustacheTeam.MagicTrade.dto.UserDto;
 import org.MustacheTeam.MagicTrade.dto.UserLoginDto;
-import org.MustacheTeam.MagicTrade.model.User;
 import org.MustacheTeam.MagicTrade.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.service.user.CreateUser;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("magicTrade-api/auth")
 public class AuthController {
 
     private final CreateUser createUser;
@@ -32,7 +31,7 @@ public class AuthController {
         Set<String> roles = Set.of("USER");
 
         try {
-            User createdUser = createUser.createUser(userDto, roles);
+            createUser.createUser(userDto, roles);
             return ResponseEntity.ok("User registered successfully!");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

@@ -33,8 +33,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers(
-                            "/auth/**",
+                            "/magicTrade-api/auth/**",
                             "/magicTrade-api/users",
+                            "/magicTrade-api/cards/**",
                             "/magicTrade-api/catalog/**"
                     ).permitAll()
 //                    .requestMatchers("/admin/**").hasRole("ADMIN") // Préparation admin

@@ -1,11 +1,14 @@
 package org.MustacheTeam.MagicTrade.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserDto {
 
 
@@ -27,11 +30,11 @@ public class UserDto {
 
         @NotBlank(message = "Last name is required")
         @Size(max = 15, message = "Last name must not exceed 15 characters")
-        private String name;
+        private String firstName;
 
         @NotBlank(message = "First name is required")
         @Size(max = 15, message = "First name must not exceed 15 characters")
-        private String subName;
+        private String lastName;
 
         @NotBlank(message = "Country is required")
         @Size(max = 30, message = "Country must not exceed 30 characters")
@@ -45,14 +48,11 @@ public class UserDto {
         @Size(max = 30, message = "City must not exceed 30 characters")
         private String city;
 
-        public UserDto() {
-        }
-
-        public UserDto(String email, String pseudo, String name, String subName, String country, String department, String city, String password) {
+        public UserDto(String email, String pseudo, String firstName, String lastName, String country, String department, String city, String password) {
                 this.email = email;
                 this.pseudo = pseudo;
-                this.name = name;
-                this.subName = subName;
+                this.firstName = firstName;
+                this.lastName = lastName;
                 this.country = country;
                 this.department = department;
                 this.city = city;
