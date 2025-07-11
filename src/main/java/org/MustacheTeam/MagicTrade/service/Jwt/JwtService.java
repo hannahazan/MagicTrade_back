@@ -35,7 +35,7 @@ public class JwtService {
                 .getBody();
     }
 
-    public boolean valdateJwtToken(String token) {
+    public boolean validateJwtToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token);
             return true;
