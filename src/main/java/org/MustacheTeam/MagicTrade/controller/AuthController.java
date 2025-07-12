@@ -31,7 +31,7 @@ public class AuthController {
         Set<String> roles = Set.of("USER");
 
         try {
-            createUser.createUser(userDto, roles);
+            createUser.handle(userDto, roles);
             return ResponseEntity.ok("User registered successfully!");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

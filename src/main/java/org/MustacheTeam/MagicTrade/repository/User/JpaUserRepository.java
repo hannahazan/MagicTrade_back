@@ -1,40 +1,70 @@
 package org.MustacheTeam.MagicTrade.repository.User;
 
+import org.MustacheTeam.MagicTrade.dto.UserDto;
 import org.MustacheTeam.MagicTrade.model.User;
+import org.MustacheTeam.MagicTrade.security.PasswordEncoderService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class JpaUserRepository implements UserRepository {
 
     private final SpringDataUserRepository repository;
+    private final PasswordEncoderService passwordEncoderService;
 
-    public JpaUserRepository(SpringDataUserRepository repository) {
+    public JpaUserRepository(SpringDataUserRepository repository,PasswordEncoderService passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoderService = passwordEncoder;
     }
 
-    @Override
-    public User save(User user) {
-        return repository.save(user);
-    }
-
-    @Override
     public Optional<User> getUserById(Long id) {
         return repository.findById(id);
     }
 
-    @Override
     public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }
 
-    @Override
     public boolean existsByPseudo(String pseudo) {
         return repository.existsByPseudo(pseudo);
     }
 
-    @Override
     public Optional<User> findByEmail(String email) {
         return repository.findByEmail(email);
     }
+
+    @Override
+    public void save(UserDto userDto, Set<String> roles) {
+        if (existsByEmail(userDto.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        if (existsByPseudo(userDto.getPseudo())) {
+            throw new RuntimeException("Pseudo already exists");
+        }
+
+        String hashedPassword = passwordEncoderService.encode(userDto.getPassword());
+
+        User user = new User(
+                userDto.getEmail(),
+                userDto.getPseudo(),
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getCountry(),
+                userDto.getDepartment(),
+                userDto.getCity(),
+                hashedPassword
+        );
+
+        if (!roles.isEmpty()) {
+            user.setRole(roles.iterator().next());
+        } else {
+            user.setRole("USER");
+        }
+        repository.save(user);
+    }
+
+
 }

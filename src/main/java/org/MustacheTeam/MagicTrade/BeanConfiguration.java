@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade;
 
+import org.MustacheTeam.MagicTrade.gateway.interfacerest.ScryfallGateway;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
 import org.MustacheTeam.MagicTrade.repository.User.JpaUserRepository;
 import org.MustacheTeam.MagicTrade.repository.User.SpringDataUserRepository;
@@ -9,6 +10,7 @@ import org.MustacheTeam.MagicTrade.repository.catalog.EnchantmentType.JpaEnchant
 import org.MustacheTeam.MagicTrade.repository.catalog.EnchantmentType.SpringDataEnchantmentTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.ability.JpaAbilityRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.ability.SpringDataAbilityRepository;
+import org.MustacheTeam.MagicTrade.repository.catalog.artifacttype.ArtifactTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.artifacttype.JpaArtifactTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.artifacttype.SpringDataArtifactTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.cardType.JpaCardTypeRepository;
@@ -30,15 +32,16 @@ import org.MustacheTeam.MagicTrade.repository.card.SpringDataCardRepository;
 import org.MustacheTeam.MagicTrade.repository.doublecard.SpringDataDoubleCardRepository;
 import org.MustacheTeam.MagicTrade.repository.set.JpaSetRepository;
 import org.MustacheTeam.MagicTrade.repository.set.SpringDataSetRepository;
+import org.MustacheTeam.MagicTrade.security.PasswordEncoderService;
 import org.MustacheTeam.MagicTrade.service.card.GetCardById;
+import org.MustacheTeam.MagicTrade.service.catalog.artifacttype.GetAllArtifactType;
+import org.MustacheTeam.MagicTrade.service.catalog.artifacttype.RefreshArtifactType;
 import org.MustacheTeam.MagicTrade.service.user.CreateUser;
 import org.MustacheTeam.MagicTrade.service.user.GetUserById;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -47,13 +50,13 @@ import org.springframework.web.client.RestTemplate;
 public class BeanConfiguration {
 
     @Bean
-    public JpaUserRepository jpaUserRepository(SpringDataUserRepository springDataUserRepository){
-        return new JpaUserRepository(springDataUserRepository);
+    public JpaUserRepository jpaUserRepository(SpringDataUserRepository springDataUserRepository, PasswordEncoderService passwordEncoder){
+        return new JpaUserRepository(springDataUserRepository, passwordEncoder);
     }
 
     @Bean
-    public CreateUser createUser(JpaUserRepository jpaUserRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
-        return new CreateUser(jpaUserRepository, passwordEncoder, userRepository);
+    public CreateUser createUser( UserRepository userRepository) {
+        return new CreateUser(userRepository);
     }
 
     @Bean
@@ -128,6 +131,17 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public GetAllArtifactType getAllArtifactType(ArtifactTypeRepository artifactTypeRepository){
+       return new GetAllArtifactType(artifactTypeRepository);
+    }
+
+    @Bean
+    public RefreshArtifactType refreshArtifactType(ArtifactTypeRepository artifactTypeRepository, ScryfallGateway scryfallGateway){
+        return new RefreshArtifactType(artifactTypeRepository, scryfallGateway);
+    }
+
+
+    @Bean
     public JpaEnchantmentTypeRepository jpaEnchantmentTypeRepository(SpringDataEnchantmentTypeRepository springDataEnchantmentTypeRepository){
         return new JpaEnchantmentTypeRepository(springDataEnchantmentTypeRepository);
     }
@@ -138,7 +152,9 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public RealScryfallGateway getRealScryfallGateway(){
+    public RealScryfallGateway realScryfallGateway(){
         return new RealScryfallGateway(restTemplate());
     }
+
+
 }

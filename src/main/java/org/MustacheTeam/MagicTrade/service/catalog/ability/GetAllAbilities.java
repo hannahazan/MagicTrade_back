@@ -1,19 +1,23 @@
 package org.MustacheTeam.MagicTrade.service.catalog.ability;
 
+import org.MustacheTeam.MagicTrade.dto.Filters;
+import org.MustacheTeam.MagicTrade.repository.catalog.ability.AbilityRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.ability.JpaAbilityRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class GetAllAbilities {
-        JpaAbilityRepository jpaAbilityRepository;
+        AbilityRepository repository;
 
-        public GetAllAbilities(JpaAbilityRepository jpaAbilityRepository){
-            this.jpaAbilityRepository = jpaAbilityRepository;
+        public GetAllAbilities(AbilityRepository AbilityRepository){
+            this.repository = AbilityRepository;
         }
 
-        public List<String> handle(){
-            return jpaAbilityRepository.getAllAbilities();
+        public Filters handle(){
+            List<String> filtersJpa = repository.getAllAbilities();
+            return new Filters(filtersJpa);
         }
 }

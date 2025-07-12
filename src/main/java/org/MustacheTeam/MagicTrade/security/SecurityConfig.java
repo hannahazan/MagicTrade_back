@@ -28,27 +28,32 @@ public class SecurityConfig {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                            "/magicTrade-api/auth/**",
-                            "/magicTrade-api/users",
-                            "/magicTrade-api/cards/**",
-                            "/magicTrade-api/catalog/**"
-                    ).permitAll()
-//                    .requestMatchers("/admin/**").hasRole("ADMIN") // Préparation admin
-                    .anyRequest().authenticated()
-            )
-            .userDetailsService(customUserDetailsService)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            );
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/magicTrade-api/auth/**",
+                                "/magicTrade-api/users",
+                                "/magicTrade-api/cards/**",
+                                "/magicTrade-api/catalog/**"
+                        ).permitAll()
+    //                    .requestMatchers("/admin/**").hasRole("ADMIN") // Préparation admin
+                        .anyRequest().authenticated()
+                )
+                .userDetailsService(customUserDetailsService)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
 
-    return http.build();
-}
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -56,11 +61,5 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(
-
-    ) {
-        return new BCryptPasswordEncoder();
-    }
 }
 

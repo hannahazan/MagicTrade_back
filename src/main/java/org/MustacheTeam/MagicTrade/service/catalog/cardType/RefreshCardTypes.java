@@ -1,7 +1,9 @@
 package org.MustacheTeam.MagicTrade.service.catalog.cardType;
 
 import org.MustacheTeam.MagicTrade.exception.ScryfallPersistenceException;
+import org.MustacheTeam.MagicTrade.gateway.interfacerest.ScryfallGateway;
 import org.MustacheTeam.MagicTrade.gateway.service.RealScryfallGateway;
+import org.MustacheTeam.MagicTrade.repository.catalog.cardType.CardTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.cardType.JpaCardTypeRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,16 +11,16 @@ import java.util.List;
 
 @Service
 public class RefreshCardTypes {
-    RealScryfallGateway realScryfallGateway;
-    JpaCardTypeRepository repository;
+    ScryfallGateway scryfallGateway;
+    CardTypeRepository repository;
 
-    public RefreshCardTypes(RealScryfallGateway realScryfallGateway, JpaCardTypeRepository jpaCardTypeRepository){
-        this.realScryfallGateway = realScryfallGateway;
-        this.repository = jpaCardTypeRepository;
+    public RefreshCardTypes(ScryfallGateway scryfallGateway, CardTypeRepository cardTypeRepository){
+        this.scryfallGateway = scryfallGateway;
+        this.repository = cardTypeRepository;
     }
 
     public void handle(String catalogElementName){
-        List<String> cardTypes = realScryfallGateway.getScryfallCatalog(catalogElementName);
+        List<String> cardTypes = scryfallGateway.getScryfallCatalog(catalogElementName);
         try {
             repository.save(cardTypes);
         } catch(Exception ex) {

@@ -1,6 +1,6 @@
 package org.MustacheTeam.MagicTrade.controller;
 
-import org.MustacheTeam.MagicTrade.model.catalog.CardType;
+import org.MustacheTeam.MagicTrade.dto.Filters;
 import org.MustacheTeam.MagicTrade.service.catalog.ability.GetAllAbilities;
 import org.MustacheTeam.MagicTrade.service.catalog.ability.RefreshAbilities;
 import org.MustacheTeam.MagicTrade.service.catalog.artifacttype.GetAllArtifactType;
@@ -53,7 +53,6 @@ public class CatalogController {
     @Autowired
     GetAllToughnesses getAllToughnesses;
 
-
     @Autowired
     RefreshLandTypes refreshLandTypes;
 
@@ -78,21 +77,28 @@ public class CatalogController {
     @Autowired
     GetAllEnchantmentTypes getAllEnchantmentTypes;
 
+    @Autowired
+    GetAllArtifactType getAllArtifactType;
+
+    @Autowired
+    RefreshArtifactType refreshArtifactType;
+
+
     @PostMapping("creature-types")
     public void  refreshCatalogElements(@RequestParam String catalogElementName) {
         refreshCreatureTypes.handle(catalogElementName);
     }
 
     @GetMapping("creature-types")
-    public List<String> getAllCreatureTypes(){
+    public Filters getAllCreatureTypes(){
         return getAllCreatureTypes.handle();
     }
 
 
     @GetMapping("card-types")
-    public ResponseEntity<List<String>> getAllCardTypes() {
-        List<String> cardTypes = getAllCardTypes.handle();
-        if (cardTypes.isEmpty()) {
+    public ResponseEntity<?> getAllCardTypes() {
+        Filters cardTypes = getAllCardTypes.handle();
+        if (cardTypes.filters().isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(cardTypes);
@@ -104,9 +110,9 @@ public class CatalogController {
     }
 
     @GetMapping("powers")
-    public ResponseEntity<List<String>> getAllPowers() {
-        List<String> powers = getAllPowers.handle();
-        if (powers.isEmpty()) {
+    public ResponseEntity<?> getAllPowers() {
+        Filters powers = getAllPowers.handle();
+        if (powers.filters().isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(powers);
@@ -118,9 +124,9 @@ public class CatalogController {
     }
 
     @GetMapping("toughnesses")
-    public ResponseEntity<List<String>> getAllToughnesses() {
-        List<String> toughnesses = getAllToughnesses.handle();
-        if (toughnesses.isEmpty()) {
+    public ResponseEntity<?> getAllToughnesses() {
+        Filters toughnesses = getAllToughnesses.handle();
+        if (toughnesses.filters().isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(toughnesses);
@@ -137,7 +143,7 @@ public class CatalogController {
     }
 
     @GetMapping("land-types")
-    public List<String> getAllLandTypes(){
+    public Filters getAllLandTypes(){
         return getAllLandTypes.handle();
     }
 
@@ -147,7 +153,7 @@ public class CatalogController {
     }
 
     @GetMapping("card-names")
-    public List<String> getAllCardNames(){
+    public Filters getAllCardNames(){
         return getAllCardNames.handle();
     }
 
@@ -157,7 +163,7 @@ public class CatalogController {
     }
 
     @GetMapping("abilities")
-    public List<String> getAllAbilities(){
+    public Filters getAllAbilities(){
         return getAllAbilities.handle();
     }
 
@@ -167,7 +173,17 @@ public class CatalogController {
     }
 
     @GetMapping("enchantment-types")
-    public List<String> getAllEnchantmentTypes(){
+    public Filters getAllEnchantmentTypes(){
         return getAllEnchantmentTypes.handle();
+    }
+
+    @PostMapping("artifact-types")
+    public void refreshArtifactTypes(@RequestParam String catalogElementName){
+        refreshArtifactType.handle(catalogElementName);
+    }
+
+    @GetMapping("artifact-types")
+    public Filters getAllArtifactTypes(){
+        return getAllArtifactType.handle();
     }
 }

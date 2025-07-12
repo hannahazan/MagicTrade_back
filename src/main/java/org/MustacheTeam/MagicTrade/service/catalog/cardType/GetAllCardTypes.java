@@ -1,6 +1,8 @@
 package org.MustacheTeam.MagicTrade.service.catalog.cardType;
 
+import org.MustacheTeam.MagicTrade.dto.Filters;
 import org.MustacheTeam.MagicTrade.model.catalog.CardType;
+import org.MustacheTeam.MagicTrade.repository.catalog.cardType.CardTypeRepository;
 import org.MustacheTeam.MagicTrade.repository.catalog.cardType.JpaCardTypeRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,13 +11,15 @@ import java.util.List;
 @Service
 public class GetAllCardTypes {
 
-    private final JpaCardTypeRepository repository;
+    private final CardTypeRepository repository;
 
-    public GetAllCardTypes(JpaCardTypeRepository jpaCardTypeRepository) {
-        this.repository = jpaCardTypeRepository;
+    public GetAllCardTypes(CardTypeRepository cardTypeRepository) {
+
+        this.repository = cardTypeRepository;
     }
 
-    public List<String> handle() {
-        return repository.getAllCardTypes();
+    public Filters handle() {
+        List<String> cardTypesJpa = repository.getAllCardTypes();
+        return new Filters(cardTypesJpa) ;
     }
 }

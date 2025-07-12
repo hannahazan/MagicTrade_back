@@ -22,19 +22,9 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto create(@Valid @RequestBody UserDto userDto) {
+    public void create(@Valid @RequestBody UserDto userDto) {
         Set<String> defaultRoles = Set.of("ROLE_USER");
-        User createdUser = createUser.createUser(userDto, defaultRoles);
-        return new UserDto(
-                createdUser.getEmail(),
-                createdUser.getPseudo(),
-                createdUser.getFirstName(),
-                createdUser.getLastName(),
-                createdUser.getCountry(),
-                createdUser.getDepartment(),
-                createdUser.getCity(),
-                ""
-        );
+        createUser.handle(userDto, defaultRoles);
     }
 
     @GetMapping("/{id}")

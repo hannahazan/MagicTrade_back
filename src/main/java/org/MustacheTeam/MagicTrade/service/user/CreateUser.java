@@ -10,47 +10,15 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
-public class CreateUser implements UserService {
+public class CreateUser {
 
-    private final JpaUserRepository jpaUserRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private final UserRepository repository;
 
-    public CreateUser(JpaUserRepository jpaUserRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
-        this.jpaUserRepository = jpaUserRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
+    public CreateUser( UserRepository userRepository) {
+        this.repository = userRepository;
     }
 
-    @Override
-    public User createUser(UserDto userDto, Set<String> roles) {
-        if (userRepository.existsByEmail(userDto.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-
-        if (userRepository.existsByPseudo(userDto.getPseudo())) {
-            throw new RuntimeException("Pseudo already exists");
-        }
-
-        String hashedPassword = passwordEncoder.encode(userDto.getPassword());
-
-        User user = new User(
-                userDto.getEmail(),
-                userDto.getPseudo(),
-                userDto.getFirstName(),
-                userDto.getLastName(),
-                userDto.getCountry(),
-                userDto.getDepartment(),
-                userDto.getCity(),
-                hashedPassword
-        );
-
-        if (!roles.isEmpty()) {
-            user.setRole(roles.iterator().next());
-        } else {
-            user.setRole("USER");
-        }
-
-        return jpaUserRepository.save(user);
+    public void handle(UserDto userDto, Set<String> roles) {
+        repository.save(userDto, roles);
     }
 }
