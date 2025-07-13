@@ -3,6 +3,9 @@ package org.MustacheTeam.MagicTrade.exception;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import org.MustacheTeam.MagicTrade.corelogics.models.exception.ResourceNotFoundException;
+import org.MustacheTeam.MagicTrade.corelogics.models.exception.ScryfallApiException;
+import org.MustacheTeam.MagicTrade.corelogics.models.exception.ScryfallPersistenceException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
