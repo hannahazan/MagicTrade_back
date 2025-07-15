@@ -18,10 +18,6 @@ public class JpaUserRepository implements UserRepository {
         this.passwordEncoderService = passwordEncoder;
     }
 
-    public Optional<UserEntity> getUserById(Long id) {
-        return repository.findById(id);
-    }
-
     public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }

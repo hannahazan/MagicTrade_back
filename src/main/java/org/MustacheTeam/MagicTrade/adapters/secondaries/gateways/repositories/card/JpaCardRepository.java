@@ -46,14 +46,8 @@ public class JpaCardRepository implements CardRepository {
         repository.saveAll(cards);
     }
 
-
     @Override
-    public CardEntity getCardById(String id){
-        return repository.findCardById(id);
-    }
-
-    @Override
-    public List<CardEntity> getAllCards(String name, String setId, List<String> colors, List<Integer> cmc, String text, List<String> toughnesses, List<String> powers,
+    public List<CardEntity> getAllCards(String id,String name, String setId, List<String> colors, List<Integer> cmc, String text, List<String> toughnesses, List<String> powers,
                                         List<String> rarities, List<String> types, String foil, String fullArt, String textLess, String standard, String pioneer, String explorer, String modern,
                                         String legacy, String pauper, String vintage, String commander, String brawl, String pauperCommander, String duel, String oldSchool
                                  ){
@@ -63,6 +57,10 @@ public class JpaCardRepository implements CardRepository {
         Root<CardEntity> root = query.from(CardEntity.class);
 
         List<Predicate> predicates = new ArrayList<>();
+
+        if(!id.isEmpty()){
+            predicates.add(cb.equal(cb.lower(root.get("id")),id.toLowerCase()));
+        }
 
         if(!name.isEmpty()){
             predicates.add(cb.equal(cb.lower(root.get("name")),name.toLowerCase()));

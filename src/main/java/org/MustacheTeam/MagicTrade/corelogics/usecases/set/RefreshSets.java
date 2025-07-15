@@ -1,5 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.usecases.set;
 
+import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
+import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.SetRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.exception.ScryfallPersistenceException;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.model.ScryfallSet;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.RealScryfallGateway;
@@ -11,18 +13,18 @@ import java.util.List;
 @Service
 public class RefreshSets {
 
-    RealScryfallGateway realScryfallGateway;
-    JpaSetRepository jpaSetRepository;
+    ScryfallGateway scryfallGateway;
+    SetRepository repository;
 
-    public RefreshSets(RealScryfallGateway realScryfallGateway, JpaSetRepository jpaSetRepository){
-        this.realScryfallGateway = realScryfallGateway;
-        this.jpaSetRepository = jpaSetRepository;
+    public RefreshSets(ScryfallGateway scryfallGateway, SetRepository setRepository){
+        this.scryfallGateway = scryfallGateway;
+        this.repository = setRepository;
     }
 
     public void handle(){
-        List<ScryfallSet> sets = realScryfallGateway.getScryfallSets();
+        List<ScryfallSet> sets = scryfallGateway.getScryfallSets();
         try {
-            jpaSetRepository.save(sets);
+            repository.save(sets);
         } catch(Exception ex) {
             throw new ScryfallPersistenceException("Failed to persist Scryfall sets", ex);
         }

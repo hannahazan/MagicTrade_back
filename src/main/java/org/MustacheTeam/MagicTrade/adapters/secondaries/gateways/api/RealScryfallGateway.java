@@ -31,7 +31,7 @@ public class RealScryfallGateway implements ScryfallGateway {
 
             Math.ceil((double) Objects.requireNonNull(responseEntityBefore.getBody()).total_cards() / 175);
 
-            for (int j=1;j<=5;j++){
+            for (int j=11;j<=15;j++){
                 String urlLoop = String.format("https://api.scryfall.com/cards/search?format=json&include_extras=false&include_multilingual=false&include_variations=false&order=name&page=%d&q=!&unique=prints", j);
                 ResponseEntity<ScryfallMetaData> responseEntity = restTemplateApi.getForEntity(urlLoop,ScryfallMetaData.class);
                 scryfallCardList.addAll(Objects.requireNonNull(Objects.requireNonNull(responseEntity.getBody()).data().stream().toList()));
@@ -42,8 +42,6 @@ public class RealScryfallGateway implements ScryfallGateway {
         } catch(Exception ex) {
             throw new ScryfallApiException("Failed to correctly fetch cards from Scryfall : " + ex.getMessage(), ex);
         }
-
-
     }
 
     @Override

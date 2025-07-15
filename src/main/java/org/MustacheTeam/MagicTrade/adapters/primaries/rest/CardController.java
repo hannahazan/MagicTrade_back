@@ -1,8 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.card.CardEntity;
+import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.GetAllCards;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.card.GetCardById;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.RefreshCards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +18,14 @@ public class CardController {
     @Autowired
     private GetAllCards getAllCards;
 
-    @Autowired
-    private GetCardById getCardById;
-
-
     @PostMapping
     public void refreshCard(){
         refreshCards.handle();
     }
 
     @GetMapping
-    public List<CardEntity> getCardsByFilter(
+    public CardList getCardsByFilter(
+            @RequestParam(name = "id", required = false, defaultValue = "") String id,
             @RequestParam(name = "name", required = false, defaultValue = "") String name,
             @RequestParam(name = "set-id", required = false, defaultValue = "") String setId,
             @RequestParam(name = "colors", required = false, defaultValue = "") List<String> colors,
@@ -55,13 +51,8 @@ public class CardController {
             @RequestParam(name = "duel", required = false, defaultValue = "") String duel,
             @RequestParam(name = "oldSchool", required = false, defaultValue = "") String oldSchool
     ){
-        return getAllCards.handle(name, setId, colors, cmc, text, toughnesses, powers, rarities, types, foil, fullArt, textLess, standard,
+        return getAllCards.handle(id,name, setId, colors, cmc, text, toughnesses, powers, rarities, types, foil, fullArt, textLess, standard,
                 pioneer, explorer, modern, legacy, pauper, vintage, commander, brawl, pauperCommander, duel, oldSchool);
-    }
-
-    @GetMapping("/{id}")
-    public CardEntity getOneCardById(@PathVariable String id){
-            return getCardById.handle(id);
     }
 
 }

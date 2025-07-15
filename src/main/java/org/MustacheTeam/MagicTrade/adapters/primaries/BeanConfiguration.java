@@ -36,7 +36,6 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.se
 import org.MustacheTeam.MagicTrade.adapters.security.PasswordEncoderService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtService;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.GetAllCards;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.card.GetCardById;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.RefreshCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.ability.GetAllAbilities;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.ability.RefreshAbilities;
@@ -61,8 +60,7 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCa
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.RefreshDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CustomUserDetailsService;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetUserById;
+import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -86,10 +84,6 @@ public class BeanConfiguration {
         return new CreateUser(userRepository);
     }
 
-    @Bean
-    public GetUserById getUserById(JpaUserRepository jpaUserRepository){
-        return new GetUserById(jpaUserRepository);
-    }
 
     @Bean
     public JpaCardRepository jpaCardRepository(SpringDataCardRepository springDataCardRepository){
@@ -104,11 +98,6 @@ public class BeanConfiguration {
     @Bean
     public RefreshCards refreshCards(RealScryfallGateway realScryfallGateway,JpaCardRepository cardRepository){
         return new RefreshCards(realScryfallGateway, cardRepository);
-    }
-
-    @Bean
-    public GetCardById getCardById(JpaCardRepository jpaCardRepository){
-        return new GetCardById(jpaCardRepository);
     }
 
     @Bean

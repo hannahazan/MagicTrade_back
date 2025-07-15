@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.corelogics.usecases.user;
+package org.MustacheTeam.MagicTrade.adapters.security;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

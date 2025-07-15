@@ -2,9 +2,7 @@ package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
 import jakarta.validation.Valid;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.User.UserEntity;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetUserById;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -14,11 +12,9 @@ import java.util.Set;
 public class UserController {
 
     private final CreateUser createUser;
-    private final GetUserById getUserById;
 
-    public UserController(CreateUser createUser, GetUserById getUserById) {
+    public UserController(CreateUser createUser) {
         this.createUser = createUser;
-        this.getUserById = getUserById;
     }
 
     @PostMapping
@@ -27,8 +23,4 @@ public class UserController {
         createUser.handle(userDto, defaultRoles);
     }
 
-    @GetMapping("/{id}")
-    public UserEntity getOneUser(@PathVariable Long id) {
-        return getUserById.handle(id);
-    }
 }

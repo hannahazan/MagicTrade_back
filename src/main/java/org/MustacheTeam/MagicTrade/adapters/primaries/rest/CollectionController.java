@@ -1,6 +1,6 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
-import org.MustacheTeam.MagicTrade.corelogics.models.CollectionDto;
+import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +17,7 @@ public class CollectionController {
     private CreateCollection createCollection;
 
     @PostMapping
-    public void setCreateCollection(@RequestBody List<CollectionDto> collectionDtoList){
+    public void setCreateCollection(@RequestBody List<Collection> collectionDtoList){
         createCollection.handle(collectionDtoList);
     }
 }

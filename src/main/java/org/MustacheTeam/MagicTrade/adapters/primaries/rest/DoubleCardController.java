@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.doublecard.DoubleCardEntity;
+import org.MustacheTeam.MagicTrade.corelogics.models.DoubleCardList;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.RefreshDoubleCards;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class DoubleCardController {
     }
 
     @GetMapping
-    public List<DoubleCardEntity> getAllCards(){
+    public DoubleCardList getAllCards(){
         return getAllDoubleCards.handle();
     }
 

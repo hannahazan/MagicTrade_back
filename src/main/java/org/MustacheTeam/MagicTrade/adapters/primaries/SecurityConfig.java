@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries;
 
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CustomUserDetailsService;
+import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.collection;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CollectionRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.CollectionDto;
+import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.card.CardEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.User.UserEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.User.SpringDataUserRepository;
@@ -24,11 +24,11 @@ public class JpaCollectionRepository implements CollectionRepository {
 
     }
 
-    public void save(List<CollectionDto> collectionDtoList) {
+    public void save(List<Collection> collectionDtoList) {
 
         List<CollectionEntity> collectionList = new ArrayList<>();
 
-        for (CollectionDto c : collectionDtoList) {
+        for (Collection c : collectionDtoList) {
             UserEntity user = springDataUserRepository.findById(c.userId())
                     .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + c.userId()));
 
