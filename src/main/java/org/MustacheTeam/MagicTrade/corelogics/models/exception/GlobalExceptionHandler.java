@@ -98,4 +98,15 @@ public class GlobalExceptionHandler {
         );
     }
 
+    // 409 - resource already exists
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleResourceAlreadyExists(ResourceAlreadyExistsException ex, HttpServletRequest request) {
+        return buildError(
+            "RESOURCE_ALREADY_EXISTS",
+                ex.getMessage(),
+                HttpStatus.CONFLICT,
+                request
+        );
+    }
+
 }
