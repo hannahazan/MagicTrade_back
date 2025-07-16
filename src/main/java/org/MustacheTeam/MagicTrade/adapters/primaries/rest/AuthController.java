@@ -28,11 +28,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> registerUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<Void> registerUser(@Valid @RequestBody UserDto userDto) {
         Set<String> roles = Set.of("USER");
         createUser.handle(userDto, roles);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Map.of("message", "User registered successfully."));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")

@@ -3,6 +3,7 @@ package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.U
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
 import org.MustacheTeam.MagicTrade.adapters.security.PasswordEncoderService;
+import org.MustacheTeam.MagicTrade.corelogics.models.exception.ResourceAlreadyExistsException;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.Set;
@@ -33,11 +34,11 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public void save(UserDto userDto, Set<String> roles) {
         if (existsByEmail(userDto.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new ResourceAlreadyExistsException("user", "email");
         }
 
         if (existsByPseudo(userDto.getPseudo())) {
-            throw new RuntimeException("Pseudo already exists");
+            throw new ResourceAlreadyExistsException("user", "pseudo");
         }
 
         String hashedPassword = passwordEncoderService.encode(userDto.getPassword());
