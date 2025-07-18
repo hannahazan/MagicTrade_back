@@ -29,7 +29,7 @@ public class CardController {
             @RequestParam(name = "name", required = false, defaultValue = "") String name,
             @RequestParam(name = "set-id", required = false, defaultValue = "") String setId,
             @RequestParam(name = "colors", required = false, defaultValue = "") List<String> colors,
-            @RequestParam(name = "cmc", required = false, defaultValue = "") List<Integer> cmc,
+            @RequestParam(name = "cmc", required = false, defaultValue = "") List<String> cmc,
             @RequestParam(name ="text", required = false, defaultValue = "") String text,
             @RequestParam(name = "toughnesses", required = false, defaultValue = "") List<String> toughnesses,
             @RequestParam(name = "powers", required = false, defaultValue = "") List<String> powers,
