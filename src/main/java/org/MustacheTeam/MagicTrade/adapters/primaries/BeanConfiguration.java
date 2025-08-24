@@ -262,12 +262,12 @@ public class BeanConfiguration {
     }
 
     @Bean
-    GetAllEnchantmentTypes getAllEnchantmentTypes(EnchantmentRepository enchantmentRepository){
+    GetAllEnchantmentTypes getAllEnchantmentTypes(EnchantmentTypeRepository enchantmentRepository){
         return new GetAllEnchantmentTypes(enchantmentRepository);
     }
 
     @Bean
-    RefreshEnchantmentType refreshEnchantmentType(ScryfallGateway scryfallGateway, EnchantmentRepository enchantmentRepository){
+    RefreshEnchantmentType refreshEnchantmentType(ScryfallGateway scryfallGateway, EnchantmentTypeRepository enchantmentRepository){
         return new RefreshEnchantmentType(scryfallGateway,enchantmentRepository);
     }
 
@@ -286,15 +286,15 @@ public class BeanConfiguration {
         return new PasswordEncoderService();
     }
 
-     @Bean
-     public AuthenticationService authenticationService(JwtService jwtService, AuthenticationManager authenticationManager){
+    @Bean
+    public AuthenticationService authenticationService(JwtService jwtService, AuthenticationManager authenticationManager){
         return new AuthenticationService(jwtService,authenticationManager);
      }
 
-     @Bean
-     JwtService jwtService(){
+    @Bean
+    JwtService jwtService(){
         return  new JwtService();
-     }
+    }
 
     @Bean
     public CustomUserDetailsService customUserDetailsService(UserRepository userRepository){

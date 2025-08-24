@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.artifacttype;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.ArtifactTypeRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,8 @@ public class JpaArtifactTypeRepository implements ArtifactTypeRepository {
     }
 
     @Override
-    public List<String> getAllArtifactType(){
-        return repository.findAllArtifactType();
+    public Filters getAllArtifactType(){
+        return new Filters(repository.findAllArtifactType()) ;
     }
 
 }

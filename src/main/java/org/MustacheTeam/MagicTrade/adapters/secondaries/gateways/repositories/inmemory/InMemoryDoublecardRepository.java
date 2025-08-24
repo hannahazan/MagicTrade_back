@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.doublecard;
+package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.inmemory;
 
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.DoubleCardRepository;
@@ -10,17 +10,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class JpaDoubleCardRepository implements DoubleCardRepository {
+public class InMemoryDoublecardRepository implements DoubleCardRepository {
 
-    private final SpringDataDoubleCardRepository repository;
-
-    public JpaDoubleCardRepository(SpringDataDoubleCardRepository springDataDoubleCardRepository){
-        this.repository = springDataDoubleCardRepository;
-    }
+    List<DoubleCard> doubleCardList = new ArrayList<>();
 
     @Override
     public void save(List<ScryfallCard> cardsToSave){
-        List<DoubleCardEntity> doubleCards = new ArrayList<>();
         cardsToSave.forEach(card->{
             boolean isPaper = false;
             for(int i=0;i<card.games().size();i++){
@@ -30,21 +25,19 @@ public class JpaDoubleCardRepository implements DoubleCardRepository {
                 }
             }
             if(isPaper && !Objects.isNull(card.card_faces())){
-                card.card_faces().stream().map(c->doubleCards.add(new DoubleCardEntity(UUID.randomUUID().toString() + Math.random(),
+                card.card_faces().stream().map(c->doubleCardList.add(new DoubleCard(UUID.randomUUID().toString() + Math.random(),
                         card.id(),c.name(),c.mana_cost(),c.type_line(),c.oracle_text(),c.power(),c.toughness(),c.image_uris() != null? c.image_uris().normal():null,c.image_uris()!=null? c.image_uris().art_crop():null
                 ))).toList();
             }
         });
-        repository.saveAll(doubleCards);
     }
 
     @Override
     public DoubleCardList getAllDoubleCards(){
-        List<DoubleCard> doubleCards = new ArrayList<>();
-        repository.findAll().forEach(dc-> doubleCards.add(new DoubleCard(dc.getId(), dc.getCardId(), dc.getName(),
-                dc.getManaCost(), dc.getTypeLine(), dc.getText(), dc.getPower(), dc.getToughness(), dc.getImageSizeNormal(), dc.getImageSizeArtCrop())));
-
-        return new DoubleCardList(doubleCards);
+        return new DoubleCardList(doubleCardList);
     }
 
+    public void feedDoubleCardList(List<DoubleCard> doubleCards){
+        doubleCardList.addAll(doubleCards);
+    }
 }

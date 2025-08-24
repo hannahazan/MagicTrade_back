@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.toughness;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.ToughnessRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,8 @@ public class JpaToughnessRepository implements ToughnessRepository {
     }
 
     @Override
-    public List<String> getAllToughnesses() {
-        return repository.findAllToughnesses();
+    public Filters getAllToughnesses() {
+        return new Filters(repository.findAllToughnesses());
     }
 
     @Override

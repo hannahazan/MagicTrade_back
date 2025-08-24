@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.cardname;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CardNameRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class JpaCardNameRepository implements CardNameRepository {
     }
 
     @Override
-    public List<String> getAllCardNames(){
-        return repository.findAllCardNames();
+    public Filters getAllCardNames(){
+        return new Filters(repository.findAllCardNames());
     }
 }

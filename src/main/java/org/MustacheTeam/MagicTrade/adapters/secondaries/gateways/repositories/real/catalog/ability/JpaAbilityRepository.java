@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.ability;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.AbilityRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class JpaAbilityRepository implements AbilityRepository {
         }
 
         @Override
-        public List<String> getAllAbilities(){
-            return repository.findAllAbilities();
+        public Filters getAllAbilities(){
+            return new Filters(repository.findAllAbilities());
         }
 }

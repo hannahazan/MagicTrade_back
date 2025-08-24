@@ -16,7 +16,6 @@ public class GetAllToughnesses {
     }
 
     public Filters handle() {
-        List<String> toughnesses = repository.getAllToughnesses();
-        return new Filters(toughnesses);
+        return repository.getAllToughnesses();
     }
 }

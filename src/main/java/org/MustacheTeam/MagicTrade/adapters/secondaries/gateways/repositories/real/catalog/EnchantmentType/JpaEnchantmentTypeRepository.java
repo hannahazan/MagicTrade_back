@@ -1,11 +1,12 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.EnchantmentType;
 
-import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.EnchantmentRepository;
+import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.EnchantmentTypeRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JpaEnchantmentTypeRepository implements EnchantmentRepository {
+public class JpaEnchantmentTypeRepository implements EnchantmentTypeRepository {
 
     private final SpringDataEnchantmentTypeRepository repository;
 
@@ -14,9 +15,8 @@ public class JpaEnchantmentTypeRepository implements EnchantmentRepository {
     }
 
     @Override
-    public List<String> getAllEnchantmentTypes(){
-
-        return repository.findAllEnchantmentType();
+    public Filters getAllEnchantmentTypes(){
+        return new Filters(repository.findAllEnchantmentType());
     }
 
     public void save(List<String> enchantmentTypes) {

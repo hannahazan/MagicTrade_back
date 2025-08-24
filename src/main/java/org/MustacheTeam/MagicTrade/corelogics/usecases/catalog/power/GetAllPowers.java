@@ -16,7 +16,6 @@ public class GetAllPowers {
     }
 
     public Filters handle() {
-        List<String> powers = repository.getAllPowers();
-        return new Filters(powers);
+        return  repository.getAllPowers();
     }
 }

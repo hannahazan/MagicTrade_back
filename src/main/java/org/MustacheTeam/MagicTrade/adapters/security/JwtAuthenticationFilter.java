@@ -27,15 +27,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        //Can be Use when some public paths don't work.
-        /*String path = request.getRequestURI();
-        if (path.startsWith("/magicTrade-api/cards") ||
-                path.startsWith("/magicTrade-api/auth") ||
-                path.startsWith("/magicTrade-api/catalog") ||
-                path.equals("/magicTrade-api/users")) {
-            filterChain.doFilter(request, response);
-            return;
-        }*/
 
         String authHeader = request.getHeader("Authorization");
 

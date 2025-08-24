@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api;
 
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.model.Catalog;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.model.ScryfallSet;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
@@ -10,7 +11,7 @@ import java.util.List;
 public class FakeScryfallGateway implements ScryfallGateway {
     private final List<ScryfallCard> scryfallCards = new ArrayList<>();
     private final List<ScryfallSet> scryfallSets = new ArrayList<>();
-    private final ArrayList<String> filters = new ArrayList<>();
+    private final List<String> filters = new ArrayList<>();
 
     @Override
     public List<ScryfallCard> getScryfallCards(){
@@ -23,7 +24,7 @@ public class FakeScryfallGateway implements ScryfallGateway {
     }
 
     @Override
-    public ArrayList<String> getScryfallCatalog(String catalogElement){
+    public List<String> getScryfallCatalog(String catalogElement){
         return filters;
     }
 
@@ -35,7 +36,7 @@ public class FakeScryfallGateway implements ScryfallGateway {
         scryfallSets.addAll(sets);
     }
 
-    public void feedFilters(ArrayList<String> scryFilters){
+    public void feedFilters(List<String> scryFilters){
         filters.addAll(scryFilters);
     }
 

@@ -15,7 +15,6 @@ public class GetAllAbilities {
         }
 
         public Filters handle(){
-            List<String> filtersJpa = repository.getAllAbilities();
-            return new Filters(filtersJpa);
+            return repository.getAllAbilities();
         }
 }

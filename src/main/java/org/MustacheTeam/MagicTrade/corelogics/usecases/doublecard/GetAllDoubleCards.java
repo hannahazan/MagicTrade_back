@@ -18,10 +18,6 @@ public class GetAllDoubleCards {
     }
 
     public DoubleCardList handle(){
-        List<DoubleCard> doubleCards = new ArrayList<>();
-        repository.getAllDoubleCards().forEach(dc-> doubleCards.add(new DoubleCard(dc.getId(), dc.getCardId(), dc.getName(),
-                dc.getManaCost(), dc.getTypeLine(), dc.getText(), dc.getPower(), dc.getToughness(), dc.getImageSizeNormal(), dc.getImageSizeArtCrop())));
-
-        return new DoubleCardList(doubleCards);
+        return repository.getAllDoubleCards();
     }
 }

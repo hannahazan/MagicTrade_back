@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.cardType;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CardTypeRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,8 @@ public class JpaCardTypeRepository implements CardTypeRepository {
     }
 
     @Override
-    public List<String> getAllCardTypes() {
-        return repository.findAllCardTypes();
+    public Filters getAllCardTypes() {
+        return new Filters(repository.findAllCardTypes());
     }
 
     @Override

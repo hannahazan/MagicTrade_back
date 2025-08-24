@@ -16,8 +16,7 @@ public class GetAllCreatureTypes {
     }
 
     public Filters handle(){
-        List<String> creatureTypeJpa = repository.getAllCreatureTypes();
-        return new Filters(creatureTypeJpa);
+        return repository.getAllCreatureTypes();
     }
 
 }

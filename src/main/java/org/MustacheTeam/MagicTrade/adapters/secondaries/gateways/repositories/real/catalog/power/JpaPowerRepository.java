@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.power;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.PowerRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,8 @@ public class JpaPowerRepository implements PowerRepository {
     }
 
     @Override
-    public List<String> getAllPowers() {
-        return repository.findAllPowers();
+    public Filters getAllPowers() {
+        return new Filters(repository.findAllPowers());
     }
 
     @Override

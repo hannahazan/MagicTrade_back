@@ -17,7 +17,6 @@ public class GetAllCardTypes {
     }
 
     public Filters handle() {
-        List<String> cardTypesJpa = repository.getAllCardTypes();
-        return new Filters(cardTypesJpa) ;
+        return repository.getAllCardTypes();
     }
 }

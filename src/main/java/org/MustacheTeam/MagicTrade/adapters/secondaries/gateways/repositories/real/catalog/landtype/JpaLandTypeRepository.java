@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.landtype;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.LandTypeRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,7 @@ public class JpaLandTypeRepository implements LandTypeRepository {
     }
 
     @Override
-    public List<String> getAllLandTypes(){
-        return repository.findLandTypes();
+    public Filters getAllLandTypes(){
+        return new Filters(repository.findLandTypes());
     }
-
 }

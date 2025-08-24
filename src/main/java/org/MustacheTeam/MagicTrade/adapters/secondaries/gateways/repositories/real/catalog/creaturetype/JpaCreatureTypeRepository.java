@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.creaturetype;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CreatureTypeRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class JpaCreatureTypeRepository implements CreatureTypeRepository {
     }
 
     @Override
-    public List<String> getAllCreatureTypes(){
-        return repository.findAllCreatureTypes();
+    public Filters getAllCreatureTypes(){
+        return new Filters(repository.findAllCreatureTypes());
     }
 }
