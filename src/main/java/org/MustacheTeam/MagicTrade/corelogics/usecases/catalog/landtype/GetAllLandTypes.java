@@ -15,7 +15,6 @@ public class GetAllLandTypes {
     }
 
     public Filters handle(){
-        List<String> landTypes = repository.getAllLandTypes();
-        return new Filters(landTypes);
+        return repository.getAllLandTypes();
     }
 }

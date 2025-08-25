@@ -2,7 +2,6 @@ package org.MustacheTeam.MagicTrade.corelogics.usecases.collection;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CollectionRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.collection.JpaCollectionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

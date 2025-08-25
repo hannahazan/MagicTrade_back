@@ -60,9 +60,9 @@ public class RealScryfallGateway implements ScryfallGateway {
     }
 
     @Override
-    public ArrayList<String> getScryfallCatalog(String catalogElement) {
+    public List<String> getScryfallCatalog(String catalogElement) {
         try {
-            ArrayList<String> scryfallElementList = new ArrayList<>();
+            List<String> scryfallElementList = new ArrayList<>();
             String url = String.format("https://api.scryfall.com/catalog/%s", catalogElement);
 
             ResponseEntity<Catalog> responseEntity = restTemplateApi.getForEntity(url, Catalog.class);

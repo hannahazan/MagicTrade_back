@@ -15,7 +15,6 @@ public class GetAllArtifactType {
     }
 
     public Filters handle(){
-        List<String> artifactTypesJpa = repository.getAllArtifactType();
-        return new Filters(artifactTypesJpa);
+         return repository.getAllArtifactType();
     }
 }

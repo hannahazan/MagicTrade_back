@@ -4,35 +4,35 @@ import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.RealScryfallGateway;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.User.JpaUserRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.User.SpringDataUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.JpaUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.*;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.card.JpaCardRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.EnchantmentType.JpaEnchantmentTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.EnchantmentType.SpringDataEnchantmentTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.ability.JpaAbilityRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.ability.SpringDataAbilityRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.artifacttype.JpaArtifactTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.artifacttype.SpringDataArtifactTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.cardType.JpaCardTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.cardType.SpringDataCardTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.cardname.JpaCardNameRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.cardname.SpringdataCardNameRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.creaturetype.JpaCreatureTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.creaturetype.SpringDataCreatureTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.power.JpaPowerRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.power.SpringDataPowerRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.landtype.JpaLandTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.landtype.SpringDataLandTypeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.toughness.JpaToughnessRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.catalog.toughness.SpringDataToughnessRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.collection.JpaCollectionRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.collection.SpringDataCollectionRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.doublecard.JpaDoubleCardRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.card.SpringDataCardRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.doublecard.SpringDataDoubleCardRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.set.JpaSetRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.set.SpringDataSetRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.JpaCardRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.EnchantmentType.JpaEnchantmentTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.EnchantmentType.SpringDataEnchantmentTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.ability.JpaAbilityRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.ability.SpringDataAbilityRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.artifacttype.JpaArtifactTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.artifacttype.SpringDataArtifactTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.cardType.JpaCardTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.cardType.SpringDataCardTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.cardname.JpaCardNameRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.cardname.SpringdataCardNameRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.creaturetype.JpaCreatureTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.creaturetype.SpringDataCreatureTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.power.JpaPowerRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.power.SpringDataPowerRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.landtype.JpaLandTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.landtype.SpringDataLandTypeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.toughness.JpaToughnessRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.toughness.SpringDataToughnessRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.JpaCollectionRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.SpringDataCollectionRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.doublecard.JpaDoubleCardRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.SpringDataCardRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.doublecard.SpringDataDoubleCardRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.set.JpaSetRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.set.SpringDataSetRepository;
 import org.MustacheTeam.MagicTrade.adapters.security.PasswordEncoderService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtService;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.GetAllCards;
@@ -262,12 +262,12 @@ public class BeanConfiguration {
     }
 
     @Bean
-    GetAllEnchantmentTypes getAllEnchantmentTypes(EnchantmentRepository enchantmentRepository){
+    GetAllEnchantmentTypes getAllEnchantmentTypes(EnchantmentTypeRepository enchantmentRepository){
         return new GetAllEnchantmentTypes(enchantmentRepository);
     }
 
     @Bean
-    RefreshEnchantmentType refreshEnchantmentType(ScryfallGateway scryfallGateway, EnchantmentRepository enchantmentRepository){
+    RefreshEnchantmentType refreshEnchantmentType(ScryfallGateway scryfallGateway, EnchantmentTypeRepository enchantmentRepository){
         return new RefreshEnchantmentType(scryfallGateway,enchantmentRepository);
     }
 
@@ -286,15 +286,15 @@ public class BeanConfiguration {
         return new PasswordEncoderService();
     }
 
-     @Bean
-     public AuthenticationService authenticationService(JwtService jwtService, AuthenticationManager authenticationManager){
+    @Bean
+    public AuthenticationService authenticationService(JwtService jwtService, AuthenticationManager authenticationManager){
         return new AuthenticationService(jwtService,authenticationManager);
      }
 
-     @Bean
-     JwtService jwtService(){
+    @Bean
+    JwtService jwtService(){
         return  new JwtService();
-     }
+    }
 
     @Bean
     public CustomUserDetailsService customUserDetailsService(UserRepository userRepository){
