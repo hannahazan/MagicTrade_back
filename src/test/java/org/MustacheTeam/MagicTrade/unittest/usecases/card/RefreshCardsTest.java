@@ -143,7 +143,8 @@ public class RefreshCardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         gateway.feedScryfallCards(List.of(card1,card2));
         CardList expected = new CardList(List.of(exampleCard));

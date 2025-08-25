@@ -28,6 +28,7 @@ public record Card(
         String duel,
         String oldSchool,
         String imageSizeNormal,
-        String imageSizeArtCrop
+        String imageSizeArtCrop,
+        Boolean isDoubleCard
 ) {
 }

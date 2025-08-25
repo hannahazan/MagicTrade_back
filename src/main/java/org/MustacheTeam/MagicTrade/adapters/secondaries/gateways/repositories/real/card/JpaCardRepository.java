@@ -39,7 +39,8 @@ public class JpaCardRepository implements CardRepository {
             final CardEntity entityCard = new CardEntity(card.id(), card.setId(), card.name(), card.manaCost(), card.cmc(), card.types(), card.text(), card.toughness(), card.power(), card.rarity(),
                     card.foil(), card.fullArt(), card.textLess(), card.purchase_uris() != null?card.purchase_uris().cardmarket():null, card.legalities().standard(), card.legalities().pioneer(), card.legalities().explorer()
                     , card.legalities().modern(), card.legalities().legacy(), card.legalities().pauper(), card.legalities().vintage(), card.legalities().commander(), card.legalities().brawl()
-                    , card.legalities().commander(), card.legalities().duel(), card.legalities().oldschool(), card.image_uris() != null ? card.image_uris().normal() : null, card.image_uris() != null ? card.image_uris().art_crop() : null
+                    , card.legalities().commander(), card.legalities().duel(), card.legalities().oldschool(), card.image_uris() != null ? card.image_uris().normal() : null, card.image_uris() != null ? card.image_uris().art_crop() : null,
+                    card.card_faces() != null
             );
             if(isPaper){
                 cards.add(entityCard);
@@ -205,7 +206,7 @@ public class JpaCardRepository implements CardRepository {
         entityManager.createQuery(query).getResultList().forEach(c->cards.add(new Card(c.getId(),c.getSetId(),
                 c.getName(),c.getManaCost(),c.getCmc(),c.getTypes(),c.getText(),c.getToughness(),c.getPower(),c.getRarity(),c.getFoil(),c.getFullArt(),c.getTextLess(),
                 c.getCardMarketPrice(),c.getStandard(),c.getPioneer(),c.getExplorer(),c.getModern(),c.getLegacy(),c.getPauper(),c.getVintage(),c.getCommander(),c.getBrawl(),c.getPauperCommander(),
-                c.getDuel(),c.getOldSchool(),c.getImageSizeNormal(),c.getImageSizeArtCrop())));
+                c.getDuel(),c.getOldSchool(),c.getImageSizeNormal(),c.getImageSizeArtCrop(), c.getIsDoubleCard())));
 
         return new CardList(cards);
     }
