@@ -101,4 +101,7 @@ public class CardEntity {
     @Column
     private String imageSizeArtCrop;
 
+    @Column
+    private Boolean isDoubleCard;
+
 }

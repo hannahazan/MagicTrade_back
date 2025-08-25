@@ -53,7 +53,9 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
+
 
         Card card2 = new Card(
                 "2",
@@ -83,7 +85,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card, card2));
@@ -129,7 +132,8 @@ public class GetAllcardsTest {
                  "legal",
                  "not_legal",
                  "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                 "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                 "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -159,7 +163,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(Arrays.asList(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -204,7 +209,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -234,7 +240,9 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false
+        );
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card2));
@@ -279,7 +287,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -309,7 +318,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card3 = new Card(
                 "3",
@@ -339,7 +349,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2, card3));
         CardList expected = new CardList(List.of(card));
@@ -384,7 +395,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -414,7 +426,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card3 = new Card(
                 "3",
@@ -444,7 +457,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2, card3));
         CardList expected = new CardList(List.of(card));
@@ -489,7 +503,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -519,7 +534,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card3 = new Card(
                 "3",
@@ -549,7 +565,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2, card3));
         CardList expected = new CardList(List.of(card));
@@ -594,7 +611,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -624,7 +642,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card3 = new Card(
                 "3",
@@ -654,7 +673,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2, card3));
         CardList expected = new CardList(List.of(card));
@@ -699,7 +719,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -729,7 +750,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card3 = new Card(
                 "3",
@@ -759,7 +781,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2, card3));
         CardList expected = new CardList(List.of(card));
@@ -804,7 +827,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -834,7 +858,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card3 = new Card(
                 "3",
@@ -864,7 +889,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2, card3));
         CardList expected = new CardList(List.of(card));
@@ -909,7 +935,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -939,7 +966,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card3 = new Card(
                 "3",
@@ -969,7 +997,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2, card3));
         CardList expected = new CardList(List.of(card));
@@ -1014,7 +1043,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1044,7 +1074,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1090,7 +1121,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1120,7 +1152,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1166,7 +1199,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1196,7 +1230,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1242,7 +1277,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1272,7 +1308,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1318,7 +1355,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1348,7 +1386,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1394,7 +1433,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1424,7 +1464,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1470,7 +1511,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1500,7 +1542,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1546,7 +1589,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1576,7 +1620,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1622,7 +1667,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1652,7 +1698,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1698,7 +1745,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1728,7 +1776,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1774,7 +1823,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1804,7 +1854,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1850,7 +1901,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1880,7 +1932,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -1926,7 +1979,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -1956,7 +2010,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -2002,7 +2057,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -2032,7 +2088,8 @@ public class GetAllcardsTest {
                 "not_legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
@@ -2078,7 +2135,8 @@ public class GetAllcardsTest {
                 "legal",
                 "legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         Card card2 = new Card(
                 "2",
@@ -2108,7 +2166,8 @@ public class GetAllcardsTest {
                 "legal",
                 "not_legal",
                 "https://cards.scryfall.io/normal/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
-                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654");
+                "https://cards.scryfall.io/art_crop/front/0/0/0004311b-646a-4df8-a4b4-9171642e9ef4.jpg?1651796654",
+                false);
 
         repository.feedCardsWith(List.of(card, card2));
         CardList expected = new CardList(List.of(card));
