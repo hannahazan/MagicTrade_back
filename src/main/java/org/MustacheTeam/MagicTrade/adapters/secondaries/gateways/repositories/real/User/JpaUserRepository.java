@@ -57,7 +57,7 @@ public class JpaUserRepository implements UserRepository {
         if (!roles.isEmpty()) {
             user.setRole(roles.iterator().next());
         } else {
-            user.setRole("USER");
+            user.setRole("ROLE_USER");
         }
         repository.save(user);
     }
