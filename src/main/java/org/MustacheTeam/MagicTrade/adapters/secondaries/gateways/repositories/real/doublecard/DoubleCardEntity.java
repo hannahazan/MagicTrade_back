@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.CardEntity;
 
 @Entity
 @Table(name = "doubleCards")
@@ -15,10 +16,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DoubleCardEntity {
     @Id
-    String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-    @Column
-    private String cardId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "card_id", referencedColumnName = "id", nullable = false)
+    private CardEntity card;
 
     @Column
     private String name;
@@ -44,4 +47,17 @@ public class DoubleCardEntity {
     @Column
     private String imageSizeArtCrop;
 
+
+    public DoubleCardEntity(CardEntity entityCard, String name, String s, String s1, String s2, String power, String toughness, String s3, String s4) {
+        this.card = entityCard;
+        this.name = name;
+        this.manaCost = s;
+        this.typeLine = s1;
+        this.text = s2;
+        this.power = power;
+        this.toughness = toughness;
+        this.imageSizeNormal = s3;
+        this.imageSizeArtCrop = s4;
+
+    }
 }

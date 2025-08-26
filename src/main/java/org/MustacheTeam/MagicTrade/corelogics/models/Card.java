@@ -1,5 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.models;
 
+import java.util.List;
+
 public record Card(
         String id,
         String setId,
@@ -29,6 +31,7 @@ public record Card(
         String oldSchool,
         String imageSizeNormal,
         String imageSizeArtCrop,
-        Boolean isDoubleCard
+        Boolean isDoubleCard,
+        List<DoubleCard> doubleCards
 ) {
 }

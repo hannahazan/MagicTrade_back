@@ -57,7 +57,6 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.toughness.GetAllT
 import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.toughness.RefreshToughnesses;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.RefreshDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
@@ -121,10 +120,6 @@ public class BeanConfiguration {
         return new GetAllDoubleCards(jpaDoubleCardRepository);
     }
 
-    @Bean
-    public RefreshDoubleCards refreshDoubleCards(RealScryfallGateway realScryfallGateway, JpaDoubleCardRepository jpaDoubleCardRepository){
-        return  new RefreshDoubleCards(realScryfallGateway, jpaDoubleCardRepository);
-    }
 
     @Bean
     public JpaSetRepository jpaSetRepository(SpringDataSetRepository springDataSetRepository){

@@ -2,17 +2,19 @@ package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.r
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
+import jakarta.transaction.Transactional;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.model.ScryfallCard;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.doublecard.DoubleCardEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CardRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Card;
 import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
+import org.MustacheTeam.MagicTrade.corelogics.models.DoubleCard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class JpaCardRepository implements CardRepository {
 
@@ -26,6 +28,7 @@ public class JpaCardRepository implements CardRepository {
     }
 
     @Override
+    @Transactional
     public void save(List<ScryfallCard> cardToSave){
         List<CardEntity> cards = new ArrayList<>();
         cardToSave.forEach(card->{
@@ -42,12 +45,24 @@ public class JpaCardRepository implements CardRepository {
                     , card.legalities().commander(), card.legalities().duel(), card.legalities().oldschool(), card.image_uris() != null ? card.image_uris().normal() : null, card.image_uris() != null ? card.image_uris().art_crop() : null,
                     card.card_faces() != null
             );
+
             if(isPaper){
+                List<DoubleCardEntity> doubleCards = new ArrayList<>();
+                if(!Objects.isNull(card.card_faces())){
+                    card.card_faces().stream().map(c-> doubleCards.add(new DoubleCardEntity( entityCard
+                            , c.name(), c.mana_cost(), c.type_line(), c.oracle_text(), c.power(), c.toughness(), c.image_uris() != null ? c.image_uris().normal() : null, c.image_uris() != null ? c.image_uris().art_crop() : null
+                    ))).toList();
+                    entityCard.setDoubleCards(doubleCards);
+
+                }else{
+                    entityCard.setDoubleCards(null);
+                }
                 cards.add(entityCard);
             }
         });
         repository.saveAll(cards);
     }
+
 
     @Override
     public CardList getAllCards(String id, String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses, List<String> powers,
@@ -61,6 +76,10 @@ public class JpaCardRepository implements CardRepository {
         CriteriaQuery<CardEntity> query = cb.createQuery(CardEntity.class);
         Root<CardEntity> root = query.from(CardEntity.class);
 
+        root.fetch("doubleCards", JoinType.LEFT);
+
+        Join<CardEntity, DoubleCardEntity> dc = root.join("doubleCards", JoinType.LEFT);
+
         List<Predicate> predicates = new ArrayList<>();
 
         if(!id.isEmpty()){
@@ -68,7 +87,9 @@ public class JpaCardRepository implements CardRepository {
         }
 
         if(!name.isEmpty()){
-            predicates.add(cb.equal(cb.lower(root.get("name")),name.toLowerCase()));
+            Predicate onCard = cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%");
+            Predicate onFace = cb.like(cb.lower(dc.get("name")), "%" + name.toLowerCase() + "%");
+            predicates.add(cb.or(onCard, onFace));
         }
 
         if(!setId.isEmpty()){
@@ -77,12 +98,16 @@ public class JpaCardRepository implements CardRepository {
 
         if(!colors.isEmpty()){
             List<Predicate> likePredicates = new ArrayList<>();
+            List<Predicate> likePredicatesFaces = new ArrayList<>();
             colors.forEach(c->{
                 Predicate like = cb.like(cb.lower(root.get("manaCost")),"%" + c.toLowerCase() + "%");
+                Predicate likeFaces = cb.like(cb.lower(dc.get("manaCost")),"%" + c.toLowerCase() + "%");
                 likePredicates.add(like);
+                likePredicatesFaces.add(likeFaces);
             });
             Predicate orLike = cb.or(likePredicates.toArray(new Predicate[0]));
-            predicates.add(orLike);
+            Predicate orLikeFaces = cb.or(likePredicatesFaces.toArray(new Predicate[0]));
+            predicates.add(cb.or(orLike,orLikeFaces));
         }
 
         if(!cmc.isEmpty()){
@@ -96,27 +121,37 @@ public class JpaCardRepository implements CardRepository {
         }
 
         if(!text.isEmpty()){
-            predicates.add(cb.like(cb.lower(root.get("text")),"%"+text.toLowerCase()+"%"));
+            Predicate onCard = cb.like(cb.lower(root.get("text")), "%" + name.toLowerCase() + "%");
+            Predicate onFace = cb.like(cb.lower(dc.get("text")), "%" + name.toLowerCase() + "%");
+            predicates.add(cb.or(onCard, onFace));
         }
 
         if(!toughnesses.isEmpty()){
             List<Predicate> equalPredicates = new ArrayList<>();
-            toughnesses.forEach(t->{
-                Predicate equal = cb.equal(root.get("toughness"),t);
+            List<Predicate> equalPredicatesFaces = new ArrayList<>();
+            powers.forEach(p->{
+                Predicate equal = cb.equal(root.get("toughness"),p);
+                Predicate equalFace = cb.equal(dc.get("toughness"),p);
                 equalPredicates.add(equal);
+                equalPredicatesFaces.add(equalFace);
             });
             Predicate orEqual = cb.or(equalPredicates.toArray(new Predicate[0]));
-            predicates.add(orEqual);
+            Predicate orEqualFace = cb.or(equalPredicatesFaces.toArray(new Predicate[0]));
+            predicates.add(cb.or(orEqual,orEqualFace));
         }
 
         if(!powers.isEmpty()){
             List<Predicate> equalPredicates = new ArrayList<>();
+            List<Predicate> equalPredicatesFaces = new ArrayList<>();
             powers.forEach(p->{
                 Predicate equal = cb.equal(root.get("power"),p);
+                Predicate equalFace = cb.equal(dc.get("power"),p);
                 equalPredicates.add(equal);
+                equalPredicatesFaces.add(equalFace);
             });
             Predicate orEqual = cb.or(equalPredicates.toArray(new Predicate[0]));
-            predicates.add(orEqual);
+            Predicate orEqualFace = cb.or(equalPredicatesFaces.toArray(new Predicate[0]));
+            predicates.add(cb.or(orEqual,orEqualFace));
         }
 
         if(!rarities.isEmpty()){
@@ -131,12 +166,16 @@ public class JpaCardRepository implements CardRepository {
 
         if(!types.isEmpty()){
             List<Predicate> likePredicates = new ArrayList<>();
-            types.forEach(t->{
-                Predicate like = cb.like(cb.lower(root.get("types")),"%" + t.toLowerCase() + "%");
+            List<Predicate> likePredicatesFaces = new ArrayList<>();
+            colors.forEach(c->{
+                Predicate like = cb.like(cb.lower(root.get("types")),"%" + c.toLowerCase() + "%");
+                Predicate likeFaces = cb.like(cb.lower(dc.get("typeLine")),"%" + c.toLowerCase() + "%");
                 likePredicates.add(like);
+                likePredicatesFaces.add(likeFaces);
             });
             Predicate orLike = cb.or(likePredicates.toArray(new Predicate[0]));
-            predicates.add(orLike);
+            Predicate orLikeFaces = cb.or(likePredicatesFaces.toArray(new Predicate[0]));
+            predicates.add(cb.or(orLike,orLikeFaces));
         }
 
         if(!foil.isEmpty()){
@@ -203,10 +242,25 @@ public class JpaCardRepository implements CardRepository {
             query.where((cb.and(predicates.toArray(new Predicate[0]))));
         }
 
+        query.select(root).distinct(true);
+
         entityManager.createQuery(query).getResultList().forEach(c->cards.add(new Card(c.getId(),c.getSetId(),
                 c.getName(),c.getManaCost(),c.getCmc(),c.getTypes(),c.getText(),c.getToughness(),c.getPower(),c.getRarity(),c.getFoil(),c.getFullArt(),c.getTextLess(),
                 c.getCardMarketPrice(),c.getStandard(),c.getPioneer(),c.getExplorer(),c.getModern(),c.getLegacy(),c.getPauper(),c.getVintage(),c.getCommander(),c.getBrawl(),c.getPauperCommander(),
-                c.getDuel(),c.getOldSchool(),c.getImageSizeNormal(),c.getImageSizeArtCrop(), c.getIsDoubleCard())));
+                c.getDuel(),c.getOldSchool(),c.getImageSizeNormal(),c.getImageSizeArtCrop(), c.getIsDoubleCard(),c.getDoubleCards().stream().map(
+                        doubleCard -> new DoubleCard(
+                                doubleCard.getId(),
+                                doubleCard.getCard().getId(),
+                                doubleCard.getName(),
+                                doubleCard.getManaCost(),
+                                doubleCard.getTypeLine(),
+                                doubleCard.getText(),
+                                doubleCard.getPower(),
+                                doubleCard.getToughness(),
+                                doubleCard.getImageSizeNormal(),
+                                doubleCard.getImageSizeArtCrop()
+                        )
+        ).toList())));
 
         return new CardList(cards);
     }

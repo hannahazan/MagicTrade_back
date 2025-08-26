@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.models;
 
 public record DoubleCard(
-        String id,
+        Long id,
         String cardId,
         String name,
         String manaCost,
