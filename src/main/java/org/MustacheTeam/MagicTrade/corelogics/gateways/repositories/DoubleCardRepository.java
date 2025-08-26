@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface DoubleCardRepository {
-    void save(List<ScryfallCard> cardToSave);
-    DoubleCardList getAllDoubleCards();
+    DoubleCardList  getAllDoubleCards();
 }
