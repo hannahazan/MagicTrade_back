@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.adapters.security;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,13 +33,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String jwt = authHeader.substring(7);
-            String username = jwtService.extractClaims(jwt).getSubject();
+            Claims claims = jwtService.extractClaims(jwt);
+            String username = claims.getSubject();
+            Object uid = claims.get("uid");
+            Long id = (uid instanceof Number n) ? n.longValue() : Long.parseLong(uid.toString());
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if (jwtService.extractClaims(jwt).getExpiration().after(new Date())) {
+                    CurrentTrader current = new CurrentTrader(id, username, null, userDetails.getAuthorities(), true);
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities()
+                            current, null, current.getAuthorities()
                     );
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }

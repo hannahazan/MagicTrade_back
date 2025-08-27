@@ -1,5 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries;
 
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.JpaTradeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
@@ -58,6 +60,7 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.toughness.Refresh
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -264,6 +267,16 @@ public class BeanConfiguration {
     @Bean
     RefreshEnchantmentType refreshEnchantmentType(ScryfallGateway scryfallGateway, EnchantmentTypeRepository enchantmentRepository){
         return new RefreshEnchantmentType(scryfallGateway,enchantmentRepository);
+    }
+
+    @Bean
+    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository){
+        return new JpaTradeRepository(repository);
+    }
+
+    @Bean
+    CreateTrade createTrade(TradeRepository tradeRepository){
+        return new CreateTrade(tradeRepository);
     }
 
     @Bean
