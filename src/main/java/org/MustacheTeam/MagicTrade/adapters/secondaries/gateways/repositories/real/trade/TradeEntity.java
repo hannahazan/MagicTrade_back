@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
+import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.TradeStatus;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "trades")
+@Table( name = "trades")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -20,17 +22,13 @@ public class TradeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private Long initiatorId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "initiator_id", nullable = false)
+    private UserEntity initiator;
 
-    @Column
-    private Long partnerId;
-
-    @Column
-    private boolean validationInitiator;
-
-    @Column
-    private boolean validationPartner;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "partner_id", nullable = false)
+    private UserEntity partner;
 
     @Column
     private LocalDateTime creationDate;
@@ -38,35 +36,22 @@ public class TradeEntity {
     @Column
     private LocalDateTime clotureDate;
 
+    @Enumerated(EnumType.STRING)
     @Column
-    private boolean cloturePartner;
-
-    @Column
-    private boolean clotureInitiator;
-
-    @Column
-    private boolean warningCloture;
+    private TradeStatus status = TradeStatus.OPEN;
 
     public TradeEntity(
-            Long initiatorId,
-            Long partnerId,
-            boolean validationInitiator,
-            boolean validationPartner,
+            UserEntity initiatorId,
+            UserEntity partnerId,
             LocalDateTime creationDate,
             LocalDateTime clotureDate,
-            boolean cloturePartner,
-            boolean clotureInitiator,
-            boolean warningCloture
+            TradeStatus status
     ){
-        this.initiatorId = initiatorId;
-        this.partnerId = partnerId;
-        this.validationInitiator = validationInitiator;
-        this.validationPartner = validationPartner;
+        this.initiator = initiatorId;
+        this.partner = partnerId;
         this.creationDate = creationDate;
         this.clotureDate = clotureDate;
-        this.cloturePartner = cloturePartner;
-        this.clotureInitiator = clotureInitiator;
-        this.warningCloture = warningCloture;
+        this.status = status;
     }
 
 }

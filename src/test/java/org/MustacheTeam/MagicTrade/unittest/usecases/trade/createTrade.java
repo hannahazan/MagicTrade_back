@@ -2,7 +2,6 @@ package org.MustacheTeam.MagicTrade.unittest.usecases.trade;
 
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.inmemory.InMemoryTradeRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Trade;
-import org.MustacheTeam.MagicTrade.corelogics.models.User;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
 import org.junit.jupiter.api.Test;
 
@@ -16,22 +15,8 @@ public class createTrade {
    void should_create_one_trade(){
         Trade trade = new Trade(
                 1L,
-                new User(
-                        1L,
-                        "cookie",
-                        "France",
-                        "Paris",
-                        "Paris",
-                        "ROLE_USER"
-                ),
-                new User(
-                        2L,
-                        "oréo",
-                        "France",
-                        "Paris",
-                        "Paris",
-                        "ROLE_USER"
-                ),
+               1L,
+               2L,
                 true,
                 true,
                 LocalDateTime.of(2025,8,27,11,0,0),

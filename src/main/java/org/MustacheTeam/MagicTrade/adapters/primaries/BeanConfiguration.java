@@ -2,6 +2,9 @@ package org.MustacheTeam.MagicTrade.adapters.primaries;
 
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.JpaTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.SpringDataProposalItemRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
@@ -61,6 +64,7 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollecti
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -270,13 +274,27 @@ public class BeanConfiguration {
     }
 
     @Bean
-    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository){
-        return new JpaTradeRepository(repository);
+    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, SpringDataUserRepository userRepository){
+        return new JpaTradeRepository(repository, userRepository);
     }
 
     @Bean
     CreateTrade createTrade(TradeRepository tradeRepository){
         return new CreateTrade(tradeRepository);
+    }
+
+    @Bean
+    JpaTradeProposalRepository jpaTradeProposalRepository(SpringDataProposalItemRepository itemRepository,
+                                                          SpringDataTradeProposalRepository repository,
+                                                          SpringDataTradeRepository tradeRepository,
+                                                          SpringDataUserRepository userRepository,
+                                                          SpringDataCollectionRepository collectionRepository){
+        return new JpaTradeProposalRepository(itemRepository,repository,tradeRepository,userRepository,collectionRepository);
+
+    }
+    @Bean
+    CreateTradeProposal createTradeProposal(TradeProposalRepository repository){
+        return new CreateTradeProposal(repository);
     }
 
     @Bean
