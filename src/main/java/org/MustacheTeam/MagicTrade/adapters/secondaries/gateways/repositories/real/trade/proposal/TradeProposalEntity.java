@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
 
 import java.time.LocalDateTime;
@@ -50,13 +49,13 @@ public class TradeProposalEntity {
             UserEntity proposer,
             ProposalStatus status,
             LocalDateTime createdAt,
-            String messsage
+            String message
     ){
         this.trade = trade;
         this.proposer = proposer;
         this.status = status;
         this.createdAt = createdAt;
-        this.message = messsage;
+        this.message = message;
     }
 
 }

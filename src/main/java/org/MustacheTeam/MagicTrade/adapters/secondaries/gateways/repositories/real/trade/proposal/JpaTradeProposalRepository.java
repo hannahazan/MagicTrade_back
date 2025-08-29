@@ -7,12 +7,10 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.SpringDataCollectionRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.SpringDataProposalItemRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
-import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -20,17 +18,14 @@ import java.util.*;
 public class JpaTradeProposalRepository implements TradeProposalRepository {
 
     private final SpringDataTradeProposalRepository repository;
-    private final SpringDataProposalItemRepository itemRepository;
     private final SpringDataTradeRepository tradeRepository;
     private final SpringDataUserRepository userRepository;
     private final SpringDataCollectionRepository collectionRepository;
 
-    public JpaTradeProposalRepository(SpringDataProposalItemRepository itemRepository,
-                                      SpringDataTradeProposalRepository repository,
+    public JpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
                                       SpringDataTradeRepository tradeRepository,
                                       SpringDataUserRepository userRepository,
                                       SpringDataCollectionRepository collectionRepository){
-        this.itemRepository = itemRepository;
         this.repository = repository;
         this.tradeRepository = tradeRepository;
         this.userRepository = userRepository;
@@ -49,13 +44,13 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
         TradeProposalEntity tradeProposal = new TradeProposalEntity(
                 trade,
                 proposer,
-                mapProposalStatus(proposal.status()),
+                proposal.mapProposalStatus(proposal.status()),
                 LocalDateTime.now(),
                 proposal.message()
         );
 
         proposal.collectionCards().forEach( c ->{
-            CollectionEntity collection = collectionRepository.findById(c).orElseThrow(() -> new IllegalArgumentException("User not found with id: "));
+            CollectionEntity collection = collectionRepository.findById(c).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
             items.add(
                     new TradeProposalItemEntity(
                             tradeProposal,
@@ -70,16 +65,5 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
         repository.save(tradeProposal);
     }
 
-    public ProposalStatus mapProposalStatus(String status){
-        if(status.equalsIgnoreCase("PENDING")){
-            return ProposalStatus.PENDING;
-        }
-        else if(status.equalsIgnoreCase("ACCEPTED")){
-            return ProposalStatus.ACCEPTED;
-        }
-        else if(status.equalsIgnoreCase("REJECTED")){
-            return ProposalStatus.REJECTED;
-        }
-        return null;
-    }
+
 }

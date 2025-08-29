@@ -14,4 +14,16 @@ public record TradeProposal(
         List<Long> collectionCards,
         String message
 ) {
+    public ProposalStatus mapProposalStatus(String status){
+        if(status.equalsIgnoreCase("PENDING")){
+            return ProposalStatus.PENDING;
+        }
+        else if(status.equalsIgnoreCase("ACCEPTED")){
+            return ProposalStatus.ACCEPTED;
+        }
+        else if(status.equalsIgnoreCase("REJECTED")){
+            return ProposalStatus.REJECTED;
+        }
+        return null;
+    }
 }
