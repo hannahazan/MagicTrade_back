@@ -9,7 +9,10 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
+import org.MustacheTeam.MagicTrade.corelogics.models.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
+import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposalList;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
 
 import java.time.LocalDateTime;
@@ -65,5 +68,39 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
         repository.save(tradeProposal);
     }
 
+    public TradeProposalList getAllTradeProposalByTradeId(Long tradeId){
+        List<TradeProposalEntity> tradeProposalEntities = repository.findAllWithItemsByTradeId(tradeId);
+
+        List<TradeProposal> proposals = tradeProposalEntities.stream()
+                .map(t -> new TradeProposal(
+                        t.getId(),
+                        t.getTrade().getId(),
+                        t.getProposer().getId(),
+                        t.getStatus().name(),
+                        t.getCreatedAt(),
+                        null,
+                        t.getMessage(),
+                        t.getTradeItemProposalList().stream()
+                                .map(i -> new TradeItemProposal(
+                                        i.getId(),
+                                        i.getProposal().getId(),
+                                        i.getCollectionCard().getId(),
+                                        new Collection(
+                                                i.getCollectionCard().getId(),
+                                                i.getCollectionCard().getUserId().getId(),
+                                                i.getCollectionCard().getCardId().getId(),
+                                                i.getCollectionCard().getLang(),
+                                                i.getCollectionCard().getState()
+                                        ),
+                                        i.getCollectionCard().getCardId().getImageSizeNormal(),
+
+                                        i.getSide().name()
+                                ))
+                                .toList()
+                ))
+                .toList();
+
+        return new TradeProposalList(proposals);
+    }
 
 }

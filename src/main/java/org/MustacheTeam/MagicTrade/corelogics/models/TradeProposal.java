@@ -12,7 +12,8 @@ public record TradeProposal(
         String status,
         LocalDateTime creationDate,
         List<Long> collectionCards,
-        String message
+        String message,
+        List<TradeItemProposal> tradeItemProposals
 ) {
     public ProposalStatus mapProposalStatus(String status){
         if(status.equalsIgnoreCase("PENDING")){

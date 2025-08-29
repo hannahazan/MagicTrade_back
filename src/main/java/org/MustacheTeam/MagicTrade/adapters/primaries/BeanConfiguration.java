@@ -65,6 +65,8 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCa
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTradeProposal;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllProposalsByOneTrades;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllTradesByUserId;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -284,6 +286,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    GetAllTradesByUserId getAllTradesByUserId(TradeRepository tradeRepository){
+        return new GetAllTradesByUserId(tradeRepository);
+    }
+
+    @Bean
     JpaTradeProposalRepository jpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
                                                           SpringDataTradeRepository tradeRepository,
                                                           SpringDataUserRepository userRepository,
@@ -294,6 +301,11 @@ public class BeanConfiguration {
     @Bean
     CreateTradeProposal createTradeProposal(TradeProposalRepository repository){
         return new CreateTradeProposal(repository);
+    }
+
+    @Bean
+    GetAllProposalsByOneTrades getAllProposalsByOneTrades(TradeProposalRepository repository){
+        return new GetAllProposalsByOneTrades(repository);
     }
 
     @Bean

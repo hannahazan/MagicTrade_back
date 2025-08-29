@@ -6,6 +6,8 @@ public record TradeItemProposal(
         Long id,
         Long tradeProposalId,
         Long cardId,
+        Collection userCard,
+        String cardImage,
         String side
 ) {
 }

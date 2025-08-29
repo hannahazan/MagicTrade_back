@@ -14,7 +14,8 @@ public class CreateCollection {
         this.repository = collectionRepository;
     }
 
-    public void handle(List<Collection> collectionToSave){
-        repository.save(collectionToSave);
+    public void handle(List<Collection> collectionToSave, Long id){
+
+        repository.save(collectionToSave, id);
     }
 }
