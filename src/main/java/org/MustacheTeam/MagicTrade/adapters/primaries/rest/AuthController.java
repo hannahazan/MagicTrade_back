@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> registerUser(@Valid @RequestBody UserDto userDto) {
-        Set<String> roles = Set.of("USER");
+        Set<String> roles = Set.of("ROLE_USER");
         createUser.handle(userDto, roles);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

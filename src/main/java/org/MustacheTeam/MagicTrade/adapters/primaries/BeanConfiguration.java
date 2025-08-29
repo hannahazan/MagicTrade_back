@@ -1,5 +1,10 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries;
 
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.JpaTradeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.SpringDataProposalItemRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
@@ -58,6 +63,10 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.toughness.Refresh
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTradeProposal;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllProposalsByOneTrades;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllTradesByUserId;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -264,6 +273,39 @@ public class BeanConfiguration {
     @Bean
     RefreshEnchantmentType refreshEnchantmentType(ScryfallGateway scryfallGateway, EnchantmentTypeRepository enchantmentRepository){
         return new RefreshEnchantmentType(scryfallGateway,enchantmentRepository);
+    }
+
+    @Bean
+    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, SpringDataUserRepository userRepository){
+        return new JpaTradeRepository(repository, userRepository);
+    }
+
+    @Bean
+    CreateTrade createTrade(TradeRepository tradeRepository){
+        return new CreateTrade(tradeRepository);
+    }
+
+    @Bean
+    GetAllTradesByUserId getAllTradesByUserId(TradeRepository tradeRepository){
+        return new GetAllTradesByUserId(tradeRepository);
+    }
+
+    @Bean
+    JpaTradeProposalRepository jpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
+                                                          SpringDataTradeRepository tradeRepository,
+                                                          SpringDataUserRepository userRepository,
+                                                          SpringDataCollectionRepository collectionRepository){
+        return new JpaTradeProposalRepository(repository,tradeRepository,userRepository,collectionRepository);
+
+    }
+    @Bean
+    CreateTradeProposal createTradeProposal(TradeProposalRepository repository){
+        return new CreateTradeProposal(repository);
+    }
+
+    @Bean
+    GetAllProposalsByOneTrades getAllProposalsByOneTrades(TradeProposalRepository repository){
+        return new GetAllProposalsByOneTrades(repository);
     }
 
     @Bean
