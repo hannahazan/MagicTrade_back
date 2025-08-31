@@ -276,8 +276,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, SpringDataUserRepository userRepository){
-        return new JpaTradeRepository(repository, userRepository);
+    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, SpringDataUserRepository userRepository, SpringDataCollectionRepository collectionRepository){
+        return new JpaTradeRepository(repository, userRepository, collectionRepository);
     }
 
     @Bean

@@ -6,9 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalEntity;
+import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.TradeStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table( name = "trades")
@@ -29,6 +33,9 @@ public class TradeEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "partner_id", nullable = false)
     private UserEntity partner;
+
+    @OneToMany(mappedBy = "trade", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TradeProposalEntity> tradeProposalList;
 
     @Column
     private LocalDateTime creationDate;

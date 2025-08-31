@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.CollectionEntity;
@@ -18,6 +19,7 @@ import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 public class JpaTradeProposalRepository implements TradeProposalRepository {
 
     private final SpringDataTradeProposalRepository repository;
@@ -52,13 +54,13 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
                 proposal.message()
         );
 
-        proposal.collectionCards().forEach( c ->{
-            CollectionEntity collection = collectionRepository.findById(c).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
+        proposal.tradeItemProposals().forEach( c ->{
+            CollectionEntity collection = collectionRepository.findById(c.userCard().id()).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
             items.add(
                     new TradeProposalItemEntity(
                             tradeProposal,
                             collection,
-                            Objects.equals(collection.getUserId().getId(), id) ? ItemSide.OFFER:ItemSide.REQUEST
+                            c.getSide(collection.getUserId().getId(),id)
                     )
             );
         } );
@@ -78,13 +80,11 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
                         t.getProposer().getId(),
                         t.getStatus().name(),
                         t.getCreatedAt(),
-                        null,
                         t.getMessage(),
                         t.getTradeItemProposalList().stream()
                                 .map(i -> new TradeItemProposal(
                                         i.getId(),
                                         i.getProposal().getId(),
-                                        i.getCollectionCard().getId(),
                                         new Collection(
                                                 i.getCollectionCard().getId(),
                                                 i.getCollectionCard().getUserId().getId(),
@@ -93,7 +93,6 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
                                                 i.getCollectionCard().getState()
                                         ),
                                         i.getCollectionCard().getCardId().getImageSizeNormal(),
-
                                         i.getSide().name()
                                 ))
                                 .toList()
