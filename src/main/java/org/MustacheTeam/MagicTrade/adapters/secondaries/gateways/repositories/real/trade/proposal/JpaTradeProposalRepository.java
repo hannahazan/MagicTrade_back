@@ -18,6 +18,7 @@ import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 public class JpaTradeProposalRepository implements TradeProposalRepository {
@@ -46,60 +47,78 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
 
         UserEntity proposer = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id:"));
 
-        TradeProposalEntity tradeProposal = new TradeProposalEntity(
-                trade,
-                proposer,
-                proposal.mapProposalStatus(proposal.status()),
-                LocalDateTime.now(),
-                proposal.message()
-        );
+        List<TradeProposalEntity> proposals = repository.findAllByTradeId(proposal.tradeId());
 
-        proposal.tradeItemProposals().forEach( c ->{
-            CollectionEntity collection = collectionRepository.findById(c.userCard().id()).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
-            items.add(
-                    new TradeProposalItemEntity(
-                            tradeProposal,
-                            collection,
-                            c.getSide(collection.getUserId().getId(),id)
-                    )
+        boolean isAllRejected = isAllProposingRejected(proposals);
+
+        if(isAllRejected){
+            TradeProposalEntity tradeProposal = new TradeProposalEntity(
+                    trade,
+                    proposer,
+                    proposal.mapProposalStatus(proposal.status()),
+                    LocalDateTime.now(),
+                    proposal.message()
             );
-        } );
 
-        tradeProposal.setTradeItemProposalList(items);
+            proposal.tradeItemProposals().forEach( c ->{
+                CollectionEntity collection = collectionRepository.findById(c.userCard().id()).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
+                items.add(
+                        new TradeProposalItemEntity(
+                                tradeProposal,
+                                collection,
+                                c.getSide(collection.getUserId().getId(),id)
+                        )
+                );
+            } );
 
-        repository.save(tradeProposal);
+            tradeProposal.setTradeItemProposalList(items);
+
+            repository.save(tradeProposal);
+        }else{
+            throw new IllegalStateException("A proposal has already be accepted or is in pending");
+        }
+    }
+
+    public boolean isAllProposingRejected(List<TradeProposalEntity> proposals){
+        AtomicBoolean isAllProposingRejected = new AtomicBoolean(true);
+        proposals.forEach(p -> {
+            if(Objects.equals(p.getStatus().name(), "PENDING") || Objects.equals(p.getStatus().name(), "ACCEPTED")){
+                isAllProposingRejected.set(false);
+            }
+        });
+        return isAllProposingRejected.get();
     }
 
     public TradeProposalList getAllTradeProposalByTradeId(Long tradeId){
-        List<TradeProposalEntity> tradeProposalEntities = repository.findAllWithItemsByTradeId(tradeId);
 
-        List<TradeProposal> proposals = tradeProposalEntities.stream()
-                .map(t -> new TradeProposal(
-                        t.getId(),
-                        t.getTrade().getId(),
-                        t.getProposer().getId(),
-                        t.getStatus().name(),
-                        t.getCreatedAt(),
-                        t.getMessage(),
-                        t.getTradeItemProposalList().stream()
-                                .map(i -> new TradeItemProposal(
-                                        i.getId(),
-                                        i.getProposal().getId(),
-                                        new Collection(
-                                                i.getCollectionCard().getId(),
-                                                i.getCollectionCard().getUserId().getId(),
-                                                i.getCollectionCard().getCardId().getId(),
-                                                i.getCollectionCard().getLang(),
-                                                i.getCollectionCard().getState()
-                                        ),
-                                        i.getCollectionCard().getCardId().getImageSizeNormal(),
-                                        i.getSide().name()
-                                ))
-                                .toList()
-                ))
-                .toList();
+        List<TradeProposalEntity> proposals = repository.findAllByTradeId(tradeId);
 
-        return new TradeProposalList(proposals);
+        List<TradeProposal> proposalsFinal = proposals.stream().map( p ->
+                new TradeProposal(
+                        p.getId(),
+                        p.getTrade().getId(),
+                        p.getProposer().getId(),
+                        p.getStatus().name(),
+                        p.getCreatedAt(),
+                        p.getMessage(),
+                        p.getTradeItemProposalList().stream().map( i->
+                                        new TradeItemProposal(
+                                                i.getId(),
+                                                i.getProposal().getId(),
+                                                new Collection(
+                                                        i.getCollectionCard().getId(),
+                                                        i.getCollectionCard().getUserId().getId(),
+                                                        i.getCollectionCard().getCardId().getId(),
+                                                        i.getCollectionCard().getLang(),
+                                                        i.getCollectionCard().getState()
+                                                ),
+                                                i.getCollectionCard().getCardId().getImageSizeNormal(),
+                                                i.getSide().name()
+                                        )
+                                ).toList())
+        ).toList();
+
+        return new TradeProposalList(proposalsFinal);
     }
 
 }

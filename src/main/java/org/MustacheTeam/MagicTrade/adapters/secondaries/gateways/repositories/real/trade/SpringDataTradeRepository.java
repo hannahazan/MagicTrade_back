@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SpringDataTradeRepository extends JpaRepository<TradeEntity, Long> {
     List<TradeEntity> findAllByInitiator_Id(Long initiatorId);
+
+    List<TradeEntity> findByInitiator_IdOrPartner_Id(Long initiatorId, Long partnerId);
 }

@@ -14,6 +14,7 @@ import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.TradeStatus;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class JpaTradeRepository implements TradeRepository {
 
@@ -28,47 +29,64 @@ public class JpaTradeRepository implements TradeRepository {
     }
 
     public void save(Trade trade, Long id){
-        List<TradeProposalEntity> proposalEntityList = new ArrayList<>();
-        TradeEntity tradeEntity = new TradeEntity(
-                findUser(id),
-                findUser(trade.partnerId()),
-                LocalDateTime.now(),
-                trade.clotureDate(),
-                TradeStatus.OPEN
-        );
-        trade.proposals().forEach( p ->{
-            List<TradeProposalItemEntity> items = new ArrayList<>();
-            TradeProposalEntity proposal;
-            UserEntity proposer = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id:"));
-            proposalEntityList.add(
-                   proposal =  new TradeProposalEntity(
-                            tradeEntity,
-                            proposer,
-                            p.mapProposalStatus(p.status()),
-                            LocalDateTime.now(),
-                            p.message()
-                    )
+        List<TradeEntity> trades = repository.findByInitiator_IdOrPartner_Id(id, id);
+        boolean exist = isATradeWithSameTrader(trades, trade.partnerId(), id);
+        if(!exist){
+            List<TradeProposalEntity> proposalEntityList = new ArrayList<>();
+            TradeEntity tradeEntity = new TradeEntity(
+                    findUser(id),
+                    findUser(trade.partnerId()),
+                    LocalDateTime.now(),
+                    trade.clotureDate(),
+                    TradeStatus.OPEN
             );
-            p.tradeItemProposals().forEach( i->{
-                CollectionEntity collection = collectionRepository.findById(i.userCard().id()).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
-                items.add(
-                        new TradeProposalItemEntity(
-                                proposal,
-                                collection,
-                                i.getSide(collection.getUserId().getId(),id)
+            trade.proposals().forEach( p ->{
+                List<TradeProposalItemEntity> items = new ArrayList<>();
+                TradeProposalEntity proposal;
+                UserEntity proposer = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id:"));
+                proposalEntityList.add(
+                        proposal =  new TradeProposalEntity(
+                                tradeEntity,
+                                proposer,
+                                p.mapProposalStatus(p.status()),
+                                LocalDateTime.now(),
+                                p.message()
                         )
                 );
+                p.tradeItemProposals().forEach( i->{
+                    CollectionEntity collection = collectionRepository.findById(i.userCard().id()).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
+                    items.add(
+                            new TradeProposalItemEntity(
+                                    proposal,
+                                    collection,
+                                    i.getSide(collection.getUserId().getId(),id)
+                            )
+                    );
+                });
+                proposal.setTradeItemProposalList(items);
             });
-            proposal.setTradeItemProposalList(items);
+            tradeEntity.setTradeProposalList(proposalEntityList);
+            repository.save(tradeEntity);
+
+        }else{
+            throw new RuntimeException("A trade with this trader is already open ");
+        }
+    }
+
+    public boolean isATradeWithSameTrader(List<TradeEntity> trades,Long idPartner, Long id){
+        AtomicBoolean exist = new AtomicBoolean(false);
+        trades.forEach( t -> {
+            if(((t.getPartner().getId().equals(id) && t.getInitiator().getId().equals(idPartner) )|| (t.getPartner().getId().equals(idPartner)))&& t.getStatus().name().equals("OPEN")){
+                exist.set(true);
+            }
         });
-        tradeEntity.setTradeProposalList(proposalEntityList);
-        repository.save(tradeEntity);
+        return exist.get();
     }
 
     public TradeList findAllTradesByUserId(Long id){
-        List<TradeEntity> tradeEntities = repository.findAllByInitiator_Id(id);
+        List<TradeEntity> tradeList = repository.findByInitiator_IdOrPartner_Id(id, id);
         List<Trade> trades = new ArrayList<>();
-        tradeEntities.forEach( t -> trades.add(
+        tradeList.forEach( t -> trades.add(
                 new Trade(
                         t.getId(),
                         t.getInitiator().getId(),
