@@ -7,4 +7,5 @@ import java.util.List;
 public interface TradeProposalRepository {
     void save(TradeProposal proposal, Long id);
     TradeProposalList getAllTradeProposalByTradeId(Long tradeId);
+    void  updateTradeProposalStatus(TradeProposal proposal, Long actualProposerId);
 }

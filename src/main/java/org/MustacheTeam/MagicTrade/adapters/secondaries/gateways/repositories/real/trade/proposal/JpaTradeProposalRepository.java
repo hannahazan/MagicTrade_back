@@ -15,6 +15,8 @@ import org.MustacheTeam.MagicTrade.corelogics.models.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposalList;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
+import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -75,7 +77,7 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
 
             repository.save(tradeProposal);
         }else{
-            throw new IllegalStateException("A proposal has already be accepted or is in pending");
+            throw new IllegalStateException("A proposal has already been accepted or is in pending");
         }
     }
 
@@ -119,6 +121,30 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
         ).toList();
 
         return new TradeProposalList(proposalsFinal);
+    }
+
+    @Override
+    public void updateTradeProposalStatus(TradeProposal proposal, Long actualProposerId){
+            TradeProposalEntity tradeProposal = repository.findById(proposal.id()).orElseThrow(()-> new IllegalArgumentException("This proposal does not exist"));
+
+            if(isRightTrader(actualProposerId, tradeProposal)){
+                tradeProposal.setStatus(proposal.mapProposalStatus(proposal.status()));
+
+                repository.save(tradeProposal);
+            }
+
+            else{
+                throw new RuntimeException("You have no right to update this proposal");
+            }
+
+    }
+
+    public boolean isRightTrader(Long id, TradeProposalEntity tradeProposal){
+        AtomicBoolean right = new AtomicBoolean(false);
+        if(!Objects.equals(tradeProposal.getProposer().getId(), id) && (tradeProposal.getTrade().getInitiator().getId().equals(id) || tradeProposal.getTrade().getPartner().getId().equals(id) )){
+            right.set(true);
+        }
+        return right.get();
     }
 
 }
