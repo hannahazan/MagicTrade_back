@@ -7,8 +7,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.Trade;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeList;
+import org.MustacheTeam.MagicTrade.corelogics.models.*;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.TradeStatus;
 
 import java.time.LocalDateTime;
@@ -86,17 +85,49 @@ public class JpaTradeRepository implements TradeRepository {
     public TradeList findAllTradesByUserId(Long id){
         List<TradeEntity> tradeList = repository.findByInitiator_IdOrPartner_Id(id, id);
         List<Trade> trades = new ArrayList<>();
-        tradeList.forEach( t -> trades.add(
-                new Trade(
-                        t.getId(),
-                        t.getInitiator().getId(),
-                        t.getPartner().getId(),
-                        null,
-                        t.getCreationDate(),
-                        t.getClotureDate(),
-                        t.getStatus().toString()
-                )
-        ));
+        tradeList.forEach( t ->{
+            List<TradeProposal> proposalList = new ArrayList<>();
+            t.getTradeProposalList().forEach(p ->{
+                List<TradeItemProposal> items = new ArrayList<>();
+                p.getTradeItemProposalList().forEach( i ->{
+                            items.add(new TradeItemProposal(
+                                    i.getId(),
+                                    i.getProposal().getId(),
+                                    new Collection(
+                                            i.getCollectionCard().getId(),
+                                            i.getCollectionCard().getUserId().getId(),
+                                            i.getCollectionCard().getCardId().getId(),
+                                            i.getCollectionCard().getLang(),
+                                            i.getCollectionCard().getState()
+                                    ),
+                                    i.getCollectionCard().getCardId().getImageSizeNormal(),
+                                    i.getSide().name()
+                            ));
+                        }
+                        );
+                    proposalList.add(new TradeProposal(
+                            p.getId(),
+                            p.getTrade().getId(),
+                            p.getProposer().getId(),
+                            p.getStatus().name(),
+                            p.getCreatedAt(),
+                            p.getMessage(),
+                            items
+                    ));
+                }
+            );
+            trades.add(
+                    new Trade(
+                            t.getId(),
+                            t.getInitiator().getId(),
+                            t.getPartner().getId(),
+                            proposalList,
+                            t.getCreationDate(),
+                            t.getClotureDate(),
+                            t.getStatus().toString()
+                    )
+            );
+        } );
         return new TradeList(trades);
     }
 
