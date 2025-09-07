@@ -135,4 +135,24 @@ public class JpaTradeRepository implements TradeRepository {
         return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
     }
 
+    @Override
+    public void updateStatusTrade(Trade trade, Long id){
+        TradeEntity oneTrade = repository.findById(trade.id()).orElseThrow(() -> new IllegalArgumentException("trade not found with id: " + trade.id()));
+        if(isInitiatorTrader(id, oneTrade)){
+            oneTrade.setStatus(trade.mapTradeStatus(trade.status()));
+            oneTrade.setClotureDate(LocalDateTime.now());
+            repository.save(oneTrade);
+        }else{
+            throw new RuntimeException("You have no right to update this trade");
+        }
+    }
+
+    public boolean isInitiatorTrader(Long id, TradeEntity trade){
+        AtomicBoolean right = new AtomicBoolean(false);
+        if(trade.getInitiator().getId().equals(id)){
+            right.set(true);
+        }
+        return right.get();
+    }
+
 }

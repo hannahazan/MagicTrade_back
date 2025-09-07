@@ -63,6 +63,7 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollecti
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.UpdateTrade;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.CreateTradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.GetAllProposalsByOneTrades;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllTradesByUserId;
@@ -311,6 +312,11 @@ public class BeanConfiguration {
     @Bean
     UpdateOneProposal updateOneProposal(TradeProposalRepository repository){
         return new UpdateOneProposal(repository);
+    }
+
+    @Bean
+    UpdateTrade updateTrade(TradeRepository repository){
+        return new UpdateTrade(repository);
     }
 
     @Bean

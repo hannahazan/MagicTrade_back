@@ -6,4 +6,5 @@ import org.MustacheTeam.MagicTrade.corelogics.models.TradeList;
 public interface TradeRepository {
   void save(Trade trade, Long id);
   TradeList findAllTradesByUserId(Long id);
+  void updateStatusTrade(Trade trade, Long id);
 }
