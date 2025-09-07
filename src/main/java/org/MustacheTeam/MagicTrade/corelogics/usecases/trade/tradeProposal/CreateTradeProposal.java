@@ -1,8 +1,6 @@
-package org.MustacheTeam.MagicTrade.corelogics.usecases.trade;
+package org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal;
 
-import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeItemProposalRepository;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
 
 public class CreateTradeProposal {

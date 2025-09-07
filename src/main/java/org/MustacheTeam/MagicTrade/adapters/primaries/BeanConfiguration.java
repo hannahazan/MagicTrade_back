@@ -2,7 +2,6 @@ package org.MustacheTeam.MagicTrade.adapters.primaries;
 
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.JpaTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.SpringDataProposalItemRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
@@ -64,9 +63,11 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollecti
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTradeProposal;
-import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllProposalsByOneTrades;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.UpdateTrade;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.CreateTradeProposal;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.GetAllProposalsByOneTrades;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllTradesByUserId;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.UpdateOneProposal;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -276,8 +277,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, SpringDataUserRepository userRepository){
-        return new JpaTradeRepository(repository, userRepository);
+    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, SpringDataUserRepository userRepository, SpringDataCollectionRepository collectionRepository){
+        return new JpaTradeRepository(repository, userRepository, collectionRepository);
     }
 
     @Bean
@@ -306,6 +307,16 @@ public class BeanConfiguration {
     @Bean
     GetAllProposalsByOneTrades getAllProposalsByOneTrades(TradeProposalRepository repository){
         return new GetAllProposalsByOneTrades(repository);
+    }
+
+    @Bean
+    UpdateOneProposal updateOneProposal(TradeProposalRepository repository){
+        return new UpdateOneProposal(repository);
+    }
+
+    @Bean
+    UpdateTrade updateTrade(TradeRepository repository){
+        return new UpdateTrade(repository);
     }
 
     @Bean

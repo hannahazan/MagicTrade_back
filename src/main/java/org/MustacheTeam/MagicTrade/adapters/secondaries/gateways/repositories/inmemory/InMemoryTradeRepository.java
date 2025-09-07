@@ -18,4 +18,8 @@ public class InMemoryTradeRepository implements TradeRepository {
          List<Trade> trades = new ArrayList<>();
          return new TradeList(trades);
      }
+
+     public void updateStatusTrade(Trade trade, Long id){
+
+     }
 }

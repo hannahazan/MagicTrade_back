@@ -7,13 +7,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SpringDataTradeProposalRepository extends JpaRepository<TradeProposalEntity, Long> {
-    @Query("select distinct p " +
-            "from TradeProposalEntity p " +
-            "left join fetch p.tradeItemProposalList i " +
-            "left join fetch i.collectionCard c " +
-            "where p.trade.id = :tradeId " +
-            "order by p.createdAt desc")
-    List<TradeProposalEntity> findAllWithItemsByTradeId(
-            @Param("tradeId") Long tradeId
-    );
+    @Query("select p from TradeProposalEntity p where p.trade.id = :id order by p.createdAt desc")
+    List<TradeProposalEntity> findAllByTradeId(Long id);
 }

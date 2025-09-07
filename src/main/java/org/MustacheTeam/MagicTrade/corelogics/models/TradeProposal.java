@@ -11,7 +11,6 @@ public record TradeProposal(
         Long proposerId,
         String status,
         LocalDateTime creationDate,
-        List<Long> collectionCards,
         String message,
         List<TradeItemProposal> tradeItemProposals
 ) {
