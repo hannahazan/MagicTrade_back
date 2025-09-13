@@ -52,8 +52,9 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
         List<TradeProposalEntity> proposals = repository.findAllByTradeId(proposal.tradeId());
 
         boolean isAllRejected = isAllProposingRejected(proposals);
+        boolean isTradeOpen = isTradeOpen(trade);
 
-        if(isAllRejected){
+        if(isAllRejected && isTradeOpen){
             TradeProposalEntity tradeProposal = new TradeProposalEntity(
                     trade,
                     proposer,
@@ -77,6 +78,9 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
 
             repository.save(tradeProposal);
         }else{
+            if(!isTradeOpen){
+                throw new IllegalStateException("This trade is closed, cancelled, rejected or already accepted");
+            }
             throw new IllegalStateException("A proposal has already been accepted or is in pending");
         }
     }
@@ -89,6 +93,14 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
             }
         });
         return isAllProposingRejected.get();
+    }
+
+    public boolean isTradeOpen(TradeEntity trade){
+        AtomicBoolean open = new AtomicBoolean(false);
+        if(trade.getStatus().name().equals("OPEN")){
+            open.set(true);
+        }
+        return open.get();
     }
 
     public TradeProposalList getAllTradeProposalByTradeId(Long tradeId){
@@ -126,14 +138,18 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
     @Override
     public void updateTradeProposalStatus(TradeProposal proposal, Long actualProposerId){
             TradeProposalEntity tradeProposal = repository.findById(proposal.id()).orElseThrow(()-> new IllegalArgumentException("This proposal does not exist"));
-
-            if(isRightTrader(actualProposerId, tradeProposal)){
+            TradeEntity trade = tradeRepository.findById(proposal.tradeId()).orElseThrow(() -> new IllegalArgumentException("Trade not found with id: " + proposal.tradeId())) ;
+            boolean open = isTradeOpen(trade);
+            if(isRightTrader(actualProposerId, tradeProposal) && open){
                 tradeProposal.setStatus(proposal.mapProposalStatus(proposal.status()));
 
                 repository.save(tradeProposal);
             }
 
             else{
+                if(!open){
+                    throw new IllegalStateException("This trade is closed or cancelled");
+                }
                 throw new RuntimeException("You have no right to update this proposal");
             }
 

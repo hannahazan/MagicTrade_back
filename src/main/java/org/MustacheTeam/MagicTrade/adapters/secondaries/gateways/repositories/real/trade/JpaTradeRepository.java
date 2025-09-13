@@ -138,7 +138,7 @@ public class JpaTradeRepository implements TradeRepository {
     @Override
     public void updateStatusTrade(Trade trade, Long id){
         TradeEntity oneTrade = repository.findById(trade.id()).orElseThrow(() -> new IllegalArgumentException("trade not found with id: " + trade.id()));
-        if(isInitiatorTrader(id, oneTrade)){
+        if(isInitiatorTrader(id, oneTrade) || isPartnerTrader(id, oneTrade)){
             oneTrade.setStatus(trade.mapTradeStatus(trade.status()));
             oneTrade.setClotureDate(LocalDateTime.now());
             repository.save(oneTrade);
@@ -150,6 +150,14 @@ public class JpaTradeRepository implements TradeRepository {
     public boolean isInitiatorTrader(Long id, TradeEntity trade){
         AtomicBoolean right = new AtomicBoolean(false);
         if(trade.getInitiator().getId().equals(id)){
+            right.set(true);
+        }
+        return right.get();
+    }
+
+    public boolean isPartnerTrader(Long id, TradeEntity trade){
+        AtomicBoolean right = new AtomicBoolean(false);
+        if(trade.getPartner().getId().equals(id)){
             right.set(true);
         }
         return right.get();
