@@ -1,8 +1,9 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.inmemory;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.Trade;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeList;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.Trade;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeList;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class InMemoryTradeRepository implements TradeRepository {
          return new TradeList(trades);
      }
 
-     public void updateStatusTrade(Trade trade, Long id){
+     public void updateStatusTrade(TradeUpdate trade, Long id){
 
      }
 }

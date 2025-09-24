@@ -11,12 +11,11 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeItemProposal;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposalList;
-import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
-import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
-import org.springframework.security.core.parameters.P;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.ProposalUpdate;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeItemProposal;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposalList;
+import org.MustacheTeam.MagicTrade.corelogics.utils.MapperTradeStatus;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -51,7 +50,7 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
 
         List<TradeProposalEntity> proposals = repository.findAllByTradeId(proposal.tradeId());
 
-        boolean isAllRejected = isAllProposingRejected(proposals);
+        boolean isAllRejected = isAllProposingRejectedOrCancelled(proposals);
         boolean isTradeOpen = isTradeOpen(trade);
 
         if(isAllRejected && isTradeOpen){
@@ -85,7 +84,7 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
         }
     }
 
-    public boolean isAllProposingRejected(List<TradeProposalEntity> proposals){
+    public boolean isAllProposingRejectedOrCancelled(List<TradeProposalEntity> proposals){
         AtomicBoolean isAllProposingRejected = new AtomicBoolean(true);
         proposals.forEach(p -> {
             if(Objects.equals(p.getStatus().name(), "PENDING") || Objects.equals(p.getStatus().name(), "ACCEPTED")){
@@ -136,23 +135,49 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
     }
 
     @Override
-    public void updateTradeProposalStatus(TradeProposal proposal, Long actualProposerId){
-            TradeProposalEntity tradeProposal = repository.findById(proposal.id()).orElseThrow(()-> new IllegalArgumentException("This proposal does not exist"));
-            TradeEntity trade = tradeRepository.findById(proposal.tradeId()).orElseThrow(() -> new IllegalArgumentException("Trade not found with id: " + proposal.tradeId())) ;
+    public void updateTradeProposalStatus(ProposalUpdate proposal, Long actualProposerId){
+            TradeProposalEntity tradeProposal = repository.findById(proposal.proposalId()).orElseThrow(()-> new IllegalArgumentException("This proposal does not exist"));
+            TradeEntity trade = tradeRepository.findById(tradeProposal.getTrade().getId()).orElseThrow(() -> new IllegalArgumentException("Trade not found with id: " + tradeProposal.getTrade().getId())) ;
             boolean open = isTradeOpen(trade);
+
             if(isRightTrader(actualProposerId, tradeProposal) && open){
-                tradeProposal.setStatus(proposal.mapProposalStatus(proposal.status()));
+                if(proposal.proposalStatus().equalsIgnoreCase("ACCEPTED")){
+                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus()));
+                    trade.setStatus(MapperTradeStatus.mapTradeStatus("ACCEPTED"));
+                    repository.save(tradeProposal);
+                    tradeRepository.save(trade);
+                }
 
-                repository.save(tradeProposal);
+                else if(proposal.proposalStatus().equalsIgnoreCase("REJECTED") && proposal.tradeStatus().equalsIgnoreCase("REJECTED")){
+                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
+                    trade.setStatus(MapperTradeStatus.mapTradeStatus(proposal.tradeStatus().toUpperCase()));
+                    repository.save(tradeProposal);
+                    tradeRepository.save(trade);
+                }
+
+                else if(proposal.proposalStatus().equalsIgnoreCase("REJECTED") && proposal.tradeStatus().equalsIgnoreCase("IN PROGRESS")){
+                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus()));
+                    repository.save(tradeProposal);
+                }
             }
-
+            else if(isCurrentProposer(actualProposerId, tradeProposal) && open){
+                if (proposal.proposalStatus().equalsIgnoreCase("CANCELLED") && proposal.tradeStatus().equalsIgnoreCase("REJECTED")){
+                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
+                    trade.setStatus(MapperTradeStatus.mapTradeStatus(proposal.tradeStatus().toUpperCase()));
+                    repository.save(tradeProposal);
+                    tradeRepository.save(trade);
+                }
+                else{
+                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
+                    repository.save(tradeProposal);
+                }
+            }
             else{
                 if(!open){
-                    throw new IllegalStateException("This trade is closed or cancelled");
+                    throw new IllegalStateException("This trade is no longer open");
                 }
                 throw new RuntimeException("You have no right to update this proposal");
             }
-
     }
 
     public boolean isRightTrader(Long id, TradeProposalEntity tradeProposal){
@@ -161,6 +186,14 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
             right.set(true);
         }
         return right.get();
+    }
+
+    public boolean isCurrentProposer(Long id, TradeProposalEntity tradeProposal){
+        AtomicBoolean current = new AtomicBoolean(false);
+        if(Objects.equals(tradeProposal.getProposer().getId(), id)){
+            current.set(true);
+        }
+        return current.get();
     }
 
 }

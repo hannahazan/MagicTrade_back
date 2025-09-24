@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.unittest.usecases.trade;
 
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.inmemory.InMemoryTradeRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.Trade;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.Trade;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
 import org.junit.jupiter.api.Test;
 

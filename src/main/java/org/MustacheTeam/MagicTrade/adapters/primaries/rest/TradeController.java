@@ -1,9 +1,9 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
 import org.MustacheTeam.MagicTrade.adapters.security.CurrentTrader;
-import org.MustacheTeam.MagicTrade.corelogics.models.Trade;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeList;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.Trade;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeList;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeUpdate;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllTradesByUserId;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.UpdateTrade;
@@ -35,7 +35,7 @@ public class TradeController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public void update(@PathVariable Long id, @RequestBody Trade trade, @AuthenticationPrincipal CurrentTrader currentTraderId){
+    public void update(@PathVariable Long id, @RequestBody TradeUpdate trade, @AuthenticationPrincipal CurrentTrader currentTraderId){
         updateTrade.handle(trade, currentTraderId.getId());
     }
 
