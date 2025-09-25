@@ -1,0 +1,88 @@
+name: Prod Back CI/CD (no registry)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # ---- Build & tests Maven (local runner) ----
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run tests
+        run: mvn -B test
+
+      - name: Verify (JaCoCo)
+        run: mvn -B verify
+
+      # ---- Copier les sources & le compose sur le VPS ----
+      - name: Prepare server folders
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            mkdir -p /opt/magictrade-back/app
+            # on supprime l'ancien contenu app pour éviter les fichiers obsolètes
+            rm -rf /opt/magictrade-back/app/*
+            mkdir -p /opt/magictrade-back
+
+      - name: Upload backend sources to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "Dockerfile,pom.xml,src"
+          target: "/opt/magictrade-back/app"
+
+      - name: Upload docker-compose to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "docker-compose.prod.yml"
+          target: "/opt/magictrade-back"
+
+      # ---- Générer / mettre à jour le .env sur le VPS ----
+      - name: Create/Update /opt/magictrade-back/.env
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cat > /opt/magictrade-back/.env << 'EOF'
+            DATABASE_USERNAME=${{ secrets.DB_USER }}
+            DATABASE_PASSWORD=${{ secrets.DB_PASS }}
+            JWT_SECRET_KEY=${{ secrets.JWT_SECRET }}
+            EXPIRATION_TIME=${{ vars.EXPIRATION_TIME || '3600000' }}
+            CORS_ALLOWED_ORIGIN=${{ vars.CORS_ALLOWED_ORIGIN }}
+            EOF
+            chmod 600 /opt/magictrade-back/.env
+
+      # ---- Build & déploiement sur le VPS (compose) ----
+      - name: Build & Deploy on VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /opt/magictrade-back
+            docker compose --env-file .env -f docker-compose.prod.yml build --pull api
+            docker compose --env-file .env -f docker-compose.prod.yml up -d
+            docker compose --env-file .env -f docker-compose.prod.yml ps
