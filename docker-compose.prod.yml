@@ -1,14 +1,19 @@
 services:
   db:
-    image: mysql:8.0-oracle
-    platform: linux/amd64
+    image: mariadb:10.11
     environment:
       MYSQL_DATABASE: magictrade
-      MYSQL_USER: ${DATABASE_USERNAME}
-      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_USER: ${DATABASE_USERNAME}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - ./dbdata:/var/lib/mysql         # <= relatif au dossier de compose
+    healthcheck:
+      test: [ "CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u$MARIADB_USER -p$MARIADB_PASSWORD || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
     restart: always
 
   api:
