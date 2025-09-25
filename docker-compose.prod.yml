@@ -9,7 +9,7 @@ services:
     volumes:
       - ./dbdata:/var/lib/mysql         # <= relatif au dossier de compose
     healthcheck:
-      test: [ "CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u$MARIADB_USER -p$MARIADB_PASSWORD || exit 1" ]
+      test: [ "CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u$$MARIADB_USER -p$$MARIADB_PASSWORD || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 10
