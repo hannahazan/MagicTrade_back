@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mysql:8.4
+    container_name: magictrade_db
+    environment:
+      MYSQL_DATABASE: magictrade
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: magictrade_api
+    depends_on:
+      - db
+    environment:
+      # Le back lit ces variables
+      DATABASE_URL: jdbc:mysql://db:3306/magictrade?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      EXPIRATION_TIME: ${EXPIRATION_TIME}
+      CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN}
+      # Spring tuning optionnel
+      JAVA_OPTS: -Xms256m -Xmx512m
+    ports:
+      - "8080:8080"
+
+volumes:
+  dbdata:
