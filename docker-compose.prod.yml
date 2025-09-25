@@ -7,14 +7,14 @@ services:
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
-      - /opt/magictrade-back/dbdata:/var/lib/mysql
+      - ./dbdata:/var/lib/mysql         # <= relatif au dossier de compose
     restart: always
 
   api:
     build:
-      context: ./app
+      context: ./app                    # <= le code back sera copié ici
       dockerfile: Dockerfile
-    image: magictrade-api:latest   # (tag local sur le VPS)
+    image: magictrade-api:latest
     depends_on: [db]
     environment:
       SPRING_PROFILES_ACTIVE: prod

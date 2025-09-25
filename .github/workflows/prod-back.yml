@@ -7,6 +7,11 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    # <- ICI : env au niveau du job
+    env:
+      SERVER_BASE: /home/${{ secrets.SSH_USER }}/magictrade-back
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,10 +39,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            mkdir -p /opt/magictrade-back/app
-            # on supprime l'ancien contenu app pour éviter les fichiers obsolètes
-            rm -rf /opt/magictrade-back/app/*
-            mkdir -p /opt/magictrade-back
+            mkdir -p "$SERVER_BASE/app"
+            rm -rf "$SERVER_BASE/app"/*
 
       - name: Upload backend sources to VPS
         uses: appleboy/scp-action@v0.1.7
@@ -46,7 +49,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           source: "Dockerfile,pom.xml,src"
-          target: "/opt/magictrade-back/app"
+          target: "${{ env.SERVER_BASE }}/app"
 
       - name: Upload docker-compose to VPS
         uses: appleboy/scp-action@v0.1.7
@@ -55,26 +58,24 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           source: "docker-compose.prod.yml"
-          target: "/opt/magictrade-back"
+          target: "${{ env.SERVER_BASE }}"
 
-      # ---- Générer / mettre à jour le .env sur le VPS ----
-      - name: Create/Update /opt/magictrade-back/.env
+      - name: Create/Update .env on VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cat > /opt/magictrade-back/.env << 'EOF'
+            cat > "${{ env.SERVER_BASE }}/.env" << 'EOF'
             DATABASE_USERNAME=${{ secrets.DB_USER }}
             DATABASE_PASSWORD=${{ secrets.DB_PASS }}
             JWT_SECRET_KEY=${{ secrets.JWT_SECRET }}
-            EXPIRATION_TIME=${{ vars.EXPIRATION_TIME || '3600000' }}
+            EXPIRATION_TIME=${{ vars.EXPIRATION_TIME && vars.EXPIRATION_TIME || '3600000' }}
             CORS_ALLOWED_ORIGIN=${{ vars.CORS_ALLOWED_ORIGIN }}
             EOF
-            chmod 600 /opt/magictrade-back/.env
+            chmod 600 "${{ env.SERVER_BASE }}/.env"
 
-      # ---- Build & déploiement sur le VPS (compose) ----
       - name: Build & Deploy on VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -82,7 +83,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /opt/magictrade-back
+            cd "${{ env.SERVER_BASE }}"
             docker compose --env-file .env -f docker-compose.prod.yml build --pull api
             docker compose --env-file .env -f docker-compose.prod.yml up -d
             docker compose --env-file .env -f docker-compose.prod.yml ps
