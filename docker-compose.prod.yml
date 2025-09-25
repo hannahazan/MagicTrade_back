@@ -2,7 +2,7 @@ services:
   db:
     image: mariadb:10.11
     environment:
-      MYSQL_DATABASE: magictrade
+      MARIADB_DATABASE: magictrade
       MARIADB_USER: ${DATABASE_USERNAME}
       MARIADB_PASSWORD: ${DATABASE_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
