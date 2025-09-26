@@ -33,7 +33,16 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    networks: [ traefik ]
+    labels:
+        - traefik.enable=true
+        # route API via HTTPS, avec préfixe /magicTrade-api
+        - traefik.http.routers.api.rule=Host(`${DOMAIN}`) && PathPrefix(`/magicTrade-api`)
+        - traefik.http.routers.api.entrypoints=websecure
+        - traefik.http.routers.api.tls=true
+        - traefik.http.routers.api.tls.certresolver=letsencrypt
+        - traefik.http.services.api.loadbalancer.server.port=8080
 
 networks:
-  default:
-    name: magictrade_net
+  traefik:
+    external: true
