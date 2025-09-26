@@ -15,6 +15,8 @@ services:
       retries: 10
       start_period: 20s
     restart: always
+    networks:
+      - internal
 
   api:
     build:
@@ -30,10 +32,12 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       EXPIRATION_TIME: ${EXPIRATION_TIME}
       CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN}
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     restart: always
-    networks: [ traefik ]
+    networks:
+      - internal                 # pour parler à "db"
+      - traefik                  # pour être vu par Traefik
     labels:
         - traefik.enable=true
         # route API via HTTPS, avec préfixe /magicTrade-api
@@ -46,3 +50,5 @@ services:
 networks:
   traefik:
     external: true
+  internal:
+    driver: bridge
