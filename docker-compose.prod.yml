@@ -30,8 +30,8 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       EXPIRATION_TIME: ${EXPIRATION_TIME}
-      DOMAIN: ${DOMAIN}
       CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN}
+      DOMAIN: ${DOMAIN}
     expose:
       - "8080"
     restart: always

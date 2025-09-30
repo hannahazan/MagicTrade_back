@@ -73,6 +73,7 @@ jobs:
             JWT_SECRET_KEY=${{ secrets.JWT_SECRET }}
             EXPIRATION_TIME=${{ vars.EXPIRATION_TIME && vars.EXPIRATION_TIME || '3600000' }}
             CORS_ALLOWED_ORIGIN=${{ vars.CORS_ALLOWED_ORIGIN }}
+            DOMAIN=${{ vars.DOMAIN }}
             EOF
             chmod 600 "${{ env.SERVER_BASE }}/.env"
 
