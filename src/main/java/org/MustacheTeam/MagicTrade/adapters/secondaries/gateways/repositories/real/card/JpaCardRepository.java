@@ -167,7 +167,7 @@ public class JpaCardRepository implements CardRepository {
         if(!types.isEmpty()){
             List<Predicate> likePredicates = new ArrayList<>();
             List<Predicate> likePredicatesFaces = new ArrayList<>();
-            colors.forEach(c->{
+            types.forEach(c->{
                 Predicate like = cb.like(cb.lower(root.get("types")),"%" + c.toLowerCase() + "%");
                 Predicate likeFaces = cb.like(cb.lower(dc.get("typeLine")),"%" + c.toLowerCase() + "%");
                 likePredicates.add(like);
