@@ -42,7 +42,7 @@ public class JpaCardRepository implements CardRepository {
             final CardEntity entityCard = new CardEntity(card.id(), card.setId(), card.name(), card.manaCost(), card.cmc(), card.types(), card.text(), card.toughness(), card.power(), card.rarity(),
                     card.foil(), card.fullArt(), card.textLess(), card.purchase_uris() != null?card.purchase_uris().cardmarket():null, card.legalities().standard(), card.legalities().pioneer(), card.legalities().explorer()
                     , card.legalities().modern(), card.legalities().legacy(), card.legalities().pauper(), card.legalities().vintage(), card.legalities().commander(), card.legalities().brawl()
-                    , card.legalities().commander(), card.legalities().duel(), card.legalities().oldschool(), card.image_uris() != null ? card.image_uris().normal() : null, card.image_uris() != null ? card.image_uris().art_crop() : null,
+                    , card.legalities().paupercommander(), card.legalities().duel(), card.legalities().oldschool(), card.image_uris() != null ? card.image_uris().normal() : null, card.image_uris() != null ? card.image_uris().art_crop() : null,
                     card.card_faces() != null
             );
 
@@ -121,8 +121,8 @@ public class JpaCardRepository implements CardRepository {
         }
 
         if(!text.isEmpty()){
-            Predicate onCard = cb.like(cb.lower(root.get("text")), "%" + name.toLowerCase() + "%");
-            Predicate onFace = cb.like(cb.lower(dc.get("text")), "%" + name.toLowerCase() + "%");
+            Predicate onCard = cb.like(cb.lower(root.get("text")), "%" + text.toLowerCase() + "%");
+            Predicate onFace = cb.like(cb.lower(dc.get("text")), "%" + text.toLowerCase() + "%");
             predicates.add(cb.or(onCard, onFace));
         }
 
@@ -167,7 +167,7 @@ public class JpaCardRepository implements CardRepository {
         if(!types.isEmpty()){
             List<Predicate> likePredicates = new ArrayList<>();
             List<Predicate> likePredicatesFaces = new ArrayList<>();
-            colors.forEach(c->{
+            types.forEach(c->{
                 Predicate like = cb.like(cb.lower(root.get("types")),"%" + c.toLowerCase() + "%");
                 Predicate likeFaces = cb.like(cb.lower(dc.get("typeLine")),"%" + c.toLowerCase() + "%");
                 likePredicates.add(like);

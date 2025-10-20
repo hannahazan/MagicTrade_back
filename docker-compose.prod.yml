@@ -1,0 +1,52 @@
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_DATABASE: magictrade
+      MARIADB_USER: ${DATABASE_USERNAME}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql         # <= relatif au dossier de compose
+    healthcheck:
+      test: [ "CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u$$MARIADB_USER -p$$MARIADB_PASSWORD || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: always
+    networks: [internal]
+
+  api:
+    build:
+      context: ./app                    # <= le code back sera copié ici
+      dockerfile: Dockerfile
+    image: magictrade-api:latest
+    depends_on: [db]
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DATABASE_URL: jdbc:mysql://db:3306/magictrade?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      EXPIRATION_TIME: ${EXPIRATION_TIME}
+      CORS_ALLOWED_ORIGIN: ${CORS_ALLOWED_ORIGIN}
+      DOMAIN: ${DOMAIN}
+    expose:
+      - "8080"
+    restart: always
+    networks: [internal, traefik]              # pour être vu par Traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.api.rule=Host(`${DOMAIN}`) && PathPrefix(`/magicTrade-api`)"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.routers.api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.api.loadbalancer.server.port=8080"
+
+networks:
+  traefik:
+    external: true
+  internal:
+    driver: bridge
