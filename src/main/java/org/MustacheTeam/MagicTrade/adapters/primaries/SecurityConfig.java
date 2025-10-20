@@ -59,10 +59,12 @@ public class SecurityConfig {
                                 "/magicTrade-api/double-cards"
                         ).permitAll()
                                 .requestMatchers(HttpMethod.GET,
-                                        "/magicTrade-api/trade_proposal/**",
-                                        "/magicTrade-api/collections/**",
-                                        "/magicTrade-api/trade/**"
+                                        "/magicTrade-api/collections/**"
                                 ).permitAll()
+                                .requestMatchers(HttpMethod.GET,
+                                        "/magicTrade-api/trade_proposal/**",
+                                        "/magicTrade-api/trade/**"
+                                        ).authenticated()
                                 .requestMatchers(HttpMethod.POST,
                                         "/magicTrade-api/trade_proposal/**",
                                         "/magicTrade-api/collections/**",

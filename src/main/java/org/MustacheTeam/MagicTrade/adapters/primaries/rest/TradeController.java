@@ -29,9 +29,9 @@ public class TradeController {
         createTrade.handle(trade, currentTraderId.getId());
     }
 
-    @GetMapping(value = "/{id}")
-    public TradeList getAllTradesByUser(@PathVariable Long id){
-        return getAllTradesByUserId.handle(id);
+    @GetMapping
+    public TradeList getAllTradesByUser(@AuthenticationPrincipal CurrentTrader currentTraderId){
+        return getAllTradesByUserId.handle(currentTraderId.getId());
     }
 
     @PutMapping(value = "/update/{id}")
