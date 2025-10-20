@@ -5,12 +5,11 @@ import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserLoginDto;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetUserByEmail;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Set;
@@ -21,10 +20,12 @@ public class AuthController {
 
     private final CreateUser createUser;
     private final AuthenticationService authenticationService;
+    private final GetUserByEmail getUserByEmail;
 
-    public AuthController(CreateUser createUser, AuthenticationService authenticationService) {
+    public AuthController(CreateUser createUser, AuthenticationService authenticationService, GetUserByEmail getUserByEmail) {
         this.createUser = createUser;
         this.authenticationService = authenticationService;
+        this.getUserByEmail = getUserByEmail;
     }
 
     @PostMapping("/register")
@@ -41,6 +42,13 @@ public class AuthController {
                 userLoginDto.getPassword()
         );
         return ResponseEntity.ok(token);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserDto> getCurrentUser(Authentication authentication) {
+        String email = authentication.getName();
+        UserDto user = getUserByEmail.handle(email);
+        return ResponseEntity.ok(user);
     }
 }
 

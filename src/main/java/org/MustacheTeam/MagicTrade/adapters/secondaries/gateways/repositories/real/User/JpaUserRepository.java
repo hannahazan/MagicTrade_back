@@ -5,6 +5,7 @@ import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
 import org.MustacheTeam.MagicTrade.adapters.security.PasswordEncoderService;
 import org.MustacheTeam.MagicTrade.corelogics.models.exception.ResourceAlreadyExistsException;
 import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ public class JpaUserRepository implements UserRepository {
     private final SpringDataUserRepository repository;
     private final PasswordEncoderService passwordEncoderService;
 
-    public JpaUserRepository(SpringDataUserRepository repository,PasswordEncoderService passwordEncoder) {
+    public JpaUserRepository(SpringDataUserRepository repository, PasswordEncoderService passwordEncoder) {
         this.repository = repository;
         this.passwordEncoderService = passwordEncoder;
     }
@@ -27,8 +28,24 @@ public class JpaUserRepository implements UserRepository {
         return repository.existsByPseudo(pseudo);
     }
 
+    @Override
     public Optional<UserEntity> findByEmail(String email) {
         return repository.findByEmail(email);
+    }
+
+    public Optional<UserDto> findUserDtoByEmail(String email) {
+        return repository.findByEmail(email)
+                .map(userEntity -> {
+                    UserDto dto = new UserDto();
+                    dto.setEmail(userEntity.getEmail());
+                    dto.setPseudo(userEntity.getPseudo());
+                    dto.setFirstName(userEntity.getFirstName());
+                    dto.setLastName(userEntity.getLastName());
+                    dto.setCity(userEntity.getCity());
+                    dto.setCountry(userEntity.getCountry());
+                    dto.setDepartment(userEntity.getDepartment());
+                    return dto;
+                });
     }
 
     @Override
@@ -59,8 +76,7 @@ public class JpaUserRepository implements UserRepository {
         } else {
             user.setRole("ROLE_USER");
         }
+
         repository.save(user);
     }
-
-
 }

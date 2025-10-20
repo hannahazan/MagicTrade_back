@@ -357,6 +357,6 @@ public class BeanConfiguration {
 
     @Bean
     public GetUserByEmail getUserByEmail(UserRepository userRepository) {
-        return new GetUserByEmail(userRepository);
+        return new GetUserByEmail((JpaUserRepository) userRepository);
     }
 }
