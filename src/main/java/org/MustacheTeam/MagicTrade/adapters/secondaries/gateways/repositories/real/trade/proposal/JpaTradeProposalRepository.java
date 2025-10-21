@@ -57,7 +57,7 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
             TradeProposalEntity tradeProposal = new TradeProposalEntity(
                     trade,
                     proposer,
-                    proposal.mapProposalStatus(proposal.status()),
+                    proposal.mapProposalStatus("PENDING"),
                     LocalDateTime.now(),
                     proposal.message()
             );
@@ -142,7 +142,7 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
 
             if(isRightTrader(actualProposerId, tradeProposal) && open){
                 if(proposal.proposalStatus().equalsIgnoreCase("ACCEPTED")){
-                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus()));
+                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
                     trade.setStatus(MapperTradeStatus.mapTradeStatus("ACCEPTED"));
                     repository.save(tradeProposal);
                     tradeRepository.save(trade);
@@ -155,9 +155,12 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
                     tradeRepository.save(trade);
                 }
 
-                else if(proposal.proposalStatus().equalsIgnoreCase("REJECTED") && proposal.tradeStatus().equalsIgnoreCase("IN PROGRESS")){
-                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus()));
+                else if(proposal.proposalStatus().equalsIgnoreCase("REJECTED") && proposal.tradeStatus().equalsIgnoreCase("OPEN")){
+                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
                     repository.save(tradeProposal);
+                }
+                else{
+                    throw new RuntimeException("Wrong status");
                 }
             }
             else if(isCurrentProposer(actualProposerId, tradeProposal) && open){
@@ -167,9 +170,12 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
                     repository.save(tradeProposal);
                     tradeRepository.save(trade);
                 }
-                else{
+                else if (proposal.proposalStatus().equalsIgnoreCase("CANCELLED") && proposal.tradeStatus().equalsIgnoreCase("OPEN")){
                     tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
                     repository.save(tradeProposal);
+                }
+                else{
+                    throw new RuntimeException("Wrong status");
                 }
             }
             else{

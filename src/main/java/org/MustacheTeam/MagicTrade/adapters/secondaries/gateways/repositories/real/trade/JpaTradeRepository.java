@@ -48,7 +48,7 @@ public class JpaTradeRepository implements TradeRepository {
                         proposal =  new TradeProposalEntity(
                                 tradeEntity,
                                 proposer,
-                                p.mapProposalStatus(p.status()),
+                                p.mapProposalStatus("PENDING"),
                                 LocalDateTime.now(),
                                 p.message()
                         )
