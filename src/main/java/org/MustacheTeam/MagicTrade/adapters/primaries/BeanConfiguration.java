@@ -4,6 +4,8 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.wishlist.JpaWishlistRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.wishlist.SpringDataWishlistRepository;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
@@ -71,6 +73,9 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.Updat
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetUserByEmail;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.wishlist.CreateWishlistItem;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.wishlist.DeleteWishlistItem;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.wishlist.GetWishlistByUser;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -119,6 +124,26 @@ public class BeanConfiguration {
     @Bean
     public CreateCollection createCollection(JpaCollectionRepository jpaCollectionRepository){
         return new CreateCollection(jpaCollectionRepository);
+    }
+
+    @Bean
+    public CreateWishlistItem createWishlistItem(JpaWishlistRepository jpaWishlistRepository){
+        return new CreateWishlistItem(jpaWishlistRepository);
+    }
+
+    @Bean
+    public DeleteWishlistItem deleteWishlistItem(JpaWishlistRepository jpaWishlistRepository) {
+        return new DeleteWishlistItem(jpaWishlistRepository);
+    }
+
+    @Bean
+    public GetWishlistByUser getWishlistByUser(JpaWishlistRepository jpaWishlistRepository) {
+        return new GetWishlistByUser(jpaWishlistRepository);
+    }
+
+    @Bean
+    public JpaWishlistRepository jpaWishlistRepository(SpringDataWishlistRepository repository, SpringDataUserRepository userRepository, SpringDataCardRepository cardRepository){
+        return new JpaWishlistRepository(repository, userRepository, cardRepository);
     }
 
     @Bean
