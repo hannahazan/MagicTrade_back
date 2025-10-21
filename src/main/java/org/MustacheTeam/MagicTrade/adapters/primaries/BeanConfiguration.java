@@ -2,6 +2,7 @@ package org.MustacheTeam.MagicTrade.adapters.primaries;
 
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.JpaTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeMapper;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
@@ -278,8 +279,13 @@ public class BeanConfiguration {
     }
 
     @Bean
-    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, SpringDataUserRepository userRepository, SpringDataCollectionRepository collectionRepository){
-        return new JpaTradeRepository(repository, userRepository, collectionRepository);
+    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, TradeMapper tradeMapper){
+        return new JpaTradeRepository(repository, tradeMapper);
+    }
+
+    @Bean
+    TradeMapper tradeMapper(SpringDataCollectionRepository collectionRepository, SpringDataUserRepository userRepository){
+        return new TradeMapper(collectionRepository, userRepository);
     }
 
     @Bean

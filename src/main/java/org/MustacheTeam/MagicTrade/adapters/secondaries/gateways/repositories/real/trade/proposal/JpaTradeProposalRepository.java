@@ -15,7 +15,7 @@ import org.MustacheTeam.MagicTrade.corelogics.models.trade.ProposalUpdate;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposalList;
-import org.MustacheTeam.MagicTrade.corelogics.utils.MapperTradeStatus;
+import org.MustacheTeam.MagicTrade.corelogics.utils.trade.MapperTradeStatus;
 
 import java.time.LocalDateTime;
 import java.util.*;

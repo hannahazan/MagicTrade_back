@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.models.trade;
 
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.TradeStatus;
-import org.MustacheTeam.MagicTrade.corelogics.utils.MapperTradeStatus;
+import org.MustacheTeam.MagicTrade.corelogics.utils.trade.MapperTradeStatus;
 
 public record TradeUpdate(Long tradeId, String status) {
 

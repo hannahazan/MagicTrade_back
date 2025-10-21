@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.corelogics.utils;
+package org.MustacheTeam.MagicTrade.corelogics.utils.trade;
 
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
 

@@ -11,6 +11,9 @@ public class UpdateTrade {
     }
 
     public void handle(TradeUpdate trade, Long Userid){
-        repository.updateStatusTrade(trade, Userid);
+        if(trade.status().equalsIgnoreCase("CLOSED") || trade.status().equalsIgnoreCase("CANCELLED")){
+            repository.updateStatusTrade(trade, Userid);
+        }
+        else throw new RuntimeException("Invalid Status");
     }
 }
