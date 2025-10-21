@@ -27,26 +27,26 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
     private final SpringDataTradeProposalRepository repository;
     private final SpringDataTradeRepository tradeRepository;
     private final SpringDataUserRepository userRepository;
-    private final SpringDataCollectionRepository collectionRepository;
+    private final TradeProposalMapper tradeProposalMapper;
 
     public JpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
                                       SpringDataTradeRepository tradeRepository,
                                       SpringDataUserRepository userRepository,
-                                      SpringDataCollectionRepository collectionRepository){
+                                      TradeProposalMapper tradeProposalMapper){
         this.repository = repository;
         this.tradeRepository = tradeRepository;
         this.userRepository = userRepository;
-        this.collectionRepository = collectionRepository;
+        this.tradeProposalMapper = tradeProposalMapper;
     }
 
     @Transactional
     @Override
     public void save(TradeProposal proposal, Long id){
-        List<TradeProposalItemEntity> items = new ArrayList<>();
+        //List<TradeProposalItemEntity> items = new ArrayList<>();
 
-        TradeEntity trade = tradeRepository.findById(proposal.tradeId()).orElseThrow(() -> new IllegalArgumentException("Trade not found with id: " + proposal.tradeId())) ;
+        TradeEntity trade = tradeProposalMapper.getOneTrade(proposal.tradeId());
 
-        UserEntity proposer = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id:"));
+        //UserEntity proposer = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id:"));
 
         List<TradeProposalEntity> proposals = repository.findAllByTradeId(proposal.tradeId());
 
@@ -54,28 +54,7 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
         boolean isTradeOpen = isTradeOpen(trade);
 
         if(isAllRejected && isTradeOpen){
-            TradeProposalEntity tradeProposal = new TradeProposalEntity(
-                    trade,
-                    proposer,
-                    proposal.mapProposalStatus("PENDING"),
-                    LocalDateTime.now(),
-                    proposal.message()
-            );
-
-            proposal.tradeItemProposals().forEach( c ->{
-                CollectionEntity collection = collectionRepository.findById(c.userCard().id()).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
-                items.add(
-                        new TradeProposalItemEntity(
-                                tradeProposal,
-                                collection,
-                                c.getSide(collection.getUserId().getId(),id)
-                        )
-                );
-            } );
-
-            tradeProposal.setTradeItemProposalList(items);
-
-            repository.save(tradeProposal);
+            repository.save(tradeProposalMapper.tradePropopsalToTradeProposalEntity(proposal, trade, getOneUser(id), id));
         }else{
             if(!isTradeOpen){
                 throw new IllegalStateException("This trade is closed, cancelled, rejected or already accepted");
@@ -92,6 +71,16 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
             }
         });
         return isAllProposingRejected.get();
+    }
+
+
+
+    public TradeEntity getOneTrade( Long id){
+        return tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Trade not found with id: " + id)) ;
+    }
+
+    public UserEntity getOneUser(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id:"));
     }
 
     public boolean isTradeOpen(TradeEntity trade){
@@ -171,7 +160,7 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
                     tradeRepository.save(trade);
                 }
                 else if (proposal.proposalStatus().equalsIgnoreCase("CANCELLED") && proposal.tradeStatus().equalsIgnoreCase("OPEN")){
-                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
+                    tradeProposal.setStatus(proposal.mapProposalStatus(proposal.proposalStatus()));
                     repository.save(tradeProposal);
                 }
                 else{

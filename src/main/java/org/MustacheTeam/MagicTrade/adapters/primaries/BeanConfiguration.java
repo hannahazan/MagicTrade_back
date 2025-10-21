@@ -5,6 +5,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeMapper;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalMapper;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
@@ -302,9 +303,13 @@ public class BeanConfiguration {
     JpaTradeProposalRepository jpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
                                                           SpringDataTradeRepository tradeRepository,
                                                           SpringDataUserRepository userRepository,
-                                                          SpringDataCollectionRepository collectionRepository){
-        return new JpaTradeProposalRepository(repository,tradeRepository,userRepository,collectionRepository);
+                                                          TradeProposalMapper tradeProposalMapper){
+        return new JpaTradeProposalRepository(repository,tradeRepository,userRepository, tradeProposalMapper);
 
+    }
+    @Bean
+    TradeProposalMapper tradeProposalMapper(SpringDataTradeRepository tradeRepository, SpringDataUserRepository userRepository, SpringDataCollectionRepository collectionRepository){
+        return new TradeProposalMapper(tradeRepository,userRepository,collectionRepository);
     }
     @Bean
     CreateTradeProposal createTradeProposal(TradeProposalRepository repository){
