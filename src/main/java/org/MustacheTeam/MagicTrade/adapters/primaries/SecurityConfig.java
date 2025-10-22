@@ -65,11 +65,13 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,
                                         "/magicTrade-api/trade_proposal/**",
                                         "/magicTrade-api/collections/**",
+                                        "/magicTrade-api/users/*/wishlist",
                                         "/magicTrade-api/auth/profiles"
                                 ).permitAll()
                                 .requestMatchers(HttpMethod.POST,
                                         "/magicTrade-api/trade_proposal/**",
                                         "/magicTrade-api/collections/**",
+                                        "/magicTrade-api/wishlist",
                                         "/magicTrade-api/trade/**"
                                 ).authenticated()
                                 .requestMatchers(HttpMethod.PUT,
@@ -80,6 +82,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE,
                                         "/magicTrade-api/trade_proposal/**",
                                         "/magicTrade-api/collections/**",
+                                        "/magicTrade-api/wishlist/*",
                                         "/magicTrade-api/trade/**"
                                 ).authenticated()
     //                    .requestMatchers("/admin/**").hasRole("ADMIN") // Préparation admin
