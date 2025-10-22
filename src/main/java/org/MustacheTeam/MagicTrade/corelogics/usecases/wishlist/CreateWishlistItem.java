@@ -12,7 +12,6 @@ public class CreateWishlistItem {
 
     public void handle(long userId, String cardId) {
         WishlistItem wishlistItem = new WishlistItem(userId, cardId);
-        System.out.println(wishlistItem);
         repository.save(wishlistItem);
     }
 }
