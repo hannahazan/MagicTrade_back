@@ -303,9 +303,9 @@ public class BeanConfiguration {
     @Bean
     JpaTradeProposalRepository jpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
                                                           SpringDataTradeRepository tradeRepository,
-                                                          SpringDataUserRepository userRepository,
-                                                          TradeProposalMapper tradeProposalMapper){
-        return new JpaTradeProposalRepository(repository,tradeRepository,userRepository, tradeProposalMapper);
+                                                          TradeProposalMapper tradeProposalMapper,
+                                                          TradeMapper tradeMapper){
+        return new JpaTradeProposalRepository(repository,tradeRepository, tradeProposalMapper, tradeMapper);
 
     }
     @Bean

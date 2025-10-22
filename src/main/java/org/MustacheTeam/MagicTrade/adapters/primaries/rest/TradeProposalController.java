@@ -33,8 +33,8 @@ public class TradeProposalController {
         return getAllProposalsByOneTrades.handle(tradeId);
     }
 
-    @PutMapping(value = "/update/{id}")
-    public void update(@PathVariable Long id, @RequestBody ProposalUpdate proposal, @AuthenticationPrincipal CurrentTrader currentTraderId){
+    @PutMapping(value = "/update")
+    public void update(@RequestBody ProposalUpdate proposal, @AuthenticationPrincipal CurrentTrader currentTraderId){
         updateOneProposal.handle(proposal, currentTraderId.getId());
     }
 }

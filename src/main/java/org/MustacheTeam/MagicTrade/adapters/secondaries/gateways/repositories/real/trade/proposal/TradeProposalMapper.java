@@ -7,6 +7,8 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
+import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
 
 import java.time.LocalDateTime;
@@ -45,11 +47,35 @@ public class TradeProposalMapper {
                     )
             );
         } );
-
         tradeProposal.setTradeItemProposalList(items);
         return tradeProposal;
-
     }
+
+    public TradeProposal tradeProposalEntityToTradeProposal(TradeProposalEntity tradeProposalEntity){
+        return new TradeProposal(
+                tradeProposalEntity.getId(),
+                tradeProposalEntity.getTrade().getId(),
+                tradeProposalEntity.getProposer().getId(),
+                tradeProposalEntity.getStatus().name(),
+                tradeProposalEntity.getCreatedAt(),
+                tradeProposalEntity.getMessage(),
+                tradeProposalEntity.getTradeItemProposalList().stream().map(i->
+                        new TradeItemProposal(
+                                i.getId(),
+                                i.getProposal().getId(),
+                                new Collection(
+                                        i.getCollectionCard().getId(),
+                                        i.getCollectionCard().getUserId().getId(),
+                                        i.getCollectionCard().getCardId().getId(),
+                                        i.getCollectionCard().getLang(),
+                                        i.getCollectionCard().getState()
+                                ),
+                                i.getCollectionCard().getCardId().getImageSizeNormal(),
+                                i.getSide().name()
+                        )
+                ).toList());
+    }
+
     public TradeEntity getOneTrade(Long id){
         return tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Trade not found with id: " + id)) ;
     }
