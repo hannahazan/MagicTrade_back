@@ -1,10 +1,13 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
 import jakarta.validation.Valid;
+import org.MustacheTeam.MagicTrade.corelogics.models.User;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
+import org.MustacheTeam.MagicTrade.corelogics.models.UserList;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserLoginDto;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetAllUsers;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetUserByEmail;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +24,13 @@ public class AuthController {
     private final CreateUser createUser;
     private final AuthenticationService authenticationService;
     private final GetUserByEmail getUserByEmail;
+    private final GetAllUsers getAllUsers;
 
-    public AuthController(CreateUser createUser, AuthenticationService authenticationService, GetUserByEmail getUserByEmail) {
+    public AuthController(CreateUser createUser, AuthenticationService authenticationService, GetUserByEmail getUserByEmail, GetAllUsers getAllUsers) {
         this.createUser = createUser;
         this.authenticationService = authenticationService;
         this.getUserByEmail = getUserByEmail;
+        this.getAllUsers = getAllUsers;
     }
 
     @PostMapping("/register")
@@ -44,11 +49,17 @@ public class AuthController {
         return ResponseEntity.ok(token);
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<UserDto> getCurrentUser(Authentication authentication) {
+    @GetMapping("/Myprofile")
+    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
         String email = authentication.getName();
-        UserDto user = getUserByEmail.handle(email);
+        User user = getUserByEmail.handle(email);
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/profiles")
+    public ResponseEntity<UserList> getUsers(){
+        return ResponseEntity.ok(getAllUsers.handle());
+    }
+
 }
 
