@@ -1,5 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.security;
 
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.JpaUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,9 +15,9 @@ import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserRepository userRepository;
+    private final SpringDataUserRepository userRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public CustomUserDetailsService(SpringDataUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

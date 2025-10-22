@@ -5,7 +5,6 @@ public record User(
     String pseudo,
     String country,
     String department,
-    String city,
-    String role
+    String city
 ) {
 }
