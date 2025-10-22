@@ -1,11 +1,16 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.User;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
 import org.MustacheTeam.MagicTrade.adapters.security.PasswordEncoderService;
+import org.MustacheTeam.MagicTrade.corelogics.models.UserList;
 import org.MustacheTeam.MagicTrade.corelogics.models.exception.ResourceAlreadyExistsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,23 +34,29 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<UserEntity> findByEmail(String email) {
-        return repository.findByEmail(email);
+    public UserList findAllUsers(){
+        List<UserEntity> userEntities = repository.findAll();
+        List<User> users = new ArrayList<>();
+        userEntities.forEach(u ->
+            users.add(new User(
+                    u.getId(),
+                    u.getPseudo(),
+                    u.getCountry(),
+                    u.getDepartment(),
+                    u.getCity()
+            ))
+        );
+        return new UserList(users);
     }
 
-    public Optional<UserDto> findUserDtoByEmail(String email) {
-        return repository.findByEmail(email)
-                .map(userEntity -> {
-                    UserDto dto = new UserDto();
-                    dto.setEmail(userEntity.getEmail());
-                    dto.setPseudo(userEntity.getPseudo());
-                    dto.setFirstName(userEntity.getFirstName());
-                    dto.setLastName(userEntity.getLastName());
-                    dto.setCity(userEntity.getCity());
-                    dto.setCountry(userEntity.getCountry());
-                    dto.setDepartment(userEntity.getDepartment());
-                    return dto;
-                });
+    @Override
+    public User findUserByEmail(String email) {
+      UserEntity userEntity = repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+      return new User(userEntity.getId(),
+              userEntity.getPseudo(),
+              userEntity.getCountry(),
+              userEntity.getDepartment(),
+              userEntity.getCity());
     }
 
     @Override

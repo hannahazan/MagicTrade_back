@@ -72,6 +72,7 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllTradesByUserI
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.UpdateOneProposal;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetAllUsers;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetUserByEmail;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -357,7 +358,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public CustomUserDetailsService customUserDetailsService(UserRepository userRepository){
+    public CustomUserDetailsService customUserDetailsService(SpringDataUserRepository userRepository){
         return new CustomUserDetailsService(userRepository);
     }
 
@@ -369,5 +370,10 @@ public class BeanConfiguration {
     @Bean
     public GetUserByEmail getUserByEmail(UserRepository userRepository) {
         return new GetUserByEmail((JpaUserRepository) userRepository);
+    }
+
+    @Bean
+    public GetAllUsers getAllUsers(UserRepository userRepository){
+        return new GetAllUsers(userRepository);
     }
 }
