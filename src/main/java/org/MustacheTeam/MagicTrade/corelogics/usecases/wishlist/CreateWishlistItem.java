@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.usecases.wishlist;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.WishlistRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.WishlistItem;
+import org.MustacheTeam.MagicTrade.corelogics.models.wishlist.WishlistItem;
 
 public class CreateWishlistItem {
     private final WishlistRepository repository;

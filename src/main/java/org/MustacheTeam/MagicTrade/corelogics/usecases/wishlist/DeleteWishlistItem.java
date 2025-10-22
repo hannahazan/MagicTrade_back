@@ -3,13 +3,13 @@ package org.MustacheTeam.MagicTrade.corelogics.usecases.wishlist;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.WishlistRepository;
 
 public class DeleteWishlistItem {
-    private final WishlistRepository wishlistRepository;
+    private final WishlistRepository repository;
 
-    public DeleteWishlistItem(WishlistRepository wishlistRepository) {
-        this.wishlistRepository = wishlistRepository;
+    public DeleteWishlistItem(WishlistRepository repository) {
+        this.repository = repository;
     }
 
-    public void handle() {
-        // TODO
+    public void handle(Long userId, String cardId) {
+        repository.deleteByUserIdAndCardId(userId, cardId);
     }
 }

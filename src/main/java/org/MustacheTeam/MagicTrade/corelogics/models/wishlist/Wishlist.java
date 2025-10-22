@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.corelogics.models;
+package org.MustacheTeam.MagicTrade.corelogics.models.wishlist;
 
 import java.util.List;
 
