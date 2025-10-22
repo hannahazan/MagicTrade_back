@@ -9,7 +9,12 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.CardEntity;
 
 @Entity
-@Table(name = "wishlists")
+@Table(
+    name = "wishlists",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "card_id"})
+    }
+)
 @Getter
 @Setter
 @AllArgsConstructor
