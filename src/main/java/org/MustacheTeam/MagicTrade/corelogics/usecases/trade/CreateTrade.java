@@ -2,6 +2,7 @@ package org.MustacheTeam.MagicTrade.corelogics.usecases.trade;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.Trade;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeToSave;
 
 public class CreateTrade {
     private final TradeRepository repository;
@@ -10,7 +11,7 @@ public class CreateTrade {
         this.repository = repository;
     }
 
-    public void handle(Trade trade, Long id){
+    public void handle(TradeToSave trade, Long id){
         repository.save(trade, id);
     }
 }

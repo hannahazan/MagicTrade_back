@@ -9,6 +9,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeMapper;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.Utils;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
@@ -27,29 +28,32 @@ public class JpaTradeProposalRepository extends TradeRules implements TradePropo
     private final SpringDataTradeRepository tradeRepository;
     private final TradeProposalMapper tradeProposalMapper;
     private final TradeMapper tradeMapper;
+    private final Utils utils;
 
     public JpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
                                       SpringDataTradeRepository tradeRepository,
                                       TradeProposalMapper tradeProposalMapper,
-                                      TradeMapper tradeMapper){
+                                      TradeMapper tradeMapper,
+                                      Utils utils){
         this.repository = repository;
         this.tradeRepository = tradeRepository;
         this.tradeProposalMapper = tradeProposalMapper;
         this.tradeMapper = tradeMapper;
+        this.utils = utils;
     }
 
     @Transactional
     @Override
-    public void save(TradeProposal proposal, Long id){
+    public void save(TradeProposalToSave proposal, Long id){
 
-        TradeEntity trade = tradeProposalMapper.getOneTrade(proposal.tradeId());
+        TradeEntity trade = utils.getOneTrade(proposal.tradeId());
         List<TradeProposalEntity> proposalsEntities = repository.findAllByTradeId(proposal.tradeId());
         List<TradeProposal> proposals = proposalsEntities.stream().map(tradeProposalMapper::tradeProposalEntityToTradeProposal).toList();
         boolean isAllRejected = isAllProposingRejectedOrCancelled(proposals);
         boolean isTradeOpen = isTradeOpen(tradeMapper.tradeEntityToTrade(trade));
 
         if(isAllRejected && isTradeOpen){
-            repository.save(tradeProposalMapper.tradePropopsalToTradeProposalEntity(proposal, trade, tradeProposalMapper.getOneUser(id), id));
+            repository.save(tradeProposalMapper.tradeProposalToTradeProposalEntity(proposal, trade, utils.findUser(id), id));
         }else{
             if(!isTradeOpen){
                 throw new IllegalStateException("This trade is closed, cancelled, rejected or already accepted");
@@ -59,17 +63,34 @@ public class JpaTradeProposalRepository extends TradeRules implements TradePropo
     }
 
 
-    public TradeProposalList getAllTradeProposalByTradeId(Long tradeId){
-        List<TradeProposalEntity> proposals = repository.findAllByTradeId(tradeId);
-        List<TradeProposal> proposalsFinal = proposals.stream().map(tradeProposalMapper::tradeProposalEntityToTradeProposal
-        ).toList();
-        return new TradeProposalList(proposalsFinal);
+    public TradeProposalList getAllTradeProposalByTradeId(Long tradeId, Long currentId){
+        TradeEntity trade = utils.getOneTrade(tradeId);
+        if(isAParticipantOfTheTrade(tradeMapper.tradeEntityToTrade(trade),currentId)){
+            List<TradeProposalEntity> proposals = repository.findAllByTradeId(tradeId);
+            List<TradeProposal> proposalsFinal = proposals.stream().map(tradeProposalMapper::tradeProposalEntityToTradeProposal
+            ).toList();
+            return new TradeProposalList(proposalsFinal);
+        }else{
+            throw new RuntimeException("You can't have access to this resource");
+        }
+
+    }
+
+    @Override
+    public TradeProposal getOneProposalById(Long tradeProposalId, Long currentId ){
+        TradeProposalEntity proposalEntity = repository.findById(tradeProposalId).orElseThrow(() -> new IllegalArgumentException("proposal not found with id: " + tradeProposalId));
+        TradeEntity trade = utils.getOneTrade(proposalEntity.getTrade().getId());
+        if(isAParticipantOfTheTrade(tradeMapper.tradeEntityToTrade(trade),currentId)){
+            return tradeProposalMapper.tradeProposalEntityToTradeProposal(proposalEntity);
+        }else{
+            throw new RuntimeException("You can't have access to this resource");
+        }
     }
 
     @Override
     public void updateTradeProposalStatus(ProposalUpdate proposal, Long actualProposerId){
             TradeProposalEntity tradeProposalEntity = repository.findById(proposal.proposalId()).orElseThrow(()-> new IllegalArgumentException("This proposal does not exist"));
-            TradeEntity tradeEntity = tradeProposalMapper.getOneTrade(tradeProposalEntity.getTrade().getId());
+            TradeEntity tradeEntity = utils.getOneTrade(tradeProposalEntity.getTrade().getId());
 
             Trade trade = tradeMapper.tradeEntityToTrade(tradeEntity);
             TradeProposal tradeProposal = tradeProposalMapper.tradeProposalEntityToTradeProposal(tradeProposalEntity);

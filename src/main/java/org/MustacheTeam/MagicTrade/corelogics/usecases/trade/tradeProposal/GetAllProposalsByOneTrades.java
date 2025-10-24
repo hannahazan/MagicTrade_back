@@ -10,7 +10,7 @@ public class GetAllProposalsByOneTrades {
         this.repository = repository;
     }
 
-    public TradeProposalList handle(Long tradeId){
-        return repository.getAllTradeProposalByTradeId( tradeId);
+    public TradeProposalList handle(Long tradeId, Long currentId){
+        return repository.getAllTradeProposalByTradeId( tradeId, currentId);
     }
 }

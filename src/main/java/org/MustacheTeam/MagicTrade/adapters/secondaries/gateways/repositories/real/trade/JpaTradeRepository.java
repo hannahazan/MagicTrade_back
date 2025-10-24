@@ -12,14 +12,16 @@ public class JpaTradeRepository extends TradeRules implements TradeRepository {
 
     private final SpringDataTradeRepository repository;
     private final TradeMapper tradeMapper;
+    private final Utils utils;
 
-    public JpaTradeRepository(SpringDataTradeRepository repository,  TradeMapper tradeMapper){
+    public JpaTradeRepository(SpringDataTradeRepository repository,  TradeMapper tradeMapper, Utils utils){
         this.repository = repository;
         this.tradeMapper = tradeMapper;
+        this.utils = utils;
     }
 
     @Override
-    public void save(Trade trade, Long id){
+    public void save(TradeToSave trade, Long id){
         List<TradeEntity> trades = repository.findByInitiator_IdOrPartner_Id(id, id);
         List<Trade> tradeArrayList = new ArrayList<>();
         boolean exist = false;
@@ -28,7 +30,7 @@ public class JpaTradeRepository extends TradeRules implements TradeRepository {
             exist = isATradeWithSameTrader(tradeArrayList, trade.partnerId());
         }
         if(!exist){
-            repository.save(tradeMapper.tradeToTradeEntity(trade,tradeMapper.findUser(id), tradeMapper.findUser(trade.partnerId()), id));
+            repository.save(tradeMapper.tradeToTradeEntity(trade,utils.findUser(id), utils.findUser(trade.partnerId()), id));
         }else{
             throw new RuntimeException("A trade with this trader is already open ");
         }
@@ -40,6 +42,16 @@ public class JpaTradeRepository extends TradeRules implements TradeRepository {
         List<Trade> trades = new ArrayList<>();
         tradeList.forEach(t ->trades.add(tradeMapper.tradeEntityToTrade(t)));
         return new TradeList(trades);
+    }
+
+    @Override
+    public Trade findOneTradeById(Long tradeId, Long currentId){
+        TradeEntity trade = utils.getOneTrade(tradeId);
+        if(isAParticipantOfTheTrade(tradeMapper.tradeEntityToTrade(trade), currentId)){
+            return tradeMapper.tradeEntityToTrade(trade);
+        }else{
+            throw new RuntimeException("you can't have access to this resource");
+        }
     }
 
 

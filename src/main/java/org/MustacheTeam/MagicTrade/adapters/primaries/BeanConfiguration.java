@@ -3,6 +3,8 @@ package org.MustacheTeam.MagicTrade.adapters.primaries;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.JpaTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeMapper;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.Utils;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemMapper;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalMapper;
@@ -67,10 +69,12 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollecti
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetOneTradeById;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.UpdateTrade;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.CreateTradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.GetAllProposalsByOneTrades;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllTradesByUserId;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.GetOneProposalById;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.UpdateOneProposal;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
@@ -304,15 +308,29 @@ public class BeanConfiguration {
     RefreshEnchantmentType refreshEnchantmentType(ScryfallGateway scryfallGateway, EnchantmentTypeRepository enchantmentRepository){
         return new RefreshEnchantmentType(scryfallGateway,enchantmentRepository);
     }
-
     @Bean
-    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, TradeMapper tradeMapper){
-        return new JpaTradeRepository(repository, tradeMapper);
+    Utils utils(SpringDataTradeRepository tradeRepository, SpringDataCollectionRepository collectionRepository, SpringDataUserRepository userRepository){
+        return  new Utils(tradeRepository, collectionRepository, userRepository);
     }
 
     @Bean
-    TradeMapper tradeMapper(SpringDataCollectionRepository collectionRepository, SpringDataUserRepository userRepository){
-        return new TradeMapper(collectionRepository, userRepository);
+    JpaTradeRepository jpaTradeRepository(SpringDataTradeRepository repository, TradeMapper tradeMapper, Utils utils){
+        return new JpaTradeRepository(repository, tradeMapper, utils);
+    }
+
+    @Bean
+    TradeMapper tradeMapper(TradeProposalMapper proposalMapper){
+        return new TradeMapper(proposalMapper);
+    }
+
+    @Bean
+    GetOneProposalById getOneProposalById(TradeProposalRepository tradeProposalRepository){
+        return new GetOneProposalById(tradeProposalRepository);
+    }
+
+    @Bean
+    GetOneTradeById getOneTradeById(TradeRepository repository){
+        return new GetOneTradeById(repository);
     }
 
     @Bean
@@ -329,13 +347,20 @@ public class BeanConfiguration {
     JpaTradeProposalRepository jpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
                                                           SpringDataTradeRepository tradeRepository,
                                                           TradeProposalMapper tradeProposalMapper,
-                                                          TradeMapper tradeMapper){
-        return new JpaTradeProposalRepository(repository,tradeRepository, tradeProposalMapper, tradeMapper);
+                                                          TradeMapper tradeMapper,
+                                                          Utils utils){
+        return new JpaTradeProposalRepository(repository,tradeRepository, tradeProposalMapper, tradeMapper, utils);
 
     }
+
     @Bean
-    TradeProposalMapper tradeProposalMapper(SpringDataTradeRepository tradeRepository, SpringDataUserRepository userRepository, SpringDataCollectionRepository collectionRepository){
-        return new TradeProposalMapper(tradeRepository,userRepository,collectionRepository);
+    TradeProposalItemMapper tradeProposalItemMapper(Utils utils){
+        return  new TradeProposalItemMapper(utils);
+    }
+
+    @Bean
+    TradeProposalMapper tradeProposalMapper( TradeProposalItemMapper tradeProposalItemMapper){
+        return new TradeProposalMapper(tradeProposalItemMapper);
     }
     @Bean
     CreateTradeProposal createTradeProposal(TradeProposalRepository repository){

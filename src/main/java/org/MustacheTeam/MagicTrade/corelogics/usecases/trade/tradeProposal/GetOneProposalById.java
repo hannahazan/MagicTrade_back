@@ -2,16 +2,15 @@ package org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
-import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposalToSave;
 
-public class CreateTradeProposal {
+public class GetOneProposalById {
     private final TradeProposalRepository repository;
 
-    public CreateTradeProposal(TradeProposalRepository repository){
+    public GetOneProposalById(TradeProposalRepository repository){
         this.repository = repository;
     }
 
-    public void handle(TradeProposalToSave proposal, Long id){
-        repository.save(proposal, id);
+    public TradeProposal handle(Long tradeProposalId, Long currentId){
+        return repository.getOneProposalById(tradeProposalId, currentId);
     }
 }

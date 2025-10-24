@@ -4,8 +4,10 @@ import org.MustacheTeam.MagicTrade.adapters.security.CurrentTrader;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.ProposalUpdate;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposalList;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposalToSave;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.CreateTradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.GetAllProposalsByOneTrades;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.GetOneProposalById;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.UpdateOneProposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,14 +25,22 @@ public class TradeProposalController {
     @Autowired
     UpdateOneProposal updateOneProposal;
 
+    @Autowired
+    GetOneProposalById getOneProposalById;
+
     @PostMapping
-    public void create(@RequestBody TradeProposal proposal, @AuthenticationPrincipal CurrentTrader currentTraderId){
+    public void create(@RequestBody TradeProposalToSave proposal, @AuthenticationPrincipal CurrentTrader currentTraderId){
         createTradeProposal.handle(proposal, currentTraderId.getId());
     }
 
     @GetMapping(value = "/{tradeId}")
-    public TradeProposalList getProposalsForTrade(@PathVariable Long tradeId){
-        return getAllProposalsByOneTrades.handle(tradeId);
+    public TradeProposalList getProposalsForTrade(@PathVariable Long tradeId, @AuthenticationPrincipal CurrentTrader currentTraderId){
+        return getAllProposalsByOneTrades.handle(tradeId, currentTraderId.getId());
+    }
+
+    @GetMapping(value = "/proposal/{tradeProposalId}")
+    public TradeProposal getOneProposal(@PathVariable Long tradeProposalId, @AuthenticationPrincipal CurrentTrader currentTraderId){
+        return getOneProposalById.handle(tradeProposalId, currentTraderId.getId());
     }
 
     @PutMapping(value = "/update")

@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.utils.trade;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalEntity;
+import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.Trade;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
 
@@ -70,5 +71,13 @@ public class TradeRules {
            pending.set(true);
        }
        return pending.get();
+   }
+
+   public boolean isCardCollectionFromParticipants(Collection userCard, Long initiatorId, Long partnerId){
+        AtomicBoolean belong = new AtomicBoolean(false);
+        if(Objects.equals(userCard.userId(), initiatorId) || Objects.equals(userCard.userId(),partnerId)){
+            belong.set(true);
+        }
+        return belong.get();
    }
 }
