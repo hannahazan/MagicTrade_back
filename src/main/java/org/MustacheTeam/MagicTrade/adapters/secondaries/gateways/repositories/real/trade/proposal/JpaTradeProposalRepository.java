@@ -8,143 +8,140 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.SpringDataCollectionRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeMapper;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.Utils;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeItemProposal;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposalList;
-import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
-import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
-import org.springframework.security.core.parameters.P;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.*;
+import org.MustacheTeam.MagicTrade.corelogics.utils.trade.MapperTradeStatus;
+import org.MustacheTeam.MagicTrade.corelogics.utils.trade.TradeRules;
 
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
-public class JpaTradeProposalRepository implements TradeProposalRepository {
+public class JpaTradeProposalRepository extends TradeRules implements TradeProposalRepository {
 
     private final SpringDataTradeProposalRepository repository;
     private final SpringDataTradeRepository tradeRepository;
-    private final SpringDataUserRepository userRepository;
-    private final SpringDataCollectionRepository collectionRepository;
+    private final TradeProposalMapper tradeProposalMapper;
+    private final TradeMapper tradeMapper;
+    private final Utils utils;
 
     public JpaTradeProposalRepository(SpringDataTradeProposalRepository repository,
                                       SpringDataTradeRepository tradeRepository,
-                                      SpringDataUserRepository userRepository,
-                                      SpringDataCollectionRepository collectionRepository){
+                                      TradeProposalMapper tradeProposalMapper,
+                                      TradeMapper tradeMapper,
+                                      Utils utils){
         this.repository = repository;
         this.tradeRepository = tradeRepository;
-        this.userRepository = userRepository;
-        this.collectionRepository = collectionRepository;
+        this.tradeProposalMapper = tradeProposalMapper;
+        this.tradeMapper = tradeMapper;
+        this.utils = utils;
     }
 
     @Transactional
     @Override
-    public void save(TradeProposal proposal, Long id){
-        List<TradeProposalItemEntity> items = new ArrayList<>();
+    public void save(TradeProposalToSave proposal, Long id){
 
-        TradeEntity trade = tradeRepository.findById(proposal.tradeId()).orElseThrow(() -> new IllegalArgumentException("Trade not found with id: " + proposal.tradeId())) ;
+        TradeEntity trade = utils.getOneTrade(proposal.tradeId());
+        List<TradeProposalEntity> proposalsEntities = repository.findAllByTradeId(proposal.tradeId());
+        List<TradeProposal> proposals = proposalsEntities.stream().map(tradeProposalMapper::tradeProposalEntityToTradeProposal).toList();
+        boolean isAllRejected = isAllProposingRejectedOrCancelled(proposals);
+        boolean isTradeOpen = isTradeOpen(tradeMapper.tradeEntityToTrade(trade));
 
-        UserEntity proposer = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id:"));
-
-        List<TradeProposalEntity> proposals = repository.findAllByTradeId(proposal.tradeId());
-
-        boolean isAllRejected = isAllProposingRejected(proposals);
-
-        if(isAllRejected){
-            TradeProposalEntity tradeProposal = new TradeProposalEntity(
-                    trade,
-                    proposer,
-                    proposal.mapProposalStatus(proposal.status()),
-                    LocalDateTime.now(),
-                    proposal.message()
-            );
-
-            proposal.tradeItemProposals().forEach( c ->{
-                CollectionEntity collection = collectionRepository.findById(c.userCard().id()).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
-                items.add(
-                        new TradeProposalItemEntity(
-                                tradeProposal,
-                                collection,
-                                c.getSide(collection.getUserId().getId(),id)
-                        )
-                );
-            } );
-
-            tradeProposal.setTradeItemProposalList(items);
-
-            repository.save(tradeProposal);
+        if(isAllRejected && isTradeOpen){
+            repository.save(tradeProposalMapper.tradeProposalToTradeProposalEntity(proposal, trade, utils.findUser(id), id));
         }else{
+            if(!isTradeOpen){
+                throw new IllegalStateException("This trade is closed, cancelled, rejected or already accepted");
+            }
             throw new IllegalStateException("A proposal has already been accepted or is in pending");
         }
     }
 
-    public boolean isAllProposingRejected(List<TradeProposalEntity> proposals){
-        AtomicBoolean isAllProposingRejected = new AtomicBoolean(true);
-        proposals.forEach(p -> {
-            if(Objects.equals(p.getStatus().name(), "PENDING") || Objects.equals(p.getStatus().name(), "ACCEPTED")){
-                isAllProposingRejected.set(false);
-            }
-        });
-        return isAllProposingRejected.get();
-    }
 
-    public TradeProposalList getAllTradeProposalByTradeId(Long tradeId){
+    public TradeProposalList getAllTradeProposalByTradeId(Long tradeId, Long currentId){
+        TradeEntity trade = utils.getOneTrade(tradeId);
+        if(isAParticipantOfTheTrade(tradeMapper.tradeEntityToTrade(trade),currentId)){
+            List<TradeProposalEntity> proposals = repository.findAllByTradeId(tradeId);
+            List<TradeProposal> proposalsFinal = proposals.stream().map(tradeProposalMapper::tradeProposalEntityToTradeProposal
+            ).toList();
+            return new TradeProposalList(proposalsFinal);
+        }else{
+            throw new RuntimeException("You can't have access to this resource");
+        }
 
-        List<TradeProposalEntity> proposals = repository.findAllByTradeId(tradeId);
-
-        List<TradeProposal> proposalsFinal = proposals.stream().map( p ->
-                new TradeProposal(
-                        p.getId(),
-                        p.getTrade().getId(),
-                        p.getProposer().getId(),
-                        p.getStatus().name(),
-                        p.getCreatedAt(),
-                        p.getMessage(),
-                        p.getTradeItemProposalList().stream().map( i->
-                                        new TradeItemProposal(
-                                                i.getId(),
-                                                i.getProposal().getId(),
-                                                new Collection(
-                                                        i.getCollectionCard().getId(),
-                                                        i.getCollectionCard().getUserId().getId(),
-                                                        i.getCollectionCard().getCardId().getId(),
-                                                        i.getCollectionCard().getLang(),
-                                                        i.getCollectionCard().getState()
-                                                ),
-                                                i.getCollectionCard().getCardId().getImageSizeNormal(),
-                                                i.getSide().name()
-                                        )
-                                ).toList())
-        ).toList();
-
-        return new TradeProposalList(proposalsFinal);
     }
 
     @Override
-    public void updateTradeProposalStatus(TradeProposal proposal, Long actualProposerId){
-            TradeProposalEntity tradeProposal = repository.findById(proposal.id()).orElseThrow(()-> new IllegalArgumentException("This proposal does not exist"));
-
-            if(isRightTrader(actualProposerId, tradeProposal)){
-                tradeProposal.setStatus(proposal.mapProposalStatus(proposal.status()));
-
-                repository.save(tradeProposal);
-            }
-
-            else{
-                throw new RuntimeException("You have no right to update this proposal");
-            }
-
+    public TradeProposal getOneProposalById(Long tradeProposalId, Long currentId ){
+        TradeProposalEntity proposalEntity = repository.findById(tradeProposalId).orElseThrow(() -> new IllegalArgumentException("proposal not found with id: " + tradeProposalId));
+        TradeEntity trade = utils.getOneTrade(proposalEntity.getTrade().getId());
+        if(isAParticipantOfTheTrade(tradeMapper.tradeEntityToTrade(trade),currentId)){
+            return tradeProposalMapper.tradeProposalEntityToTradeProposal(proposalEntity);
+        }else{
+            throw new RuntimeException("You can't have access to this resource");
+        }
     }
 
-    public boolean isRightTrader(Long id, TradeProposalEntity tradeProposal){
-        AtomicBoolean right = new AtomicBoolean(false);
-        if(!Objects.equals(tradeProposal.getProposer().getId(), id) && (tradeProposal.getTrade().getInitiator().getId().equals(id) || tradeProposal.getTrade().getPartner().getId().equals(id) )){
-            right.set(true);
-        }
-        return right.get();
+    @Override
+    public void updateTradeProposalStatus(ProposalUpdate proposal, Long actualProposerId){
+            TradeProposalEntity tradeProposalEntity = repository.findById(proposal.proposalId()).orElseThrow(()-> new IllegalArgumentException("This proposal does not exist"));
+            TradeEntity tradeEntity = utils.getOneTrade(tradeProposalEntity.getTrade().getId());
+
+            Trade trade = tradeMapper.tradeEntityToTrade(tradeEntity);
+            TradeProposal tradeProposal = tradeProposalMapper.tradeProposalEntityToTradeProposal(tradeProposalEntity);
+
+            if(isAParticipantOfTheTrade(trade, actualProposerId)){
+                if(isTradeOpen(trade)){
+                    if(isProposalPending(tradeProposal)){
+                        if(isNotTheProposer(actualProposerId,tradeProposal)){
+                            if(proposal.proposalStatus().equalsIgnoreCase("ACCEPTED")){
+                                tradeProposalEntity.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
+                                tradeEntity.setStatus(MapperTradeStatus.mapTradeStatus("ACCEPTED"));
+                                repository.save(tradeProposalEntity);
+                                tradeRepository.save(tradeEntity);
+                            }
+
+                            else if(proposal.proposalStatus().equalsIgnoreCase("REJECTED") && proposal.tradeStatus().equalsIgnoreCase("REJECTED")){
+                                tradeProposalEntity.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
+                                tradeEntity.setStatus(MapperTradeStatus.mapTradeStatus(proposal.tradeStatus().toUpperCase()));
+                                repository.save(tradeProposalEntity);
+                                tradeRepository.save(tradeEntity);
+                            }
+
+                            else if(proposal.proposalStatus().equalsIgnoreCase("REJECTED") && proposal.tradeStatus().equalsIgnoreCase("OPEN")){
+                                tradeProposalEntity.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
+                                repository.save(tradeProposalEntity);
+                            }
+                            else{
+                                throw new RuntimeException("Wrong status");
+                            }
+                        }else{
+                            if (proposal.proposalStatus().equalsIgnoreCase("CANCELLED") && proposal.tradeStatus().equalsIgnoreCase("REJECTED")){
+                                tradeProposalEntity.setStatus(proposal.mapProposalStatus(proposal.proposalStatus().toUpperCase()));
+                                tradeEntity.setStatus(MapperTradeStatus.mapTradeStatus(proposal.tradeStatus().toUpperCase()));
+                                repository.save(tradeProposalEntity);
+                                tradeRepository.save(tradeEntity);
+                            }
+                            else if (proposal.proposalStatus().equalsIgnoreCase("CANCELLED") && proposal.tradeStatus().equalsIgnoreCase("OPEN")){
+                                tradeProposalEntity.setStatus(proposal.mapProposalStatus(proposal.proposalStatus()));
+                                repository.save(tradeProposalEntity);
+                            }
+                            else{
+                                throw new RuntimeException("Wrong status");
+                            }
+                        }
+                    }else{
+                        throw new RuntimeException("this proposal is not in pending anymore");
+                    }
+                }else throw new IllegalStateException("This trade is no longer open");
+
+            }else throw new RuntimeException("You have no right to update this proposal");
+
     }
 
 }

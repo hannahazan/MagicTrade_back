@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.usecases.trade;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.Trade;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeUpdate;
 
 public class UpdateTrade {
     private final TradeRepository repository;
@@ -10,7 +10,10 @@ public class UpdateTrade {
         this.repository = repository;
     }
 
-    public void handle(Trade trade, Long Userid){
-        repository.updateStatusTrade(trade, Userid);
+    public void handle(TradeUpdate trade, Long Userid){
+        if(trade.status().equalsIgnoreCase("CLOSED") || trade.status().equalsIgnoreCase("CANCELLED")){
+            repository.updateStatusTrade(trade, Userid);
+        }
+        else throw new RuntimeException("Invalid Status");
     }
 }

@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.corelogics.models;
+package org.MustacheTeam.MagicTrade.corelogics.models.trade;
 
 import java.util.List;
 
