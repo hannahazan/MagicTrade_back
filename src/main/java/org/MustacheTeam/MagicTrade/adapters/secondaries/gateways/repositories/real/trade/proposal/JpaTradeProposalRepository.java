@@ -10,13 +10,10 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.TradeProposalList;
-import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
-import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -112,7 +109,7 @@ public class JpaTradeProposalRepository implements TradeProposalRepository {
                                                         i.getCollectionCard().getUserId().getId(),
                                                         i.getCollectionCard().getCardId().getId(),
                                                         i.getCollectionCard().getLang(),
-                                                        i.getCollectionCard().getState()
+                                                        i.getCollectionCard().getState().name()
                                                 ),
                                                 i.getCollectionCard().getCardId().getImageSizeNormal(),
                                                 i.getSide().name()

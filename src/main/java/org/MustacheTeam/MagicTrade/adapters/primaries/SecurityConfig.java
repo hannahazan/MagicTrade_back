@@ -56,8 +56,33 @@ public class SecurityConfig {
                                 "/magicTrade-api/cards/**",
                                 "/magicTrade-api/sets/**",
                                 "/magicTrade-api/catalog/**",
-                                "/magicTrade-api/double-cards"
+                                "/magicTrade-api/double-cards",
+                                "/magicTrade-api/collections/user/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/magicTrade-api/trade/**",
+                                "/magicTrade-api/auth/Myprofile",
+                                "/magicTrade-api/collections/mycollection"
+                        ).authenticated()
+                        .requestMatchers(HttpMethod.GET,
+                                "/magicTrade-api/trade_proposal/**",
+                                "/magicTrade-api/auth/profiles"
+                        ).permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                "/magicTrade-api/trade_proposal/**",
+                                "/magicTrade-api/collections/**",
+                                "/magicTrade-api/trade/**"
+                        ).authenticated()
+                        .requestMatchers(HttpMethod.PUT,
+                                "/magicTrade-api/trade_proposal/**",
+                                "/magicTrade-api/collections/**",
+                                "/magicTrade-api/trade/**"
+                        ).authenticated()
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/magicTrade-api/trade_proposal/**",
+                                "/magicTrade-api/collections/**",
+                                "/magicTrade-api/trade/**"
+                        ).authenticated()
                                 .requestMatchers(HttpMethod.GET,
                                         "/magicTrade-api/trade/**",
                                         "/magicTrade-api/auth/Myprofile"

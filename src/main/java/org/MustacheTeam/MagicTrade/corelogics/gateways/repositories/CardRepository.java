@@ -1,5 +1,4 @@
 package org.MustacheTeam.MagicTrade.corelogics.gateways.repositories;
-
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.model.ScryfallCard;
 import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
 import org.springframework.stereotype.Repository;

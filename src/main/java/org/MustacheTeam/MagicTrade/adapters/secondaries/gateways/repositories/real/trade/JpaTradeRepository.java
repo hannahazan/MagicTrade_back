@@ -8,6 +8,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.*;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.TradeStatus;
 
 import java.time.LocalDateTime;
@@ -98,7 +99,7 @@ public class JpaTradeRepository implements TradeRepository {
                                             i.getCollectionCard().getUserId().getId(),
                                             i.getCollectionCard().getCardId().getId(),
                                             i.getCollectionCard().getLang(),
-                                            i.getCollectionCard().getState()
+                                            i.getCollectionCard().getState().name()
                                     ),
                                     i.getCollectionCard().getCardId().getImageSizeNormal(),
                                     i.getSide().name()

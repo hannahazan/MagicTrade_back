@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.corelogics.models;
 
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
 
 import java.util.Objects;
