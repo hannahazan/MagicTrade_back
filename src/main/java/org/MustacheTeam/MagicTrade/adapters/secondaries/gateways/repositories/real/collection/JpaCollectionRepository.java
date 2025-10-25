@@ -5,6 +5,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.SpringDataCardRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionCard;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionDoubleCard;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionItem;
@@ -30,7 +31,7 @@ public class JpaCollectionRepository implements CollectionRepository {
     }
 
     @Override
-    public void save(CollectionItem collectionItem) {
+    public void save(Collection collectionItem) {
         UserEntity user = userRepository.findById(collectionItem.userId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + collectionItem.userId()));
 

@@ -1,16 +1,11 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade;
 
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
+
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.CollectionEntity;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.SpringDataCollectionRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalMapper;
-import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.TradeStatus;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.Trade;
-import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeToSave;
 import org.MustacheTeam.MagicTrade.corelogics.utils.trade.TradeRules;

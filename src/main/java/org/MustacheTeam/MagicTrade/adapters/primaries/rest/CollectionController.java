@@ -38,12 +38,7 @@ public class CollectionController {
             @RequestBody Collection collectionDto,
             @AuthenticationPrincipal CurrentTrader currentTrader
     ) {
-        createCollection.handle(new CollectionItem(
-                currentTrader.getId(),
-                collectionDto.cardId(),
-                collectionDto.lang(),
-                collectionDto.state()
-        ));
+        createCollection.handle(collectionDto);
     }
 
     @GetMapping("/mycollection")
