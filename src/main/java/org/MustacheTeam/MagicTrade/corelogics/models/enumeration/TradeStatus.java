@@ -4,6 +4,7 @@ public enum TradeStatus {
     OPEN,
     ACCEPTED,
     CANCELLED,
+    REJECTED,
     CLOSED,
     EXPIRED,
 }

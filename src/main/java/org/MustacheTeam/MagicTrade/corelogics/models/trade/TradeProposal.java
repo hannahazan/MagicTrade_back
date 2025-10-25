@@ -1,6 +1,7 @@
-package org.MustacheTeam.MagicTrade.corelogics.models;
+package org.MustacheTeam.MagicTrade.corelogics.models.trade;
 
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
+import org.MustacheTeam.MagicTrade.corelogics.utils.trade.MapperPorposalStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,15 +16,6 @@ public record TradeProposal(
         List<TradeItemProposal> tradeItemProposals
 ) {
     public ProposalStatus mapProposalStatus(String status){
-        if(status.equalsIgnoreCase("PENDING")){
-            return ProposalStatus.PENDING;
-        }
-        else if(status.equalsIgnoreCase("ACCEPTED")){
-            return ProposalStatus.ACCEPTED;
-        }
-        else if(status.equalsIgnoreCase("REJECTED")){
-            return ProposalStatus.REJECTED;
-        }
-        return null;
+        return MapperPorposalStatus.mapProposalStatus(status);
     }
 }

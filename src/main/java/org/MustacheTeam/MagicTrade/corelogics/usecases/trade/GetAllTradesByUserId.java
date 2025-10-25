@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.usecases.trade;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.TradeList;
+import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeList;
 
 public class GetAllTradesByUserId {
     private final TradeRepository repository;

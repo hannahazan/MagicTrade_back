@@ -1,16 +1,11 @@
-package org.MustacheTeam.MagicTrade.corelogics.models;
+package org.MustacheTeam.MagicTrade.corelogics.models.trade;
 
-import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ItemSide;
 
 import java.util.Objects;
 
-public record TradeItemProposal(
-        Long id,
-        Long tradeProposalId,
-        Collection userCard,
-        String cardImage,
-        String side
+public record TradeItemToSave(
+        Long collectionId
 ) {
     public ItemSide getSide(Long userId, Long currentUserId){
         if(Objects.equals(userId, currentUserId)){
