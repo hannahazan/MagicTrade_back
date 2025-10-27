@@ -4,7 +4,6 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.CollectionEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.SpringDataCollectionRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
 
 public class Utils {
     private final SpringDataTradeRepository tradeRepository;
@@ -18,7 +17,7 @@ public class Utils {
     }
 
     public CollectionEntity findCollection(Long id){
-        return collectionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: "));
+        return collectionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Collection not found with id: " + id));
     }
 
     public UserEntity findUser(Long id) {

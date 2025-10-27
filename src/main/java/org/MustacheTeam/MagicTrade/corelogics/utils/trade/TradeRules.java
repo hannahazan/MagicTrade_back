@@ -1,6 +1,5 @@
 package org.MustacheTeam.MagicTrade.corelogics.utils.trade;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
-import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionItem;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.Trade;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
 

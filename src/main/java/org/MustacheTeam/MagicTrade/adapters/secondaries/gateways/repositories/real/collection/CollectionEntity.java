@@ -29,7 +29,7 @@ public class CollectionEntity {
     @JoinColumn(name = "card_id", nullable = false)
     private CardEntity cardId;
 
-    @Column(nullable = false, length = 5)
+    @Column(nullable = false, length = 10)
     private String lang;
 
     @Enumerated(EnumType.STRING)

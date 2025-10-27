@@ -5,7 +5,6 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.security.CurrentTrader;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionCard;
-import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionItem;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.DeleteCollectionItem;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.GetCollection;
@@ -38,20 +37,20 @@ public class CollectionController {
             @RequestBody Collection collectionDto,
             @AuthenticationPrincipal CurrentTrader currentTrader
     ) {
-        createCollection.handle(collectionDto);
+        createCollection.handle(collectionDto, currentTrader.getId());
     }
 
-    @GetMapping("/mycollection")
+    @GetMapping("/MyCollection")
     public List<CollectionCard> getMyCollection(@AuthenticationPrincipal CurrentTrader trader) {
         return getCollection.handle(trader.getId());
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/{userId}")
     public List<CollectionCard> getCollectionByUserId(@PathVariable Long userId) {
         return getCollection.handle(userId);
     }
 
-    @DeleteMapping("/mycollection/{collectionId}")
+    @DeleteMapping("/MyCollection/{collectionId}")
     @Transactional
     public void deleteCollectionItem(
             @PathVariable Long collectionId,
