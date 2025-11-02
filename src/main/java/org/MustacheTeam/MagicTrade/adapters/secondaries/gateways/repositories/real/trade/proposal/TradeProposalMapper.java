@@ -4,9 +4,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemMapper;
-import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.ProposalStatus;
-import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposalToSave;
 

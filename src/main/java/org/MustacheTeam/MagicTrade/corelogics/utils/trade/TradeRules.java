@@ -1,7 +1,5 @@
 package org.MustacheTeam.MagicTrade.corelogics.utils.trade;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalEntity;
-import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.Trade;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeProposal;
 

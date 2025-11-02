@@ -66,6 +66,8 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.power.RefreshPowe
 import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.toughness.GetAllToughnesses;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.toughness.RefreshToughnesses;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollection;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.DeleteCollectionItem;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.GetCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
@@ -125,7 +127,7 @@ public class BeanConfiguration {
     @Bean
     public JpaCollectionRepository jpaCollectionRepository(SpringDataCollectionRepository springDataCollectionRepository,
             SpringDataCardRepository springDataCardRepository, SpringDataUserRepository springDataUserRepository){
-        return new JpaCollectionRepository(springDataCollectionRepository,springDataCardRepository,springDataUserRepository);
+        return new JpaCollectionRepository(springDataCollectionRepository,springDataUserRepository,springDataCardRepository);
     }
 
     @Bean
@@ -425,5 +427,15 @@ public class BeanConfiguration {
     @Bean
     public GetAllUsers getAllUsers(UserRepository userRepository){
         return new GetAllUsers(userRepository);
+    }
+
+    @Bean
+    public GetCollection getCollection(CollectionRepository collectionRepository){
+        return new GetCollection(collectionRepository);
+    }
+
+    @Bean
+    public DeleteCollectionItem deleteCollectionItem(JpaCollectionRepository jpaCollectionRepository){
+        return new DeleteCollectionItem(jpaCollectionRepository);
     }
 }

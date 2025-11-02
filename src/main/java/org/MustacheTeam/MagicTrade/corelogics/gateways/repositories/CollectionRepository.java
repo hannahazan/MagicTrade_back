@@ -1,9 +1,11 @@
 package org.MustacheTeam.MagicTrade.corelogics.gateways.repositories;
-
-import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionCard;
 
 import java.util.List;
 
 public interface CollectionRepository {
-    void save(List<Collection> collectionDto, Long id);
+    void save(Collection collection, Long currentTraderId);
+    List<CollectionCard> findByUserId(Long userId);
+    void deleteByIdAndUserId(Long collectionId, Long userId);
 }

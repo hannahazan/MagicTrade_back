@@ -2,24 +2,16 @@ package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.r
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.CollectionEntity;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.SpringDataCollectionRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeMapper;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.Utils;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemEntity;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
-import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.*;
 import org.MustacheTeam.MagicTrade.corelogics.utils.trade.MapperTradeStatus;
 import org.MustacheTeam.MagicTrade.corelogics.utils.trade.TradeRules;
 
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 public class JpaTradeProposalRepository extends TradeRules implements TradeProposalRepository {

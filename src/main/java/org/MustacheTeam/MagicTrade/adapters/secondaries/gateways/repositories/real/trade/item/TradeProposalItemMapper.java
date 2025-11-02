@@ -3,7 +3,7 @@ package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.r
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.CollectionEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.Utils;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalEntity;
-import org.MustacheTeam.MagicTrade.corelogics.models.Collection;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeItemProposal;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.TradeItemToSave;
 import org.MustacheTeam.MagicTrade.corelogics.utils.trade.TradeRules;
@@ -22,7 +22,7 @@ public class TradeProposalItemMapper extends TradeRules {
                 collectionEntity.getUserId().getId(),
                 collectionEntity.getCardId().getId(),
                 collectionEntity.getLang(),
-                collectionEntity.getState());
+                collectionEntity.getState().name());
 
         if(isCardCollectionFromParticipants(collection, initiatorId, partnerId)){
             return new TradeProposalItemEntity(
@@ -44,7 +44,7 @@ public class TradeProposalItemMapper extends TradeRules {
                         item.getCollectionCard().getUserId().getId(),
                         item.getCollectionCard().getCardId().getId(),
                         item.getCollectionCard().getLang(),
-                        item.getCollectionCard().getState()
+                        item.getCollectionCard().getState().name()
                 ),
                 item.getCollectionCard().getCardId().getImageSizeNormal(),
                 item.getSide().name()
