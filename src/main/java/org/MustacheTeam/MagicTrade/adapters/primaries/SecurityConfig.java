@@ -58,6 +58,7 @@ public class SecurityConfig {
                                 "/magicTrade-api/catalog/**",
                                 "/magicTrade-api/double-cards"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/magicTrade-api/traders/**").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/magicTrade-api/trade/**",
                                 "/magicTrade-api/auth/Myprofile",

@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade;
 
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.SpringDataUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.UserEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.CollectionEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.SpringDataCollectionRepository;
 

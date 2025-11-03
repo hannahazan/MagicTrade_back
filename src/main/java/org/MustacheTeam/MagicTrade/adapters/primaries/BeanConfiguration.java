@@ -8,14 +8,16 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalMapper;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trader.JpaTraderGateway;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.wishlist.JpaWishlistRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.wishlist.SpringDataWishlistRepository;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
+import org.MustacheTeam.MagicTrade.corelogics.gateways.TraderGateway;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.RealScryfallGateway;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.JpaUserRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.JpaUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.*;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.JpaCardRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.EnchantmentType.JpaEnchantmentTypeRepository;
@@ -78,6 +80,7 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.GetAl
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetAllTradesByUserId;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.GetOneProposalById;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.tradeProposal.UpdateOneProposal;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.traders.GetAllTraders;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.adapters.security.CustomUserDetailsService;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetAllUsers;
@@ -437,5 +440,15 @@ public class BeanConfiguration {
     @Bean
     public DeleteCollectionItem deleteCollectionItem(JpaCollectionRepository jpaCollectionRepository){
         return new DeleteCollectionItem(jpaCollectionRepository);
+    }
+
+    @Bean
+    public TraderGateway traderGateway(JpaTraderGateway jpaTraderRepository) {
+        return jpaTraderRepository;
+    }
+
+    @Bean
+    public GetAllTraders getAllTraders(TraderGateway traderGateway) {
+        return new GetAllTraders(traderGateway);
     }
 }

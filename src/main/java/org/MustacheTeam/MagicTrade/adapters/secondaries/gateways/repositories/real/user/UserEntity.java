@@ -1,7 +1,8 @@
-package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User;
+package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.collection.CollectionEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,6 +48,9 @@ public class UserEntity implements UserDetails {
 
     @Column(nullable = false, length = 20)
     private String role;
+
+    @OneToMany(mappedBy = "userId")
+    private List<CollectionEntity> collections;
 
     public UserEntity(String email, String pseudo, String name, String subName, String country, String department, String city, String password) {
         this.email = email;

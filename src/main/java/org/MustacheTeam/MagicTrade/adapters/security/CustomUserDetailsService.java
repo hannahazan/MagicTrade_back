@@ -1,9 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.security;
 
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.JpaUserRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
-import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.SpringDataUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
