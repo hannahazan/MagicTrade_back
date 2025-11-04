@@ -2,12 +2,11 @@ package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.r
 import jakarta.transaction.Transactional;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CollectionRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.CardEntity;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.UserEntity;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.SpringDataCardRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.*;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
-import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionCard;
-import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionDoubleCard;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.CardState;
 import org.MustacheTeam.MagicTrade.corelogics.models.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -35,7 +34,7 @@ public class JpaCollectionRepository implements CollectionRepository {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + currentTraderId));
 
         CardEntity card = cardRepository.findById(collectionItem.cardId())
-                .orElseThrow(() -> new ResourceNotFoundException("Card not found with id: " + currentTraderId));
+                .orElseThrow(() -> new ResourceNotFoundException("Card not found with id: " + collectionItem.cardId()));
         CardState cardState;
         try {
             cardState = CardState.valueOf(collectionItem.state().toUpperCase());
@@ -77,6 +76,27 @@ public class JpaCollectionRepository implements CollectionRepository {
 
         return collections;
     }
+
+    @Override
+    public CollectionUserList getAllUsersAndCardsFromIdCard(String cardId){
+        List<CollectionEntity> collectionEntities = repository.findByCardId(cardId);
+        List<CollectionUser> collectionUsers = new ArrayList<>();
+
+        collectionEntities.forEach(c -> collectionUsers.add( new CollectionUser(
+                c.getId(),
+                c.getCardId().getId(),
+                c.getLang(),
+                c.getState().name(),
+                c.getUserId().getId(),
+                c.getUserId().getPseudo(),
+                c.getUserId().getCity(),
+                c.getUserId().getCountry(),
+                c.getUserId().getDepartment()
+                )
+        ));
+        return new CollectionUserList(collectionUsers);
+    }
+
 
     // Delete one card and the last one if sames cards
     @Override

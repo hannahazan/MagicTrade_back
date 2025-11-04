@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User;
+package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user;
 
 import jakarta.persistence.*;
 import lombok.*;

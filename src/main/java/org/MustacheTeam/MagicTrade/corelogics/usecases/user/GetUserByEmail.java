@@ -1,9 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.usecases.user;
 
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.JpaUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.JpaUserRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.User;
-import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
-import org.MustacheTeam.MagicTrade.corelogics.models.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
