@@ -5,9 +5,11 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.adapters.security.CurrentTrader;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.Collection;
 import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionCard;
+import org.MustacheTeam.MagicTrade.corelogics.models.collection.CollectionUserList;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.DeleteCollectionItem;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.GetCollection;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.GetUserAndCardFromCollection;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +22,19 @@ public class CollectionController {
     private final CreateCollection createCollection;
     private final GetCollection getCollection;
     private final DeleteCollectionItem deleteCollectionItem;
+    private final GetUserAndCardFromCollection getUserAndCardFromCollection;
 
     public CollectionController(
             CreateCollection createCollection,
             GetCollection getCollection,
             SpringDataCardRepository cardRepository,
-            DeleteCollectionItem deleteCollectionItem
+            DeleteCollectionItem deleteCollectionItem,
+            GetUserAndCardFromCollection getUserAndCardFromCollection
     ) {
         this.createCollection = createCollection;
         this.getCollection = getCollection;
         this.deleteCollectionItem = deleteCollectionItem;
+        this.getUserAndCardFromCollection = getUserAndCardFromCollection;
     }
 
     @PostMapping
@@ -48,6 +53,11 @@ public class CollectionController {
     @GetMapping("/{userId}")
     public List<CollectionCard> getCollectionByUserId(@PathVariable Long userId) {
         return getCollection.handle(userId);
+    }
+
+    @GetMapping("/{cardId}/users")
+    public CollectionUserList getUsersFromCardId(@PathVariable String cardId){
+        return getUserAndCardFromCollection.handle(cardId);
     }
 
     @DeleteMapping("/MyCollection/{collectionId}")

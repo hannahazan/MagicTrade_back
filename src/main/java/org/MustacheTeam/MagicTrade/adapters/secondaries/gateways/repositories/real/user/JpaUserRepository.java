@@ -1,4 +1,4 @@
-package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User;
+package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.User;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Repository

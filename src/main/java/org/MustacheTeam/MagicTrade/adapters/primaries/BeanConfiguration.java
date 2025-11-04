@@ -14,8 +14,8 @@ import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.adapters.security.JwtAuthenticationFilter;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.api.ScryfallGateway;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.RealScryfallGateway;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.JpaUserRepository;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.SpringDataUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.JpaUserRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.SpringDataUserRepository;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.*;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.card.JpaCardRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.catalog.EnchantmentType.JpaEnchantmentTypeRepository;
@@ -68,6 +68,7 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.catalog.toughness.Refresh
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.CreateCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.DeleteCollectionItem;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.GetCollection;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.GetUserAndCardFromCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
@@ -432,6 +433,11 @@ public class BeanConfiguration {
     @Bean
     public GetCollection getCollection(CollectionRepository collectionRepository){
         return new GetCollection(collectionRepository);
+    }
+
+    @Bean
+    public GetUserAndCardFromCollection getUserAndCardFromCollection(CollectionRepository collectionRepository){
+        return new GetUserAndCardFromCollection(collectionRepository);
     }
 
     @Bean

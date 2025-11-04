@@ -1,7 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade;
 
 
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.User.UserEntity;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.UserEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.TradeProposalMapper;
 import org.MustacheTeam.MagicTrade.corelogics.models.enumeration.TradeStatus;
