@@ -129,7 +129,7 @@ public class JpaCardRepository implements CardRepository {
         if(!toughnesses.isEmpty()){
             List<Predicate> equalPredicates = new ArrayList<>();
             List<Predicate> equalPredicatesFaces = new ArrayList<>();
-            powers.forEach(p->{
+            toughnesses.forEach(p->{
                 Predicate equal = cb.equal(root.get("toughness"),p);
                 Predicate equalFace = cb.equal(dc.get("toughness"),p);
                 equalPredicates.add(equal);
