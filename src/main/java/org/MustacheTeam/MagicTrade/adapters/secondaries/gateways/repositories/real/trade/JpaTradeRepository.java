@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade;
 
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.Utils;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.*;
 import org.MustacheTeam.MagicTrade.corelogics.utils.trade.TradeRules;

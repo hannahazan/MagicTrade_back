@@ -1,6 +1,6 @@
 package org.MustacheTeam.MagicTrade.corelogics.usecases.user;
 
-import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
+import org.MustacheTeam.MagicTrade.corelogics.models.UserRegister;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class CreateUser {
         this.repository = userRepository;
     }
 
-    public void handle(UserDto userDto, Set<String> roles) {
+    public void handle(UserRegister userDto, Set<String> roles) {
         repository.save(userDto, roles);
     }
 }
