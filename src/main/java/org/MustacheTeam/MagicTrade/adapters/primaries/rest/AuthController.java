@@ -2,7 +2,7 @@ package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
 import jakarta.validation.Valid;
 import org.MustacheTeam.MagicTrade.corelogics.models.User;
-import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
+import org.MustacheTeam.MagicTrade.corelogics.models.UserRegister;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserList;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserLoginDto;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -34,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<Void> registerUser(@Valid @RequestBody UserRegister userDto) {
         Set<String> roles = Set.of("ROLE_USER");
         createUser.handle(userDto, roles);
         return ResponseEntity.status(HttpStatus.CREATED).build();

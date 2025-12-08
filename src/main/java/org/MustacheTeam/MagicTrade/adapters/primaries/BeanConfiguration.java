@@ -1,9 +1,12 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries;
 
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.rate.JpaRateRepository;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.rate.RateMapper;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.rate.SpringDataRateRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.JpaTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeMapper;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.Utils;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.Utils;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.item.TradeProposalItemMapper;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.JpaTradeProposalRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.proposal.SpringDataTradeProposalRepository;
@@ -70,6 +73,8 @@ import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.DeleteCollecti
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.GetCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.collection.GetUserAndCardFromCollection;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.doublecard.GetAllDoubleCards;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.rate.CreateRate;
+import org.MustacheTeam.MagicTrade.corelogics.usecases.rate.GetRateWithAverage;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.set.RefreshSets;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.CreateTrade;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.trade.GetOneTradeById;
@@ -443,5 +448,25 @@ public class BeanConfiguration {
     @Bean
     public DeleteCollectionItem deleteCollectionItem(JpaCollectionRepository jpaCollectionRepository){
         return new DeleteCollectionItem(jpaCollectionRepository);
+    }
+
+    @Bean
+    public JpaRateRepository jpaRateRepository(SpringDataRateRepository repository, RateMapper rateMapper, Utils utils, TradeMapper tradeMapper){
+        return new JpaRateRepository(repository, rateMapper, utils, tradeMapper);
+    }
+
+    @Bean
+    public RateMapper rateMapper(Utils utils){
+        return new RateMapper(utils);
+    }
+
+    @Bean
+    public CreateRate createRate(RateRepository repository){
+        return new CreateRate(repository);
+    }
+
+    @Bean
+    public GetRateWithAverage getRateWithAverage(RateRepository repository){
+        return new GetRateWithAverage(repository);
     }
 }

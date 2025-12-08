@@ -2,7 +2,7 @@ package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.r
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.User;
-import org.MustacheTeam.MagicTrade.corelogics.models.UserDto;
+import org.MustacheTeam.MagicTrade.corelogics.models.UserRegister;
 import org.MustacheTeam.MagicTrade.adapters.security.PasswordEncoderService;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserList;
 import org.MustacheTeam.MagicTrade.corelogics.models.exception.ResourceAlreadyExistsException;
@@ -59,25 +59,23 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public void save(UserDto userDto, Set<String> roles) {
-        if (existsByEmail(userDto.getEmail())) {
+    public void save(UserRegister userDto, Set<String> roles) {
+        if (existsByEmail(userDto.email())) {
             throw new ResourceAlreadyExistsException("user", "email");
         }
 
-        if (existsByPseudo(userDto.getPseudo())) {
+        if (existsByPseudo(userDto.pseudo())) {
             throw new ResourceAlreadyExistsException("user", "pseudo");
         }
 
-        String hashedPassword = passwordEncoderService.encode(userDto.getPassword());
+        String hashedPassword = passwordEncoderService.encode(userDto.password());
 
         UserEntity user = new UserEntity(
-                userDto.getEmail(),
-                userDto.getPseudo(),
-                userDto.getFirstName(),
-                userDto.getLastName(),
-                userDto.getCountry(),
-                userDto.getDepartment(),
-                userDto.getCity(),
+                userDto.email(),
+                userDto.pseudo(),
+                userDto.country(),
+                userDto.department(),
+                userDto.city(),
                 hashedPassword
         );
 

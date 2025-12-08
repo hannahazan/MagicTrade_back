@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.SpringDataTradeRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeEntity;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.TradeMapper;
-import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.trade.Utils;
+import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.Utils;
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.TradeProposalRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.trade.*;
 import org.MustacheTeam.MagicTrade.corelogics.utils.trade.MapperTradeStatus;
