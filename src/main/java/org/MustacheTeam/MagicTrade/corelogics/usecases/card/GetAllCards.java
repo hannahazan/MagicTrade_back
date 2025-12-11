@@ -16,7 +16,7 @@ public class GetAllCards {
     }
 
     public CardList handle(String id,String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses, List<String> powers,
-                           List<String> rarities, List<String> types, String foil, String fullArt, String textLess, String standard, String pioneer, String explorer, String modern,
+                           List<String> rarities, List<String> types, Boolean foil, Boolean fullArt, Boolean textLess, String standard, String pioneer, String explorer, String modern,
                            String legacy, String pauper, String vintage, String commander, String brawl, String pauperCommander, String duel, String oldSchool) {
 
         return cardRepository.getAllCards(id,name, setId, colors, cmc, text, toughnesses, powers, rarities, types, foil,

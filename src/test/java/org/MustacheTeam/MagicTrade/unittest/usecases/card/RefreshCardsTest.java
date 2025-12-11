@@ -153,7 +153,7 @@ public class RefreshCardsTest {
 
         //Act
         CardList actual = repository.getAllCards("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),false,false,false,"","","","","","","","","",
                 "","","");
 
         //Assert
