@@ -95,7 +95,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -175,7 +175,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("1","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-        ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+        ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -255,7 +255,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",List.of("W"),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -366,7 +366,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","67e47ba2-b019-4181-9005-fe9fc021de44",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -477,7 +477,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),List.of("4"),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -588,7 +588,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"Pirates",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -699,7 +699,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",List.of("3"),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -810,7 +810,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),List.of("3")
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -921,7 +921,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,List.of("mythic"),new ArrayList<>(),"","","","","","","","","","","","",
+                ,List.of("mythic"),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -1032,7 +1032,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),List.of("Pirate"),"","","","","","","","","","","","",
+                ,new ArrayList<>(),List.of("Pirate"),null,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -1054,8 +1054,8 @@ public class GetAllcardsTest {
                 "3",
                 "mythic",
                 false,
-                false,
-                false,
+                null,
+                null,
                 "https://www.cardmarket.com/en/Magic/Products/Singles/The-List/Admiral-Beckett-Brass?referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
                 "not_legal",
                 "legal",
@@ -1107,11 +1107,11 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        CardList expected = new CardList(List.of(card2));
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"false","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),false,null,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -1191,7 +1191,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","true","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,true,null,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -1271,7 +1271,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","true","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,true,"","","","","","","","","",
                 "","","");
 
         //Assert
@@ -1351,7 +1351,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","legal","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"legal","","","","","","","","",
                 "","","");
 
         //Assert
@@ -1431,7 +1431,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","legal","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","legal","","","","","","","",
                 "","","");
 
         //Assert
@@ -1511,7 +1511,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","legal","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","legal","","","","","","",
                 "","","");
 
         //Assert
@@ -1591,7 +1591,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","legal","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","legal","","","","","",
                 "","","");
 
         //Assert
@@ -1671,7 +1671,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","legal","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","legal","","","","",
                 "","","");
 
         //Assert
@@ -1751,7 +1751,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","legal","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","legal","","","",
                 "","","");
 
         //Assert
@@ -1831,7 +1831,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","legal","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","legal","","",
                 "","","");
 
         //Assert
@@ -1911,7 +1911,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","legal","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","legal","",
                 "","","");
 
         //Assert
@@ -1991,7 +1991,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","legal",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","legal",
                 "","","");
 
         //Assert
@@ -2071,7 +2071,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "legal","","");
 
         //Assert
@@ -2151,7 +2151,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","legal","");
 
         //Assert
@@ -2231,7 +2231,7 @@ public class GetAllcardsTest {
 
         //Act
         CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
-                ,new ArrayList<>(),new ArrayList<>(),"","","","","","","","","","","","",
+                ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
                 "","","legal");
 
         //Assert

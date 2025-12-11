@@ -66,7 +66,7 @@ public class JpaCardRepository implements CardRepository {
 
     @Override
     public CardList getAllCards(String id, String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses, List<String> powers,
-                                List<String> rarities, List<String> types, String foil, String fullArt, String textLess, String standard, String pioneer, String explorer, String modern,
+                                List<String> rarities, List<String> types, Boolean foil, Boolean fullArt, Boolean textLess, String standard, String pioneer, String explorer, String modern,
                                 String legacy, String pauper, String vintage, String commander, String brawl, String pauperCommander, String duel, String oldSchool
                                  ){
 
@@ -178,16 +178,16 @@ public class JpaCardRepository implements CardRepository {
             predicates.add(cb.or(orLike,orLikeFaces));
         }
 
-        if(!foil.isEmpty()){
-            predicates.add(cb.equal(cb.lower(cb.toString(root.get("foil"))), foil.toLowerCase()));
+        if(foil != null){
+            predicates.add(cb.equal(root.get("foil"), foil));
         }
 
-        if(!fullArt.isEmpty()){
-            predicates.add(cb.equal(cb.lower(cb.toString(root.get("fullArt"))), fullArt.toLowerCase()));
+        if(fullArt != null){
+            predicates.add(cb.equal(root.get("fullArt"), fullArt));
         }
 
-        if(!textLess.isEmpty()){
-            predicates.add(cb.equal(cb.lower(cb.toString(root.get("textLess"))), textLess.toLowerCase()));
+        if(fullArt != null){
+            predicates.add(cb.equal(root.get("textLess"), textLess));
         }
 
         if(!standard.isEmpty()){

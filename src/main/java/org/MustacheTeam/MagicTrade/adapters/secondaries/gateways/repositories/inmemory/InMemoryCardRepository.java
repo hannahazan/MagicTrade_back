@@ -8,6 +8,7 @@ import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InMemoryCardRepository implements CardRepository {
@@ -16,15 +17,15 @@ public class InMemoryCardRepository implements CardRepository {
 
     @Override
     public CardList getAllCards(String id, String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses,
-                                  List<String> powers, List<String> rarities, List<String> types, String foil, String fullArt, String textLess, String standard,
+                                  List<String> powers, List<String> rarities, List<String> types, Boolean foil, Boolean fullArt, Boolean textLess, String standard,
                                   String pioneer, String explorer, String modern, String legacy, String pauper, String vintage, String commander, String brawl,
                                   String pauperCommander, String duel, String oldSchool){
 
            cards =  cards.stream().filter(card -> !id.isEmpty() == id.equals(card.id()) && !setId.isEmpty() == setId.equals(card.setId()) && (colors.isEmpty() || isContaining(colors, card.manaCost()))
                    && (cmc.isEmpty() || isContaining(cmc,String.format("%d",card.cmc()))) && (text.isEmpty() || card.text().contains(text)) && (toughnesses.isEmpty() || isContaining(toughnesses,card.toughness()))
                    && (powers.isEmpty() || isContaining(powers,card.power())) && (rarities.isEmpty() || isContaining(rarities,card.rarity())) && (types.isEmpty() || isContaining(types, card.types()))
-                   && !foil.isEmpty() == foil.equals(String.format("%b",card.foil())) && !fullArt.isEmpty() == fullArt.equals(String.format("%b",card.fullArt()))
-                   && !textLess.isEmpty() == textLess.equals(String.format("%b",card.textLess())) && !standard.isEmpty() == standard.equals(card.standard())
+                   && (Objects.isNull(foil) || foil == foil.equals(card.foil())) && (Objects.isNull(fullArt) || fullArt == fullArt.equals(card.fullArt()))
+                   && (Objects.isNull(textLess) || textLess == textLess.equals(card.textLess())) && !standard.isEmpty() == standard.equals(card.standard())
                    && !pioneer.isEmpty() == pioneer.equals(card.pioneer()) && !explorer.isEmpty() == explorer.equals(card.explorer()) && !modern.isEmpty() == modern.equals(card.modern())
                    && !legacy.isEmpty() == legacy.equals(card.legacy()) && !pauper.isEmpty() == pauper.equals(card.pauper()) && !vintage.isEmpty() == vintage.equals(card.vintage())
                    && !commander.isEmpty() == commander.equals(card.commander()) && !brawl.isEmpty() == brawl.equals(card.brawl()) && !pauperCommander.isEmpty() == pauperCommander.equals(card.standard())
