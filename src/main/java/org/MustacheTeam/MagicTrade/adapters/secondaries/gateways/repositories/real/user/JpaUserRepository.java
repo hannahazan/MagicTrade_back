@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user;
 
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.UserRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.ConnectedUser;
 import org.MustacheTeam.MagicTrade.corelogics.models.User;
 import org.MustacheTeam.MagicTrade.corelogics.models.UserRegister;
 import org.MustacheTeam.MagicTrade.adapters.security.PasswordEncoderService;
@@ -49,13 +50,15 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public ConnectedUser findUserByEmail(String email) {
       UserEntity userEntity = repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
-      return new User(userEntity.getId(),
+      return new ConnectedUser(userEntity.getId(),
               userEntity.getPseudo(),
+              userEntity.getEmail(),
               userEntity.getCountry(),
               userEntity.getDepartment(),
-              userEntity.getCity());
+              userEntity.getCity(),
+              userEntity.getRole());
     }
 
     @Override

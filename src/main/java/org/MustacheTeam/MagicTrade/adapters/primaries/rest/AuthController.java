@@ -1,19 +1,19 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.MustacheTeam.MagicTrade.corelogics.models.User;
-import org.MustacheTeam.MagicTrade.corelogics.models.UserRegister;
-import org.MustacheTeam.MagicTrade.corelogics.models.UserList;
-import org.MustacheTeam.MagicTrade.corelogics.models.UserLoginDto;
+import org.MustacheTeam.MagicTrade.corelogics.models.*;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetAllUsers;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.GetUserByEmail;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.Set;
 
 @RestController
@@ -40,18 +40,42 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<String> authenticateUser(@RequestBody UserLoginDto userLoginDto, HttpServletResponse response) {
         String token = authenticationService.authenticate(
                 userLoginDto.getEmail(),
                 userLoginDto.getPassword()
         );
-        return ResponseEntity.ok(token);
+
+        ResponseCookie cookie = ResponseCookie.from("access_token", token)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .sameSite("Lax")
+                .maxAge(Duration.ofMillis(3600000))
+                .build();
+
+        response.addHeader("set-cookie", cookie.toString());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("access_token", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .sameSite("Lax")
+                .maxAge(0)
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/Myprofile")
-    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
+    public ResponseEntity<ConnectedUser> getCurrentUser(Authentication authentication) {
         String email = authentication.getName();
-        User user = getUserByEmail.handle(email);
+        ConnectedUser user = getUserByEmail.handle(email);
         return ResponseEntity.ok(user);
     }
 

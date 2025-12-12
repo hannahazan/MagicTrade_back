@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.corelogics.usecases.user;
 
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.user.JpaUserRepository;
+import org.MustacheTeam.MagicTrade.corelogics.models.ConnectedUser;
 import org.MustacheTeam.MagicTrade.corelogics.models.User;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class GetUserByEmail {
         this.repository = repository;
     }
 
-    public User handle(String email) {
+    public ConnectedUser handle(String email) {
         return repository.findUserByEmail(email);
 
     }
