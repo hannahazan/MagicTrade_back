@@ -34,22 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            /*String jwt = authHeader.substring(7);
-            Claims claims = jwtService.extractClaims(jwt);
-            String username = claims.getSubject();
-            Object uid = claims.get("uid");
-            Long id = (uid instanceof Number n) ? n.longValue() : Long.parseLong(uid.toString());
-
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                if (jwtService.extractClaims(jwt).getExpiration().after(new Date())) {
-                    CurrentTrader current = new CurrentTrader(id, username, null, userDetails.getAuthorities(), true);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            current, null, current.getAuthorities()
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            }*/
         }
 
         if (jwt == null && request.getCookies() != null) {
