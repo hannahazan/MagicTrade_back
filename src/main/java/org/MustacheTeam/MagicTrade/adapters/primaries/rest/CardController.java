@@ -1,6 +1,7 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
 import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
+import org.MustacheTeam.MagicTrade.corelogics.models.CardPage;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.GetAllCards;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.RefreshCards;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class CardController {
     }
 
     @GetMapping
-    public CardList getCardsByFilter(
+    public CardPage getCardsByFilter(
             @RequestParam(name = "id", required = false, defaultValue = "") String id,
             @RequestParam(name = "name", required = false, defaultValue = "") String name,
             @RequestParam(name = "set-id", required = false, defaultValue = "") String setId,
@@ -49,10 +50,12 @@ public class CardController {
             @RequestParam(name = "brawl", required = false, defaultValue = "") String brawl,
             @RequestParam(name = "pauperCommander", required = false, defaultValue = "") String pauperCommander,
             @RequestParam(name = "duel", required = false, defaultValue = "") String duel,
-            @RequestParam(name = "oldSchool", required = false, defaultValue = "") String oldSchool
+            @RequestParam(name = "oldSchool", required = false, defaultValue = "") String oldSchool,
+            @RequestParam(name="lastId", required = false, defaultValue = "") String lastId,
+            @RequestParam(name="pageSize", defaultValue = "50") Integer pageSize
     ){
         return getAllCards.handle(id,name, setId, colors, cmc, text, toughnesses, powers, rarities, types, foil, fullArt, textLess, standard,
-                pioneer, explorer, modern, legacy, pauper, vintage, commander, brawl, pauperCommander, duel, oldSchool);
+                pioneer, explorer, modern, legacy, pauper, vintage, commander, brawl, pauperCommander, duel, oldSchool, lastId, pageSize);
     }
 
 }

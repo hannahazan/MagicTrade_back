@@ -5,6 +5,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CardRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Card;
 import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
+import org.MustacheTeam.MagicTrade.corelogics.models.CardPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,10 @@ public class InMemoryCardRepository implements CardRepository {
     private  List<Card> cards = new ArrayList<>();
 
     @Override
-    public CardList getAllCards(String id, String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses,
-                                  List<String> powers, List<String> rarities, List<String> types, Boolean foil, Boolean fullArt, Boolean textLess, String standard,
-                                  String pioneer, String explorer, String modern, String legacy, String pauper, String vintage, String commander, String brawl,
-                                  String pauperCommander, String duel, String oldSchool){
+    public CardPage getAllCards(String id, String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses,
+                                List<String> powers, List<String> rarities, List<String> types, Boolean foil, Boolean fullArt, Boolean textLess, String standard,
+                                String pioneer, String explorer, String modern, String legacy, String pauper, String vintage, String commander, String brawl,
+                                String pauperCommander, String duel, String oldSchool, String lastId, Integer maxSize){
 
            cards =  cards.stream().filter(card -> !id.isEmpty() == id.equals(card.id()) && !setId.isEmpty() == setId.equals(card.setId()) && (colors.isEmpty() || isContaining(colors, card.manaCost()))
                    && (cmc.isEmpty() || isContaining(cmc,String.format("%d",card.cmc()))) && (text.isEmpty() || card.text().contains(text)) && (toughnesses.isEmpty() || isContaining(toughnesses,card.toughness()))
@@ -32,7 +33,8 @@ public class InMemoryCardRepository implements CardRepository {
                    && !duel.isEmpty() == duel.equals(card.duel()) && !oldSchool.isEmpty() == oldSchool.equals(card.oldSchool())
            ).toList();
 
-            return new CardList(cards);
+            CardList cardList = new CardList(cards);
+            return new CardPage(cardList, 280L, cards.getFirst().id(), cards.getLast().id());
     }
 
     @Override
