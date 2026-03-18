@@ -267,7 +267,6 @@ public class JpaCardRepository implements CardRepository {
 
         List<Card> cards = new ArrayList<>();
         int count = repository.findTotalCardObject();
-        System.out.print(count);
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<CardEntity> query = cb.createQuery(CardEntity.class);
         Root<CardEntity> root = query.from(CardEntity.class);
@@ -318,8 +317,9 @@ public class JpaCardRepository implements CardRepository {
                  rarities,  types, foil, fullArt, textLess, standard, pioneer, explorer, modern,
                 legacy, pauper, vintage, commander, brawl, pauperCommander, duel, oldSchool);
 
-        CardList cardList = new CardList(cards);
+        String firstCardId = cards.isEmpty() ? "" : cards.getFirst().id();
+        String lastCardId = cards.isEmpty() ? "" : cards.getLast().id();
 
-        return new CardPage(cardList,totalCount,cards.getFirst().id(), cards.getLast().id());
+        return new CardPage(cards,totalCount,firstCardId, lastCardId);
     }
 }

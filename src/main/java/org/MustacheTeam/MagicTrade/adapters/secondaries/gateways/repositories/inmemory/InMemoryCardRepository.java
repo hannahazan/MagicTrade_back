@@ -33,8 +33,7 @@ public class InMemoryCardRepository implements CardRepository {
                    && !duel.isEmpty() == duel.equals(card.duel()) && !oldSchool.isEmpty() == oldSchool.equals(card.oldSchool())
            ).toList();
 
-            CardList cardList = new CardList(cards);
-            return new CardPage(cardList, 280L, cards.getFirst().id(), cards.getLast().id());
+            return new CardPage(cards, 280L, cards.getFirst().id(), cards.getLast().id());
     }
 
     @Override

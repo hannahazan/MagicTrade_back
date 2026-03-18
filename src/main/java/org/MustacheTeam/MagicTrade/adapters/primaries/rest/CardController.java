@@ -52,7 +52,7 @@ public class CardController {
             @RequestParam(name = "duel", required = false, defaultValue = "") String duel,
             @RequestParam(name = "oldSchool", required = false, defaultValue = "") String oldSchool,
             @RequestParam(name="lastId", required = false, defaultValue = "") String lastId,
-            @RequestParam(name="pageSize", defaultValue = "50") Integer pageSize
+            @RequestParam(name="pageSize", defaultValue = "175") Integer pageSize
     ){
         return getAllCards.handle(id,name, setId, colors, cmc, text, toughnesses, powers, rarities, types, foil, fullArt, textLess, standard,
                 pioneer, explorer, modern, legacy, pauper, vintage, commander, brawl, pauperCommander, duel, oldSchool, lastId, pageSize);
