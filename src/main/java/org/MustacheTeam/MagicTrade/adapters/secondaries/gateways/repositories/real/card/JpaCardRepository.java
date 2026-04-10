@@ -9,6 +9,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.re
 import org.MustacheTeam.MagicTrade.corelogics.gateways.repositories.CardRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Card;
 import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
+import org.MustacheTeam.MagicTrade.corelogics.models.CardPage;
 import org.MustacheTeam.MagicTrade.corelogics.models.DoubleCard;
 
 import java.util.ArrayList;
@@ -62,23 +63,15 @@ public class JpaCardRepository implements CardRepository {
         });
         repository.saveAll(cards);
     }
-
-
-    @Override
-    public CardList getAllCards(String id, String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses, List<String> powers,
-                                List<String> rarities, List<String> types, Boolean foil, Boolean fullArt, Boolean textLess, String standard, String pioneer, String explorer, String modern,
-                                String legacy, String pauper, String vintage, String commander, String brawl, String pauperCommander, String duel, String oldSchool
-                                 ){
-
-        List<Card> cards = new ArrayList<>();
-
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<CardEntity> query = cb.createQuery(CardEntity.class);
-        Root<CardEntity> root = query.from(CardEntity.class);
-
-        root.fetch("doubleCards", JoinType.LEFT);
-
-        Join<CardEntity, DoubleCardEntity> dc = root.join("doubleCards", JoinType.LEFT);
+    private List<Predicate> buildPredicates( CriteriaBuilder cb,
+                                             Root<CardEntity> root,
+                                             Join<CardEntity, DoubleCardEntity> dc,
+                                             String id, String name, String setId, List<String> colors, List<String> cmc, String text,
+                                             List<String> toughnesses, List<String> powers, List<String> rarities, List<String> types,
+                                             Boolean foil, Boolean fullArt, Boolean textLess,
+                                             String standard, String pioneer, String explorer, String modern,
+                                             String legacy, String pauper, String vintage, String commander, String brawl,
+                                             String pauperCommander, String duel, String oldSchool){
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -238,13 +231,72 @@ public class JpaCardRepository implements CardRepository {
             predicates.add(cb.equal(cb.toString(root.get("oldSchool")), oldSchool));
         }
 
+        return predicates;
+
+    }
+
+    public Long getCardsCount(String id, String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses, List<String> powers,
+                              List<String> rarities, List<String> types, Boolean foil, Boolean fullArt, Boolean textLess, String standard, String pioneer, String explorer, String modern,
+                              String legacy, String pauper, String vintage, String commander, String brawl, String pauperCommander, String duel, String oldSchool){
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        Root<CardEntity> root = query.from(CardEntity.class);
+
+        Join<CardEntity, DoubleCardEntity> dc = root.join("doubleCards", JoinType.LEFT);
+
+        List<Predicate> predicates = buildPredicates(cb, root, dc,
+                id, name, setId, colors, cmc, text,
+                toughnesses, powers, rarities, types,
+                foil, fullArt, textLess,
+                standard, pioneer, explorer, modern,
+                legacy, pauper, vintage, commander, brawl,
+                pauperCommander, duel, oldSchool);
+
+        query.select(cb.countDistinct(root));
+        query.where(predicates.toArray(new Predicate[0]));
+
+        return entityManager.createQuery(query).getSingleResult();
+
+    }
+
+    @Override
+    public CardPage getAllCards(String id, String name, String setId, List<String> colors, List<String> cmc, String text, List<String> toughnesses, List<String> powers,
+                                List<String> rarities, List<String> types, Boolean foil, Boolean fullArt, Boolean textLess, String standard, String pioneer, String explorer, String modern,
+                                String legacy, String pauper, String vintage, String commander, String brawl, String pauperCommander, String duel, String oldSchool, String lastId, Integer maxSize
+                                 ){
+
+        List<Card> cards = new ArrayList<>();
+        int count = repository.findTotalCardObject();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<CardEntity> query = cb.createQuery(CardEntity.class);
+        Root<CardEntity> root = query.from(CardEntity.class);
+
+        root.fetch("doubleCards", JoinType.LEFT);
+
+        Join<CardEntity, DoubleCardEntity> dc = root.join("doubleCards", JoinType.LEFT);
+
+        List<Predicate> predicates = buildPredicates(cb, root, dc,
+                id, name, setId, colors, cmc, text,
+                toughnesses, powers, rarities, types,
+                foil, fullArt, textLess,
+                standard, pioneer, explorer, modern,
+                legacy, pauper, vintage, commander, brawl,
+                pauperCommander, duel, oldSchool);
+
+        if (lastId != null && !lastId.isEmpty()) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get("id"), lastId));
+        }
+
         if(!predicates.isEmpty()){
             query.where((cb.and(predicates.toArray(new Predicate[0]))));
         }
 
         query.select(root).distinct(true);
+        query.orderBy(cb.asc(root.get("id")));
 
-        entityManager.createQuery(query).getResultList().forEach(c->cards.add(new Card(c.getId(),c.getSetId(),
+        entityManager.createQuery(query)
+                .setMaxResults(maxSize)
+                .getResultList().forEach(c->cards.add(new Card(c.getId(),c.getSetId(),
                 c.getName(),c.getManaCost(),c.getCmc(),c.getTypes(),c.getText(),c.getToughness(),c.getPower(),c.getRarity(),c.getFoil(),c.getFullArt(),c.getTextLess(),
                 c.getCardMarketPrice(),c.getStandard(),c.getPioneer(),c.getExplorer(),c.getModern(),c.getLegacy(),c.getPauper(),c.getVintage(),c.getCommander(),c.getBrawl(),c.getPauperCommander(),
                 c.getDuel(),c.getOldSchool(),c.getImageSizeNormal(),c.getImageSizeArtCrop(), c.getIsDoubleCard(),c.getDoubleCards().stream().map(
@@ -261,7 +313,13 @@ public class JpaCardRepository implements CardRepository {
                                 doubleCard.getImageSizeArtCrop()
                         )
         ).toList())));
+        Long totalCount = getCardsCount( id, name, setId, colors,  cmc, text,  toughnesses,  powers,
+                 rarities,  types, foil, fullArt, textLess, standard, pioneer, explorer, modern,
+                legacy, pauper, vintage, commander, brawl, pauperCommander, duel, oldSchool);
 
-        return new CardList(cards);
+        String firstCardId = cards.isEmpty() ? "" : cards.getFirst().id();
+        String lastCardId = cards.isEmpty() ? "" : cards.getLast().id();
+
+        return new CardPage(cards,totalCount,firstCardId, lastCardId);
     }
 }

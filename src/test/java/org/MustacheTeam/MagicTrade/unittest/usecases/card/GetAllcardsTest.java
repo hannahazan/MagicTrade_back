@@ -3,6 +3,7 @@ package org.MustacheTeam.MagicTrade.unittest.usecases.card;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.inmemory.InMemoryCardRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Card;
 import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
+import org.MustacheTeam.MagicTrade.corelogics.models.CardPage;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.GetAllCards;
 import org.junit.jupiter.api.Test;
 
@@ -91,12 +92,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card, card2));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","","", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -171,12 +173,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(Arrays.asList(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("1","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("1","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
         ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -251,12 +254,13 @@ public class GetAllcardsTest {
         );
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card2));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",List.of("W"),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",List.of("W"),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -362,12 +366,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2, card3));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","67e47ba2-b019-4181-9005-fe9fc021de44",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","67e47ba2-b019-4181-9005-fe9fc021de44",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -473,12 +478,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2, card3));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),List.of("4"),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),List.of("4"),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -584,12 +590,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2, card3));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"Pirates",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"Pirates",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -695,12 +702,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2, card3));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",List.of("3"),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",List.of("3"),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -806,12 +814,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2, card3));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),List.of("3")
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),List.of("3")
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -917,12 +926,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2, card3));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,List.of("mythic"),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1028,12 +1038,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2, card3));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),List.of("Pirate"),null,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1107,12 +1118,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card2));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),false,null,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1187,12 +1199,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,true,null,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1267,12 +1280,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,true,"","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1281,6 +1295,7 @@ public class GetAllcardsTest {
 
     @Test
     void should_return_cards_filtered_by_standard(){
+
         //Arrange
         Card card = new Card(
                 "1",
@@ -1347,12 +1362,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"legal","","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1427,12 +1443,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","legal","","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1507,12 +1524,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","legal","","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1587,12 +1605,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","legal","","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1667,12 +1686,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","legal","","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1747,12 +1767,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","legal","","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1827,12 +1848,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","legal","","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1907,12 +1929,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","legal","",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -1987,12 +2010,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","legal",
-                "","","");
+                "","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -2067,12 +2091,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "legal","","");
+                "legal","","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -2147,12 +2172,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","legal","");
+                "","legal","", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);
@@ -2227,12 +2253,13 @@ public class GetAllcardsTest {
                 null);
 
         repository.feedCardsWith(List.of(card, card2));
-        CardList expected = new CardList(List.of(card));
+        List<Card> cardList = List.of(card, card2);
+        CardList expected = new CardList(cardList);
 
         //Act
-        CardList actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = getAllCards.handle("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),null,null,null,"","","","","","","","","",
-                "","","legal");
+                "","","legal", "", 175);
 
         //Assert
         assertThat(actual).isEqualTo(expected);

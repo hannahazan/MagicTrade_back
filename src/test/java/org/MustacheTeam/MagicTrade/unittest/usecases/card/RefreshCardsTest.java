@@ -8,6 +8,7 @@ import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.api.model.Scryf
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.inmemory.InMemoryCardRepository;
 import org.MustacheTeam.MagicTrade.corelogics.models.Card;
 import org.MustacheTeam.MagicTrade.corelogics.models.CardList;
+import org.MustacheTeam.MagicTrade.corelogics.models.CardPage;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.card.RefreshCards;
 import org.junit.jupiter.api.Test;
 
@@ -152,9 +153,9 @@ public class RefreshCardsTest {
         refreshCards.handle();
 
         //Act
-        CardList actual = repository.getAllCards("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
+        CardPage actual = repository.getAllCards("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
                 ,new ArrayList<>(),new ArrayList<>(),false,false,false,"","","","","","","","","",
-                "","","");
+                "","","", "",10);
 
         //Assert
         assertThat(expected).isEqualTo(actual);
