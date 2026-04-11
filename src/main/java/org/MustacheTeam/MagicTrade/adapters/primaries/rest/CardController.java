@@ -20,8 +20,9 @@ public class CardController {
     private GetAllCards getAllCards;
 
     @PostMapping
-    public void refreshCard(){
-        refreshCards.handle();
+    public void refreshCard(@RequestParam(name ="from", defaultValue = "1") int from,
+                            @RequestParam(name = "to", defaultValue = "5") int to){
+        refreshCards.handle(from, to);
     }
 
     @GetMapping

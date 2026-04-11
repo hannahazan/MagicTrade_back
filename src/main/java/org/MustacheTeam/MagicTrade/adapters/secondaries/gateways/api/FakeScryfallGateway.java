@@ -14,7 +14,7 @@ public class FakeScryfallGateway implements ScryfallGateway {
     private final List<String> filters = new ArrayList<>();
 
     @Override
-    public List<ScryfallCard> getScryfallCards(){
+    public List<ScryfallCard> getScryfallCards(int from, int to){
         return scryfallCards;
     }
 
