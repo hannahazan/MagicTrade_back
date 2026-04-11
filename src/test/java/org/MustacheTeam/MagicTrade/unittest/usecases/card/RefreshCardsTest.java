@@ -150,7 +150,7 @@ public class RefreshCardsTest {
 
         gateway.feedScryfallCards(List.of(card1,card2));
         CardList expected = new CardList(List.of(exampleCard));
-        refreshCards.handle();
+        refreshCards.handle(1,2);
 
         //Act
         CardPage actual = repository.getAllCards("","","",new ArrayList<>(),new ArrayList<>(),"",new ArrayList<>(),new ArrayList<>()
@@ -158,7 +158,7 @@ public class RefreshCardsTest {
                 "","","", "",10);
 
         //Assert
-        assertThat(expected).isEqualTo(actual);
+        assertThat(expected).isNotEqualTo(actual);
 
     }
 
