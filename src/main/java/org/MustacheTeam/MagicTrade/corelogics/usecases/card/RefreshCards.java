@@ -19,8 +19,8 @@ public class RefreshCards {
         this.repository = cardRepository;
     }
 
-    public void handle(){
-        List<ScryfallCard> cards = scryfallGateway.getScryfallCards();
+    public void handle(int from, int to){
+        List<ScryfallCard> cards = scryfallGateway.getScryfallCards(from, to);
         try {
             repository.save(cards);
         } catch (Exception ex) {

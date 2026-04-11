@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,7 @@ public class RealScryfallGateway implements ScryfallGateway {
     }
 
     @Override
-    public List<ScryfallCard> getScryfallCards() {
+    public List<ScryfallCard> getScryfallCards( int from,  int to) {
         List<ScryfallCard> scryfallCardList = new ArrayList<>();
 
         try {
@@ -31,12 +32,12 @@ public class RealScryfallGateway implements ScryfallGateway {
 
             Math.ceil((double) Objects.requireNonNull(responseEntityBefore.getBody()).total_cards() / 175);
 
-            for (int j=25;j<=30;j++){
+            for (int j = from; j <= to;j++){
                 String urlLoop = String.format("https://api.scryfall.com/cards/search?format=json&include_extras=false&include_multilingual=false&include_variations=false&order=name&page=%d&q=!&unique=prints", j);
                 ResponseEntity<ScryfallMetaData> responseEntity = restTemplateApi.getForEntity(urlLoop,ScryfallMetaData.class);
                 scryfallCardList.addAll(Objects.requireNonNull(Objects.requireNonNull(responseEntity.getBody()).data().stream().toList()));
             }
-
+            System.out.print( Math.ceil((double) Objects.requireNonNull(responseEntityBefore.getBody()).total_cards() / 175));
             return scryfallCardList;
 
         } catch(Exception ex) {

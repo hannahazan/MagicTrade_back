@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ScryfallGateway {
-    List<ScryfallCard> getScryfallCards();
+    List<ScryfallCard> getScryfallCards(int from, int to);
     List<ScryfallSet> getScryfallSets();
     List<String> getScryfallCatalog(String catalogElement);
 }
