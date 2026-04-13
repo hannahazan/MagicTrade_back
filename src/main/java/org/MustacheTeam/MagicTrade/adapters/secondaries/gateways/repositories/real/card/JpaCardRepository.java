@@ -179,7 +179,7 @@ public class JpaCardRepository implements CardRepository {
             predicates.add(cb.equal(root.get("fullArt"), fullArt));
         }
 
-        if(fullArt != null){
+        if(textLess != null){
             predicates.add(cb.equal(root.get("textLess"), textLess));
         }
 
@@ -284,7 +284,17 @@ public class JpaCardRepository implements CardRepository {
                 pauperCommander, duel, oldSchool);
 
         if (lastId != null && !lastId.isEmpty()) {
-            predicates.add(cb.greaterThanOrEqualTo(root.get("id"), lastId));
+            String[] parts = lastId.split("\\|", 2);
+            String lastName = parts[0];
+            String lastUuid = parts[1];
+
+            Predicate afterName = cb.greaterThan(root.get("name"), lastName);
+            Predicate sameNameAfterId = cb.and(
+                    cb.equal(root.get("name"), lastName),
+                    cb.greaterThanOrEqualTo(root.get("id"), lastUuid)
+            );
+
+            predicates.add(cb.or(afterName, sameNameAfterId));
         }
 
         if(!predicates.isEmpty()){
@@ -292,7 +302,10 @@ public class JpaCardRepository implements CardRepository {
         }
 
         query.select(root).distinct(true);
-        query.orderBy(cb.asc(root.get("id")));
+        query.orderBy(
+                cb.asc(root.get("name")),
+                cb.asc(root.get("id"))
+        );
 
         entityManager.createQuery(query)
                 .setMaxResults(maxSize)
@@ -317,8 +330,8 @@ public class JpaCardRepository implements CardRepository {
                  rarities,  types, foil, fullArt, textLess, standard, pioneer, explorer, modern,
                 legacy, pauper, vintage, commander, brawl, pauperCommander, duel, oldSchool);
 
-        String firstCardId = cards.isEmpty() ? "" : cards.getFirst().id();
-        String lastCardId = cards.isEmpty() ? "" : cards.getLast().id();
+        String firstCardId = cards.isEmpty() ? "" : cards.getFirst().name() + "|" + cards.getFirst().id();
+        String lastCardId = cards.isEmpty() ? "" : cards.getLast().name() + "|" + cards.getLast().id();
 
         return new CardPage(cards,totalCount,firstCardId, lastCardId);
     }
