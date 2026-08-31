@@ -2,6 +2,7 @@ package org.MustacheTeam.MagicTrade.adapters.primaries.rest;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.MustacheTeam.MagicTrade.adapters.emailing.MailTestService;
 import org.MustacheTeam.MagicTrade.corelogics.models.*;
 import org.MustacheTeam.MagicTrade.adapters.security.AuthenticationService;
 import org.MustacheTeam.MagicTrade.corelogics.usecases.user.CreateUser;
@@ -24,12 +25,14 @@ public class AuthController {
     private final AuthenticationService authenticationService;
     private final GetUserByEmail getUserByEmail;
     private final GetAllUsers getAllUsers;
+    private final MailTestService mailTestService;
 
-    public AuthController(CreateUser createUser, AuthenticationService authenticationService, GetUserByEmail getUserByEmail, GetAllUsers getAllUsers) {
+    public AuthController(CreateUser createUser, AuthenticationService authenticationService, GetUserByEmail getUserByEmail, GetAllUsers getAllUsers, MailTestService mailTestService) {
         this.createUser = createUser;
         this.authenticationService = authenticationService;
         this.getUserByEmail = getUserByEmail;
         this.getAllUsers = getAllUsers;
+        this.mailTestService = mailTestService;
     }
 
     @PostMapping("/register")
@@ -82,6 +85,11 @@ public class AuthController {
     @GetMapping("/profiles")
     public ResponseEntity<UserList> getUsers(){
         return ResponseEntity.ok(getAllUsers.handle());
+    }
+
+    @PostMapping("/testMail")
+    public void sendEmail(){
+        mailTestService.sendTest();
     }
 
 }

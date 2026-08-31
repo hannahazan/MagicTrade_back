@@ -1,7 +1,5 @@
-package org.MustacheTeam.MagicTrade.corelogics.domain;
+package org.MustacheTeam.MagicTrade.corelogics.gateways.api;
 
 public interface EmailSender {
-    private void emailCheckerRegister(){
-
-    }
+    void sendEmailCheckerRegister();
 }

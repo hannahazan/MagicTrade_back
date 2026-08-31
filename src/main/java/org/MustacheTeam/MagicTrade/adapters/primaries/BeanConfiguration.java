@@ -1,5 +1,6 @@
 package org.MustacheTeam.MagicTrade.adapters.primaries;
 
+import org.MustacheTeam.MagicTrade.adapters.emailing.MailTestService;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.rate.JpaRateRepository;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.rate.RateMapper;
 import org.MustacheTeam.MagicTrade.adapters.secondaries.gateways.repositories.real.rate.SpringDataRateRepository;
@@ -95,6 +96,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.client.RestTemplate;
@@ -468,5 +470,10 @@ public class BeanConfiguration {
     @Bean
     public GetRateWithAverage getRateWithAverage(RateRepository repository){
         return new GetRateWithAverage(repository);
+    }
+
+    @Bean
+    public MailTestService mailTestService(JavaMailSender mailSender){
+        return new MailTestService(mailSender);
     }
 }
